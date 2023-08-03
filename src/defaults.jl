@@ -70,20 +70,21 @@ function get_default_ls_timeseries_config()
     )
 end
 
-# get a random landscape for testing if the model runs
+"""
+    get_default_LS()
+
+Creates a Default Landscape with random values and some NAs for testing.
+"""
 # TODO maybe make randomness not over time?
 function get_default_LS()
-    environment = Dict{String, Array{Float64, 3}}() 
+    environment = Dict{String, Array{Float64, 3}}()
     landscape_size = (20,20)
     timesteps = 25
-    environment["temperature"] = Array{Float64, 3}(undef, landscape_size[1], landscape_size[2], timesteps)
-    fill!(environment["temperature"], 293.15)
+    environment["temperature"] = fill(293.15, landscape_size..., timesteps)
     environment["temperature"] .+= randn(size(environment["temperature"])) .* 2.5
-    environment["precipitation"] = Array{Float64, 3}(undef, landscape_size[1], landscape_size[2], timesteps)
-    fill!(environment["precipitation"], 500)
+    environment["precipitation" ] = fill(500, landscape_size..., timesteps)
     environment["precipitation"] .+= randn(size(environment["precipitation"])) .* 100
-    restrictions = Array{Float64, 3}(undef, landscape_size[1], landscape_size[2], timesteps)
-    fill!(restrictions, 1)
+    restrictions = ones(Float64, landscape_size..., timesteps)
     environment["temperature"][14:16,14:16,1:25] .= NaN
     environment["precipitation"][14:16,14:16,1:25] .= NaN
     return Landscape(
@@ -127,7 +128,7 @@ function get_default_species(LS::Landscape, SP::Simulation_Parameters)
         parse_species_datatypes!(species)
         # calculate properties
         species["max_dispersal_buffer"] = species["max_dispersal_dist"]*2
-    
+
         # calculate environment properties
         env_preferences = Dict{String, Env_Preferences}()
         for key in keys(LS.environment)
@@ -142,7 +143,7 @@ function get_default_species(LS::Landscape, SP::Simulation_Parameters)
           env_preferences[key] = get_Env_Preferences(species, key)
         end
         species["env_preferences"] = env_preferences
-    
+
         # calibrate pop params if they weren't provided
         pop_param = ["growrate","carry","allee","bevmort"]
         exp = Dict("growrate" => exp_growrate, "carry" => exp_carry, "allee" => exp_allee, "bevmort" => exp_bevmort)
@@ -153,7 +154,7 @@ function get_default_species(LS::Landscape, SP::Simulation_Parameters)
             species["param_const_$param"] = ParamCalibration(species[param], exp[param], species["mass"], species["optimum_temperature"],en[param])
           end
         end
-    
+
         # TODO Sanity Checks
         # param_const_growrate, param_const_allee, param_const_bevmort and param_const_carry should not be 0 as they
         # produce 0s when using metabolic_theory in function GetPopParam() function which in turn produce NAN values
@@ -171,7 +172,13 @@ function get_default_species(LS::Landscape, SP::Simulation_Parameters)
         # total_abundance = Vector{Union{Nothing,Int64}}(undef,SP.timesteps)
         push!(species_vec ,Species(species["species_name"],traits,abundances,habitat,dispersal_kernel,get_Simulation_Variables()))
 end
+"""
+    default_run_data()
 
+Initializes a simple default run Simulation_Data struct.
+WARNING: At the moment a forced output folder "./results/data/output/"is set that has to
+already be prepared.
+"""
 function default_run_data()
   landscape = get_default_LS()
   parameters = get_testrun_simulation_parameters()
