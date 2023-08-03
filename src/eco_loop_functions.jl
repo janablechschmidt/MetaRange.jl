@@ -14,7 +14,7 @@ function GetReproductionModel(reproduction_model::String)
   if reproduction_model == "Ricker"
     return ReproductionRicker
   elseif reproduction_model == "Beverton"
-    return BV # or BVNoStoch 
+    return BV # or BVNoStoch
   elseif reproduction_model == "RickerAllee"
     return ReproductionRickerAllee
   else
@@ -132,8 +132,13 @@ function get_pop_bevmort(traits::Traits, LS::Landscape, habitat::Array{Float64,2
 end
 
 ## Reproduction function
+"""
+    reproduce(species, reproduction, timestep)
 
-function Reproduce!(species::Vector{Species}, Reproduction, timestep::Int)
+Reproduction function. Takes a vector of species structs, a reproduction function and a
+    timestep and calculates the amount of species in the next timestep.
+"""
+function reproduce!(species::Vector{Species}, Reproduction, timestep::Int)
   for sp in species
     for coordinates in sp.vars.occurrences # spatial loop
       sp.abundances[coordinates,timestep+1] = trunc(Int, Reproduction(sp.abundances[coordinates,timestep], sp.vars.growrate[coordinates], sp.vars.carry[coordinates], sp.vars.bevmort[coordinates])) # Reproduction
