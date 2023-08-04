@@ -193,7 +193,7 @@ end
 Habitat based mortality
 
 This function kills individuals that are in non suitable Habitat in
-\code{Run}
+code{Run}
 
 Abundances: array with the number of individuals in the landscape
 Is_habitat: array with boolean values that indicate
