@@ -1,6 +1,8 @@
 using MetaRange
+using Random
 using Test
 
 @testset "MetaRange.jl" begin
-    # Write your tests here.
+    include("default_constants.jl")
+    include("eco_functions.jl")
 end
