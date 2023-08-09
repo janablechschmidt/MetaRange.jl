@@ -92,7 +92,6 @@ function get_default_LS()
     landscape_size[1], #ylength
     environment,
     restrictions,
-    Matrix{Float64}(undef, landscape_size[1], landscape_size[2])
     )
 end
 

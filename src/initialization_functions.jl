@@ -501,7 +501,6 @@ function read_ls(
         landscape_size[1], #ylength
         environment,
         restrictions,
-        Matrix{Float64}(undef, landscape_size[1], landscape_size[2]),
     )
 end
 
