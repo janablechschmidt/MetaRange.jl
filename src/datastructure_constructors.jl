@@ -21,7 +21,7 @@ function get_Simulation_Parameters(config::Dict)
     config["use_stoch_carry"],
     config["use_stoch_num"],
     config["initialize_cells"],
-    config["ls_cell_biomass_cap"]
+    #config["ls_cell_biomass_cap"]
     )
 end
 

@@ -20,7 +20,7 @@ function get_default_simulation_parameters()
     "use_stoch_carry" => false,
     "use_stoch_num" => false,
     "initialize_cells" => "habitat",
-    "ls_cell_biomass_cap" => 200.0
+    #"ls_cell_biomass_cap" => 200.0
     )
 end
 
@@ -50,7 +50,7 @@ function get_testrun_simulation_parameters()
   "use_stoch_carry" => false,
   "use_stoch_num" => false,
   "initialize_cells" => "habitat",
-  "ls_cell_biomass_cap" => 200.0
+  #"ls_cell_biomass_cap" => 200.0
   )
   config_path = "./TESTRUN"
   if !isdir(config_path)

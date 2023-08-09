@@ -24,9 +24,9 @@ end
 
 ## Landscape initialization function for biomass_capacity at current timestep
 
-function init_landscape!(LS::Landscape, biomass_cap::Float64, timestep::Int64)
-  LS.biomass_capacity .= @view(LS.restrictions[:,:,timestep]) .* biomass_cap
-end
+#function init_landscape!(LS::Landscape, biomass_cap::Float64, timestep::Int64)
+#  LS.biomass_capacity .= @view(LS.restrictions[:,:,timestep]) .* biomass_cap
+#end
 
 ## Species functions
 
@@ -108,16 +108,16 @@ end
 
 function get_pop_carry(traits::Traits, LS::Landscape, habitat::Array{Float64,2}, mass::Array{Float64,2}, use_metabolic_theory::Bool, timestep::Int, E::Float64)
   #initialize array to save results of both ways to generate carry
-  carry_arr = Array{Float64, 3}(undef, LS.ylength, LS.xlength, 2)
+  carry_arr = Matrix{Float64}(undef, LS.ylength, LS.xlength)
   # carry via metabolic_theory
-  carry_arr[:,:,1] = get_pop_var(traits.carry, traits.sd_carry, exp_carry, traits.param_const_carry, traits, LS, mass, use_metabolic_theory, timestep,E)
-  carry_arr[:,:,1] = @view(carry_arr[:,:,1]) .* habitat #*100 (not sure if this factor is needed, it was present in the old code, but commented out)
+  carry_arr[:,:] = get_pop_var(traits.carry, traits.sd_carry, exp_carry, traits.param_const_carry, traits, LS, mass, use_metabolic_theory, timestep,E)
+  carry_arr[:,:] = @view(carry_arr[:,:,1]) .* habitat #*100 (not sure if this factor is needed, it was present in the old code, but commented out)
   # carry via biomass_capacity
-  carry_arr[:,:,2] = mass .\ LS.biomass_capacity
+  #carry_arr[:,:,2] = mass .\ LS.biomass_capacity
   # take the minimum of either as carry for each cell
-  carry = dropdims(minimum(carry_arr, dims=3), dims=3)
-  replace!(carry, NaN=>0)
-  carry = trunc.(Int,carry)
+  #carry = dropdims(minimum(carry_arr, dims=3), dims=3)
+  replace!(carry_arr, NaN=>0)
+  carry = trunc.(Int,carry_arr)
   return carry
 end
 
@@ -168,28 +168,28 @@ end
 
 ## Competition function
 
-function Competition!(LS::Landscape, species::Vector{Species}, t::Int64)
-  # get total living biomass at each cell
-  total_sp_mass_arr = Array{Float64}(undef, LS.ylength, LS.xlength, length(species))
-  for i in 1:length(species)
-    total_sp_mass_arr[:,:,i] = species[i].vars.biomass .* @view(species[i].abundances[:,:,t+1])
-  end
-  total_biomass = dropdims(sum(total_sp_mass_arr, dims=3), dims=3)
-  # get list of overpopulated cells
-  overpopulated = findall(total_biomass.>LS.biomass_capacity)
-  for coordinates in overpopulated
-    exess_biomass = total_biomass[coordinates] - LS.biomass_capacity[coordinates]
-    habitat_sum = sum([sp.vars.habitat[coordinates] for sp in species])
-    for sp in species
-      # biomass that is allocated for dieoff for species sp
-      sp_exess_biomass = exess_biomass * (sp.vars.habitat[coordinates] / habitat_sum)
-      # convert biomass to individuals
-      comp_dieoff = ceil(sp_exess_biomass / sp.vars.biomass[coordinates])
-      sp.abundances[coordinates, t+1] -= comp_dieoff
-      dieoff[sp.species_name] += comp_dieoff
-    end
-  end
-end
+#function Competition!(LS::Landscape, species::Vector{Species}, t::Int64)
+#  # get total living biomass at each cell
+#  total_sp_mass_arr = Array{Float64}(undef, LS.ylength, LS.xlength, length(species))
+#  for i in 1:length(species)
+#    total_sp_mass_arr[:,:,i] = species[i].vars.biomass .* @view(species[i].abundances[:,:,t+1])
+#  end
+#  total_biomass = dropdims(sum(total_sp_mass_arr, dims=3), dims=3)
+#  # get list of overpopulated cells
+#  overpopulated = findall(total_biomass.>LS.biomass_capacity)
+#  for coordinates in overpopulated
+#    exess_biomass = total_biomass[coordinates] - LS.biomass_capacity[coordinates]
+#    habitat_sum = sum([sp.vars.habitat[coordinates] for sp in species])
+#    for sp in species
+#      # biomass that is allocated for dieoff for species sp
+#      sp_exess_biomass = exess_biomass * (sp.vars.habitat[coordinates] / habitat_sum)
+#      # convert biomass to individuals
+#      comp_dieoff = ceil(sp_exess_biomass / sp.vars.biomass[coordinates])
+#      sp.abundances[coordinates, t+1] -= comp_dieoff
+#      dieoff[sp.species_name] += comp_dieoff
+#    end
+#  end
+#end
 
 ## Survival function
 

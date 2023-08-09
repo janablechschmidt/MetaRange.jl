@@ -34,7 +34,7 @@ function Run_Simulation!(SD::Simulation_Data)
     @info("timestep ",t)
 
     # initialize the biomass capacity of the landsape
-    init_landscape!(SD.landscape, SD.parameters.ls_cell_biomass_cap, t)
+    #init_landscape!(SD.landscape, SD.parameters.ls_cell_biomass_cap, t)
 
     #Evolution!() ## placeholder for potential expansion of the model to include evolution
 

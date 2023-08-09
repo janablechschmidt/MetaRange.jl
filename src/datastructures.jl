@@ -71,7 +71,7 @@ struct Landscape
     ylength::Int64 # equivalent to size[1] of any Array in this struct
     environment::Dict{String, Array{Float64, 3}} # contains all environment attributes, addressable by name
     restrictions::Array{Float64, 3}
-    biomass_capacity::Matrix{Float64} # contains biomass_capacity of current timestep in simulation
+    #biomass_capacity::Matrix{Float64} # contains biomass_capacity of current timestep in simulation
 end
 
 ## Struct for saving simulation parameters
@@ -96,7 +96,7 @@ struct Simulation_Parameters
     use_stoch_carry::Bool # Simulation Parameter (Max nubr of individuals pro cell )
     use_stoch_num::Bool # Simulation Parameter TODO: Stochastic Survival see R code
     initialize_cells::String # Simulation Parameter
-    ls_cell_biomass_cap::Float64 # saves maximum biomass capacity in a cell
+    #ls_cell_biomass_cap::Float64 # saves maximum biomass capacity in a cell
 end
 
 ## Struct for saving the duration of the entire simulation
