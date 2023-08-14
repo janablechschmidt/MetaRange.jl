@@ -1,5 +1,10 @@
 ## functions that construct the respective struct datatypes based on a dict input
 
+"""
+    get_Simulation_Parameters(config::Dict)
+
+Returns a Simulation_Parameters object constructed from the configuration Dictionary.
+"""
 function get_Simulation_Parameters(config::Dict)
   return Simulation_Parameters(
     config["experiment_name"],
@@ -25,6 +30,12 @@ function get_Simulation_Parameters(config::Dict)
     )
 end
 
+
+"""
+    get_Traits(species::Dict)
+
+Extracts species traits from the configuration dictionary and returns a Trait object.
+"""
 function get_Traits(species::Dict)
   return Traits(
     species["mass"],
@@ -57,6 +68,12 @@ function get_Traits(species::Dict)
     )
 end
 
+"""
+    get_Env_Preferences(species::Dict, key::String)
+
+Returns the environmental preference for the supplied trait in "key" with limits and optimum
+as an Env_Preferences object.
+"""
 function get_Env_Preferences(species::Dict, key::String)
   return Env_Preferences(
     species["upper_limit_$key"],
@@ -66,6 +83,12 @@ function get_Env_Preferences(species::Dict, key::String)
 end
 
 ## Each parameter is initialized as an empty matrix eqivalent to the landsape's size
+"""
+    get_Simulation_Variables()
+
+Initializes an empty Simulation_Variables object. Each parameter is defined with an empty
+matrix eqivalent to the landscape's size.
+"""
 function get_Simulation_Variables()
   return Simulation_Variables(
     Array{Float64}(undef, 0, 0), # habitat

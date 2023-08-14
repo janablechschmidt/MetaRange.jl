@@ -1,5 +1,5 @@
 """
-    read_input(path)
+    read_input(path::String)
 
 Reads in the .config and associated files in the folder and returns a Simulation_Data
 struct.
@@ -52,15 +52,16 @@ function read_sp(config_path::String)
   return get_Simulation_Parameters(config)
 end
 
-"""
-    read_species_dir(path, landscape, simulation_parameters)
 
-Read species directory, calculate properties and parameters if not provided and return as
-vector
-"""
 #TODO: Unload function and modularize
 #This probably needs to be a loading function with sanity checks and other initialisation
 #functions that calculate missing or wrong values
+"""
+    read_species_dir(species_dir::String, LS::Landscape, SP::Simulation_Parameters)
+
+Read species directory, calculate properties and parameters if not provided and return as a
+vector of Species objects.
+"""
 function read_species_dir(species_dir::String, LS::Landscape, SP::Simulation_Parameters)
     input_species = readdir(species_dir)
     species_vec = Species[]

@@ -1,22 +1,20 @@
 #####  Simulation function ######
 
 """
-    Run_Simulation!(SD)
+    Run_Simulation!(SD::Simulation_Data)
 
 Ecological Simulation
 
-Main simulation function. It loads, initializes and executes
-all data & processes that are needed.
+Main simulation function. Load, initialize and execute all data & processes that are needed.
 
 # Arguments
 - `SD::MetaRange.Simulation_Data`: MetaRange simulation data struct. Most likely produced by
-    `read_input()`
+    [`read_input()`](@ref)
 
 # Returns
 - `SD::MetaRange.Simulation_Data`: Returns the struct with later timesteps after
     initialisation simulated.
 """
-
 function Run_Simulation!(SD::Simulation_Data)
   simulation_start_time = now()
 
