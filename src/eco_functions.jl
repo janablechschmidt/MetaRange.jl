@@ -1,5 +1,3 @@
-
-using Distributions
 ###### functions for main loop ####
 
 ## Reproduction functions
