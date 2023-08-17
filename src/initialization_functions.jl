@@ -183,20 +183,27 @@ end
 Check if species directory was given and apply default path if not
 """
 function check_speciesdir!(config::Dict, config_path::String)
-    # Check if species directory was given and apply default path if not
     if isnothing(config["species_dir"])
         config["species_dir"] = config_path * "species/"
         if !isdir(config["species_dir"])
-            throw(""""species" directory is missing in the configuration input folder! \n
-            Please provide either a "species" directory at "$config_path" or provide a \
-            custom path to a directory with species data with a "species_dir" argument in \
-            "configuration.csv"!""")
+            throw(
+                string(
+                    "\"species\" directory is missing in the configuration input folder!\n",
+                    "Please provide either a \"species\" directory at \"$config_path\" or ",
+                    "provide a custom path to a directory with species data with a ",
+                    "\"species_dir\" argument in \"configuration.csv\"!"
+                )
+            )
         end
         #TODO Except empty species dir
     else
         if !isdir(config["species_dir"])
-          throw("""The specified species directory at $(config["species_dir"]) \
-          does not exist!""")
+            throw(
+                string(
+                    "The specified species directory at $(config["species_dir"]) ",
+                    "does not exist!"
+                )
+            )
         end
     end
 end
@@ -210,15 +217,25 @@ function check_environmentdir!(config::Dict, config_path::String)
     if isnothing(config["environment_dir"])
         config["environment_dir"] = config_path * "environment/"
         if !isdir(config["environment_dir"])
-            throw("\"environment\" directory is missing in the configuration input folder!\n
-            Please provide either an \"environment\" directory at \"$config_path\" or \
-            provide a custom path to a directory with environment data with an \
-            \"environment_dir\" argument in \"configuration.csv\"!")
+            throw(
+                string(
+                    "\"environment\" directory is missing in the configuration input ",
+                    " folder!\n",
+                    "Please provide either an \"environment\" directory at ",
+                    "\"$config_path\" or provide a custom path to a directory with ",
+                    "environment data with an \"environment_dir\" argument in ",
+                    "\"configuration.csv\"!",
+                )
+            )
         end
     else
         if !isdir(config["environment_dir"])
-            throw("The specified environment directory at \"$(config["environment_dir"])\" \
-            does not exist!")
+            throw(
+                string("The specified environment directory at \"",
+                config["environment_dirraw"],
+                "\" does not exist!"
+                )
+            )
         end
     end
 end
@@ -280,24 +297,42 @@ function check_attribute_values!(attribute::Array{Float64}, key::String)
             @info("Input temperature seems to be in Celsius, converting to Kelvin")
             attribute .+= 273.15
         elseif meantemp < 200
-            @warn("Mean of input temperature seems to be too high to assume Celsius values \
-            and too low to assume Kelvin values.\n Results will likely make no sense. \
-            Unless you're trying to simulate alien life, please check your input!")
+            @warn(
+                string(
+                    "Mean of input temperature seems to be too high to assume Celsius ",
+                    "values and too low to assume Kelvin values.\n Results will likely ",
+                    "make no sense. Unless you're trying to simulate alien life, please ",
+                    "check your input!"
+                )
+            )
         elseif meantemp < 360
             @info("Temperature input values are assumed to be in Kelvin.")
         else
-      @warn("Input temperatures seem unusually high with a mean temperature of $meantemp, \
-      please make sure to check your input.")
+        @warn(
+            string(
+                "Input temperatures seem unusually high with a mean temperature of ",
+                meantemp,
+                ", please make sure to check your input."
+            )
+        )
     end
     if any(x->x<=0, attribute)
-        throw("Temperature below 0 Kelvin detected, something is wrong with the provided \
-        temperature data!")
+        throw(
+            string(
+                "Temperature below 0 Kelvin detected, something is wrong with the ",
+                "provided temperature data!"
+            )
+        )
     end
     elseif key == "precipitation"
     # special checks for environment attribute precipitation
         if any(x->x<=0, attribute)
-            throw("Precipitation below 0 detected, something is wrong with the provided \
-            precipitation data!")
+            throw(
+                string(
+                    "Precipitation below 0 detected, something is wrong with the provided ",
+                    "precipitation data!"
+                )
+            )
         end
     #Implement further sanity checks as needed!
     end
@@ -414,8 +449,12 @@ function read_ls(
       elseif ispath(joinpath(env_dir, env_attib[key]))
         attribute = read_env_para_dir(env_dir, env_attib[key], key)
       else
-        throw("$key file or directory $(env_attib[key]) does not exist at specified \
-        environment data location: $env_dir")
+        throw(
+            string(
+                "$key file or directory $(env_attib[key]), does not exist at specified ",
+                "environment data location: $env_dir",
+            )
+        )
       end
       # sanity checks
       #check_for_nan(attribute)
@@ -435,8 +474,12 @@ function read_ls(
       elseif ispath(joinpath(env_dir, env_restr[key]))
         restriction = read_env_para_dir(env_dir, env_restr[key], key)
       else
-        throw("$key file or directory "*env_restr[key]*" does not exist at specified \
-        environment data location: "*env_dir)
+        throw(
+            string(
+                "$key file or directory $(env_restr[key]), does not exist at specified ",
+                "environment data location: $env_dir",
+            )
+        )
       end
       # sanity checks
       #check_for_nan(restriction)
@@ -449,19 +492,24 @@ function read_ls(
     all_properties = merge(environment,restrictions)
     landscape_size = size(environment[collect(keys(all_properties))[1]])[1:2]
     if any(k -> size(k[2])[1:2] != landscape_size, all_properties)
-      sizes = ""
-      for key in keys(all_properties)
-        sizes = string(
-            sizes,
-            "$key: (",
-            string(size(all_properties[key])[1]),
-            ",",
-            string(size(all_properties[key])[2]),
-            ") \n",
+        sizes = ""
+        for key in keys(all_properties)
+          sizes = string(
+              sizes,
+              "$key: (",
+              string(size(all_properties[key])[1]),
+              ",",
+              string(size(all_properties[key])[2]),
+              ") \n",
+          )
+        end
+        throw(
+            string(
+                "Size mismatch in dimensions of provided environment data, please make ",
+                "sure that they match in all dimensions! \n",
+                sizes,
+            )
         )
-      end
-      throw("Size mismatch in dimensions of provided environment data, please make sure \
-      that they match in all dimensions! \n" * sizes)
     end
 
     # check if all inputs are defined for sufficiently many timesteps
@@ -470,15 +518,19 @@ function read_ls(
         durations = ""
         for key in keys(all_properties)
           durations = string(
-            durations,
-            "Timesteps given with $key: ",
+            "$durations Timesteps given with $key: ",
             string(size(all_properties["key"])[3]),
             "\n",
         )
         end
-        throw("Some input properties dont provide the necessary timesteps of $timesteps, \
-        please make sure that for each landscape properties at least the minimum required \
-        simulation timesteps are provided! \n" * durations)
+        throw(
+            string(
+                "Some input properties dont provide the necessary timesteps of ",
+                "$timesteps. Please make sure that for each landscape properties at least ",
+                "the minimum required simulation timesteps are provided! \n",
+                durations,
+            )
+        )
     end
 
     # process restrictions
@@ -512,8 +564,13 @@ Returns the timeseries generator configuration as a Dict (no struct as it's only
 function read_ts_config(env_dir::String, ls_timeseries_config::String)
   ts_config = get_default_ls_timeseries_config()
   if !isfile(joinpath(env_dir, ls_timeseries_config)) && ls_timeseries_config != "default"
-    warn("Ls_timeseries_config  file "*ls_timeseries_config*" does not exist at specified \
-    environment data location: "*env_dir*"\n Falling back to default values!")
+    warn(
+        string(
+            "Ls_timeseries_config file $ls_timeseries_config does not exist at specified ",
+            "environment data location: $env_dir \n",
+            "Falling back to default values!",
+        )
+    )
     ls_timeseries_config = "default"
   end
   if ls_timeseries_config != "default"
