@@ -22,6 +22,7 @@ end
 
 Traits of a species.
 
+#TODO: Add description in fields
 # Fields
 - `mass::Float64`:
 - `sd_mass::Float64`:
@@ -100,7 +101,7 @@ Simulation variables used for a species during [Run_Simulation!](@ref)"
 simulation timestep
 -`is_habitat::BitArray{2}`: if landscape cells are habitable for a species at current
 simulation timestep
--`future_habitat::Array{Float64}`:
+-`future_habitat::Array{Float64}`: TODO
 -`future_is_habitat::BitArray{2}`: if landscape cells are habitable for a species at next
 simulation timestep
 -`biomass::Array{Float64, 2}`: biomass of a species individual at landscape cells
@@ -208,8 +209,16 @@ struct Simulation_Data
     duration::Duration # Saves the duration of time the simulation took to compute
 end
 
-## Struct for saving chunk coordinates
+"""
+    Chunk
 
+
+Struct for saving chunk coordinates
+
+# Fields
+-`x::Int`
+-`y::Int`
+"""
 struct Chunk
     x::Int
     y::Int
