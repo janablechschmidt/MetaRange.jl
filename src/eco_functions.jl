@@ -1,17 +1,33 @@
-
-using Distributions
 ###### functions for main loop ####
 
 ## Reproduction functions
+"""
+    ReproductionRicker(N::Int64, growrate::Float64, carry::Float64, unused::Union{Float64,Nothing})
+
+Returns the number of Individuals in the next generation according to the Ricker model.
+"""
 function ReproductionRicker(N::Int64, growrate::Float64, carry::Float64, unused::Union{Float64,Nothing})
   N2 = N*exp(growrate*(1-N/carry))
   return N2
 end
+
+"""
+    ReproductionRickerAllee(N::Int64, growrate::Float64, carry::Float64, allee::Union{Float64,Nothing})
+
+Returns the number of Individuals in the next generation according to the Ricker model.
+Includes allee effects
+"""
 function ReproductionRickerAllee(N::Int64, growrate::Float64, carry::Float64, allee::Union{Float64,Nothing})
   N2 = N*exp.(growrate*((4*(carry .- N)*(N .- allee))/((carry-allee)^2)))
   return N2[1]
 end
 
+"""
+    ReproductionBeverton(N::Int64, growrate::Float64, carry::Float64, mortality::Float64)
+
+Returns the number of offspring in the next generation according to the Beverton-Holt
+model.
+"""
 function ReproductionBeverton(N::Int64,growrate::Float64,carry::Float64,beverton_mort::Float64)
    per_capa_R = growrate /
                  (1+(growrate * N /
@@ -19,21 +35,53 @@ function ReproductionBeverton(N::Int64,growrate::Float64,carry::Float64,beverton
                  (growrate - beverton_mort))))
    return N * per_capa_R
 end
+
+#TODO: What does this function actually do?
+"""
+    MortalityBev(N::Int64, mortality::Float64)
+
+Returns how many Individuals die. Includes Stochasticity
+"""
 function MortalityBev(N::Int64, beverton_mort::Float64)
   return max(0, N - rand(Binomial(round(Int64,N), beverton_mort)))
 end
+
+"""
+    MortalityBevNoStoch(N::Int64, mortality::Float64)
+
+Returns how many Individuals die. No Stochasticity
+"""
 function MortalityBevNoStoch(N::Int64, beverton_mort::Float64)
   return max(0, N - N * beverton_mort)
 end
+
+"""
+    BV(N::Int64, growrate::Float64, carry::Float64, mortality::Float64)
+
+Returns the number of individuals in the next generation according to the Beverton-Holt
+model. Includes stochastic mortality.
+"""
 function BV(N::Int64,growrate::Float64,carry::Float64,beverton_mort::Float64)
   return ReproductionBeverton(N, growrate, carry, beverton_mort) + MortalityBev(N, beverton_mort)
 end
+
+"""
+    BVNoStoch(N::Int64, growrate::Float64, carry::Float64, mortality::Float64)
+
+Returns the number of individuals in the next generation according to the Beverton-Holt
+model. Does not include stochastic mortality.
+"""
 function BVNoStoch(N::Int64,growrate::Float64,carry::Float64,beverton_mort::Float64)
   return ReproductionBeverton(N, growrate, carry, beverton_mort) + MortalityBevNoStoch(N, beverton_mort)
 end
 
 
 ## Dispersal kernels
+"""
+    DispersalNegExpKernel(Dispersalbuffer, mean_dispersal_dist)
+
+TODO
+"""
 function DispersalNegExpKernel(Dispersalbuffer, mean_dispersal_dist)
   x = 2*Dispersalbuffer+1
   y = 2*Dispersalbuffer+1
@@ -61,6 +109,11 @@ function DispersalNegExpKernel(Dispersalbuffer, mean_dispersal_dist)
   return spDispKernel
 end
 
+"""
+    DispersalNegExpFunction(alpha, r)
+
+TODO
+"""
 function DispersalNegExpFunction(alpha, r)
   N = 2*pi*(alpha*alpha)
   p = (1/N)*exp(-r/alpha)
@@ -70,14 +123,35 @@ function DispersalNegExpFunction(alpha, r)
   return p
 end
 
+"""
+    KernelDispersal!(N::Int64, Offspring::Array{Float64,2}, Dispersal_kernel::Array{Float64,2})
 
-function KernelDispersal!(N::Int64, Offspring::Array{Float64,2}, Dispersal_kernel::Array{Float64,2})
+TODO
+"""
+function KernelDispersal!(
+    N::Int64,
+    Offspring::Array{Float64,2},
+    Dispersal_kernel::Array{Float64,2}
+)
   Off = Offspring+N*Dispersal_kernel
   return Off
 end
 
 ## recruitment
-function DispersalSurvivalStoch(Abundances::Array{Union{Missing, Int64},2},Offspring::Array{Float64,2},xy::Array{Int64,2},max_dispersal_dist::Int64)
+"""
+    DispersalSurvivalStoch(
+    Abundances::Array{Union{Missing, Int64},2},
+    Offspring::Array{Float64,2},xy::Array{Int64,2},
+    max_dispersal_dist::Int64
+    )
+
+TODO
+"""
+function DispersalSurvivalStoch(
+    Abundances::Array{Union{Missing, Int64},2},
+    Offspring::Array{Float64,2},xy::Array{Int64,2},
+    max_dispersal_dist::Int64
+)
   for z in 1:size(xy,1) # welche koordinaten sind suitable, nur dort recruiten
     y = xy[z,1]
     x = xy[z,2]
@@ -88,7 +162,20 @@ function DispersalSurvivalStoch(Abundances::Array{Union{Missing, Int64},2},Offsp
   return Abundances
 end
 
-function DispersalSurvivalRound(Abundances::Array{Union{Missing, Int64},2}, Offspring::Array{Float64,2}, xy::Array{Int64,2}, max_dispersal_dist::Int64)
+"""
+    DispersalSurvivalRound(
+    Abundances::Array{Union{Missing, Int64},2},
+    Offspring::Array{Float64,2}, xy::Array{Int64,2},
+    max_dispersal_dist::Int64
+    )
+
+TODO
+"""
+function DispersalSurvivalRound(
+    Abundances::Array{Union{Missing, Int64},2},
+    Offspring::Array{Float64,2}, xy::Array{Int64,2},
+    max_dispersal_dist::Int64
+)
   for z in 1:size(xy,1)
     y = xy[z, 1]
     x = xy[z, 2]
@@ -98,18 +185,18 @@ function DispersalSurvivalRound(Abundances::Array{Union{Missing, Int64},2}, Offs
   return Abundances
 end
 
-# """
-# HabitatMortality(Abundances, Is_habitat)
-# Habitat based mortality
-#
-# This function kills individuals that are in non suitable Habitat in
-# \code{Run}
-#
-# Abundances: array with the number of individuals in the landscape
-# Is_habitat: array with boolean values that indicate
-# which cell is habitat in the next timestep
-#
-# """
+"""
+    HabitatMortality(Abundances, Is_habitat)
+
+Habitat based mortality
+
+This function kills individuals that are in non suitable Habitat in
+code{Run}
+
+Abundances: array with the number of individuals in the landscape
+Is_habitat: array with boolean values that indicate
+which cell is habitat in the next timestep
+"""
 function HabitatMortality(Abundances::Matrix{Union{Missing, Int64}},Is_habitat::BitArray{2})
   h=findall(iszero,Is_habitat)
   h = hcat(getindex.(h, 1),getindex.(h, 2))

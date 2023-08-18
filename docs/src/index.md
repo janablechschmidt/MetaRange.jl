@@ -1,14 +1,21 @@
+# MetaRange
+
 ```@meta
 CurrentModule = MetaRange
 ```
 
-# MetaRange
-
 Documentation for [MetaRange](https://github.com/janablechschmidt/MetaRange.jl).
 
-```@index
+## Contents
+
+```@contents
 ```
 
-```@autodocs
-Modules = [MetaRange]
+## Exported Functions
+
+```@docs
+read_input
+Run_Simulation!
+Simulation_Data
+default_run_data
 ```

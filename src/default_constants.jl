@@ -10,7 +10,11 @@ const exp_bevmort = -0.25 #Between -1 and 1
 const exp_carry = -0.75 #Between -1 and 1
 const exp_growrate = -0.25 #Between -1 and 1
 
-#Converts Boltzmann constant k to Ev/Kelvin
+"""
+    get_boltzmann()
+
+Converts Boltzmann constant k to Ev/Kelvin
+"""
 function get_boltzmann()
     return k_jk / e
 end
