@@ -139,7 +139,20 @@ mutable struct Simulation_Variables
 end
 
 ## Struct for saving all data related to a species
+"""
+    Species
 
+Saving all data related to a species.
+
+# Fields
+-`species_name::String`: name of the species
+-`traits::Traits`: a (Traits)[@ref] struct for the species
+-`abundances::Array{Union{Int64, Missing}, 3}`: amount of individuals of this species in
+each timestep
+-`habitat::Array{Float64, 3}`: habitat suitability in each timestep
+-`dispersal_kernel::Matrix{Float64}`:#TODO
+-`vars::Simulation_Variables`:#TODO
+"""
 struct Species
     species_name::String
     traits::Traits
