@@ -96,7 +96,7 @@ function init_species_sim_vars!(
             LS.ylength,
             LS.xlength,
         )
-        sp.vars.growrate = get_pop_var(
+        sp.vars.growrate = @show get_pop_var(
             sp.traits.growrate,
             sp.traits.sd_growrate,
             exp_growrate,
@@ -350,7 +350,7 @@ end
     reproduce(species, reproduction, timestep)
 
 Reproduction function. Takes a vector of species structs, a reproduction function and a
-    timestep and calculates the amount of species in the next timestep.
+timestep and calculates the amount of species in the next timestep.
 """
 function reproduce!(species::Vector{Species}, Reproduction, timestep::Int)
     for sp in species
