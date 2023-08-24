@@ -9,7 +9,7 @@ using Random
 
 #main module functions
 export read_input
-export Run_Simulation!
+export run_simulation!
 
 #main module struct
 export Simulation_Data
