@@ -96,7 +96,7 @@ function init_species_sim_vars!(
             LS.ylength,
             LS.xlength,
         )
-        sp.vars.growrate = @show get_pop_var(
+        sp.vars.growrate = get_pop_var(
             sp.traits.growrate,
             sp.traits.sd_growrate,
             exp_growrate,
@@ -251,7 +251,7 @@ function get_pop_var(
         pop_param = ar
     end
     if sd_trait != 0
-        pop_param = Randomize(LS.ylength,LS.xlength,pop_param,sd_trait)
+        pop_param = Randomize(LS.ylength,LS.xlength,pop_param,sd_trait) #broken?
     end
     return pop_param #Matrix{Float64}
 end
