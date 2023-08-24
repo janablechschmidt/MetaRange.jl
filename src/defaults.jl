@@ -1,4 +1,9 @@
-## defaults for input creation
+## Functions in this section set defaults incase something is not supplied in initialisation
+"""
+    get_default_simulation_parameters()
+
+Returns a Dictionary with default simulation parameters.
+"""
 function get_default_simulation_parameters()
     A = Dict{String, Any}(
     "experiment_name" => "default",
@@ -25,6 +30,13 @@ function get_default_simulation_parameters()
 end
 
 # defaults for input creation without user input
+# Is this function needed? I don't understand the difference between get_testrun and
+# get_default. - R
+"""
+    get_testrun_simulation_parameters()
+
+TBW
+"""
 function get_testrun_simulation_parameters()
     #env_attribute_files = Dict{String, String}(
     #  "precipitation" => "none",
@@ -75,11 +87,11 @@ end
 
 Creates a Default Landscape with random values and some NAs for testing.
 """
-# TODO maybe make randomness not over time?
 function get_default_LS()
     environment = Dict{String, Array{Float64, 3}}()
     landscape_size = (20,20)
     timesteps = 25
+    # TODO maybe make randomness not over time?
     environment["temperature"] = fill(293.15, landscape_size..., timesteps)
     environment["temperature"] .+= randn(size(environment["temperature"])) .* 2.5
     environment["precipitation" ] = fill(500, landscape_size..., timesteps)
@@ -95,6 +107,11 @@ function get_default_LS()
     )
 end
 
+"""
+    species_default()
+
+Returns a dictionary of default species traits for initialisation
+"""
 function species_default()
     return Dict{String, Any}(
     "species_name" => "default",
@@ -116,10 +133,16 @@ function species_default()
     "upper_limit_precipitation" => "400",
     "lower_limit_precipitation" => "600",
     "optimum_precipitation" => "500",
-    "habitat_cutoff_suitability" => "0.001"
+    "habitat_cutoff_suitability" => "0.001",
     )
 end
 
+# Is this function really for default species and not directly initialization? - R
+"""
+    get_default_species(LS::Landscape, SP::Simulation_Parameters)
+
+TBW
+"""
 function get_default_species(LS::Landscape, SP::Simulation_Parameters)
     species_vec = Species[]
     species = species_default()
