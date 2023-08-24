@@ -25,6 +25,8 @@ Alternatively using `Pkg` directly:
 julia> import Pkg; Pkg.add(url = "https://github.com/janablechschmidt/MetaRange.jl.git")
 ```
 
+MetaRange has been tested on Julia 1.6 and upwards on Windows and Linux.
+
 ## Usage
 
 MetaRange works by first creating a simulation struct and then calling the function `run_simulation!()` on the object.  
@@ -34,6 +36,12 @@ Here is a minimum example on a random landscape:
 using MetaRange
 SD = default_run_data()
 run_simulation!(SD)
+```
+
+Results can be viewed by inspection the relevant parts of the `Simulation_Data` object. To see the abundances in the last simulation step for example call:
+
+```julia
+SD.species[1].abundances
 ```
 
 For further examples of usage and how to use different data for simulations as well as further description of the used objects, please refer to the [documentation](https://janablechschmidt.github.io/MetaRange.jl/dev/)
