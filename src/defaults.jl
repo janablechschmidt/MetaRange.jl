@@ -3,7 +3,7 @@ function get_default_simulation_parameters()
     A = Dict{String, Any}(
     "experiment_name" => "default",
     "config_dir" => nothing,
-    "output_dir" => "./results/data/output/",
+    "output_dir" => "./output/",
     "species_dir" => nothing,
     "environment_dir" => nothing, # Default value gets built in the read_sp function!
     "input_backup" => false,
@@ -33,7 +33,7 @@ function get_testrun_simulation_parameters()
     A = Dict{String, Any}(
     "experiment_name" => "testrun",
     "config_dir" => nothing,
-    "output_dir" => "./results/data/output/",
+    "output_dir" => "./output/",
     "species_dir" => "notreal",
     "environment_dir" => "notreal",
     "input_backup" => false,

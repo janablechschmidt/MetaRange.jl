@@ -255,10 +255,9 @@ function sp_sanity_checks!(config::Dict)
     if config["timesteps"] < 1
         throw("\"timesteps\" is "*config["timesteps"]*", it has to be larger than 1!")
     end
-    #if !isdir(config["output_dir"])
-    #   throw("""the specified output directory "$(config["output_dir"])" does not exist!\n \
-    #   Please create the directory or check your configuration.csv.""")
-    #end
+    if !isdir(config["output_dir"])
+        mkdir(config["output_dir"])
+    end
     #normalize path formatting
     if !endswith(config["output_dir"], "/")
         config["output_dir"] = config["output_dir"] * "/"
