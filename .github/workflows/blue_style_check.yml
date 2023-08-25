@@ -1,0 +1,22 @@
+name: blue-style-check
+
+on:
+  pull_request: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: julia-actions/setup-julia@v1
+        with:
+          version: '1.9'
+          arch: 'x64'
+      - name: Install JuliaFormatter
+        # This will use the latest version by default but you can set the version like so:
+        # julia -e 'using Pkg; Pkg.add("JuliaFormatter", version="1.0.35")'
+        run: |
+          julia -e 'using Pkg; Pkg.add("JuliaFormatter")'
+      - name: Format check
+        run: |
+          julia -e 'using JuliaFormatter; format(".", BlueStyle(), verbose=false, overwrite=false)'
