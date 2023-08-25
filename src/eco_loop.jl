@@ -1,7 +1,7 @@
 #####  Simulation function ######
 
 """
-    Run_Simulation!(SD::Simulation_Data)
+    run_simulation!(SD::Simulation_Data)
 
 Ecological Simulation
 
@@ -15,7 +15,7 @@ Main simulation function. Load, initialize and execute all data & processes that
 - `SD::MetaRange.Simulation_Data`: Returns the struct with later timesteps after
     initialisation simulated.
 """
-function Run_Simulation!(SD::Simulation_Data)
+function run_simulation!(SD::Simulation_Data)
   simulation_start_time = now()
 
   DispersalSurvival = GetDispersalSurvival(SD.parameters.use_stoch_num)

@@ -79,11 +79,11 @@ function InitializeAbundances(
 end
 
 """
-    Randomize(y,x,value,sd)
+    randomize(y,x,value,sd)
 
 adds stochasticity to parameters by adding random values of a lognormal distribution based on standard deviation sd
 """
-function Randomize(y,x,value,sd)
+function randomize(y,x,value,sd)
     aa = Array{Float64}(undef,y,x)
     ind = findall(isnan.(value))
     aa[ind] .= NaN
