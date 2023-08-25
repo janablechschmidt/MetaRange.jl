@@ -94,7 +94,7 @@ function randomize!(value::Missing, sd)
     return missing
 end
 function randomize!(value::Float64,sd)
-    if value > 0
+    if sd != 0 && value > 0 #additional check for sd != 0 because change otherwise
         mu = log(value^2 /sqrt((sd^2)+(value^2)))
         sig = sqrt(log(1 +((sd^2)/(value^2))))
         value = rand(LogNormal(mu, sig))
