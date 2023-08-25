@@ -81,8 +81,8 @@ end
 """
     randomize(value,sd)
 
-Takes a parameter and modifies it according to a lognormal distribution based on standard
-deviation sd
+Takes a parameter or array of parameters and modifies it according to a lognormal
+distribution based on standard deviation sd
 """
 function randomize!(value::Array, sd)
     for i in eachindex(value)
