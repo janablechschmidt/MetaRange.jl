@@ -22,4 +22,11 @@ jobs:
           julia -e 'using Pkg; Pkg.add("JuliaFormatter")'
       - name: Format check
         run: |
-          julia -e 'using JuliaFormatter; format(".", BlueStyle(), verbose=false, overwrite=false)'
+          julia -e '
+          using JuliaFormatter
+          return_code = format(".", BlueStyle(), verbose=false, overwrite=false)
+          if return_code
+              exit(0)
+          else
+              exit(1)
+          end'
