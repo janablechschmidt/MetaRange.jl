@@ -78,19 +78,25 @@ function InitializeAbundances(
     return abundances
 end
 
+"""
+    Randomize(y,x,value,sd)
+
+TBW
+"""
 function Randomize(y,x,value,sd)
-  aa = Array{Float64}(undef,y,x)
-  ind = findall(isnan.(value))
-  aa[ind] .= NaN
-  #bb = LogNormal.(log.(value.^2 ./sqrt.((sd^2).+(value.^2))), #mu
-  #sqrt.(log.(1 .+((sd^2)./(value.^2))))) #sig
-  for i in 1:y*x
-    if !isnan(aa[i])
-    aa[i] = rand(LogNormal(log(value[i]^2 /sqrt((sd^2)+(value[i]^2))), #mu
-    sqrt(log(1 +((sd^2)/(value[i]^2)))))) #sig)
+    # Randomizes the values in a matrix? I'm not sure. -R
+    aa = Array{Float64}(undef,y,x)
+    ind = findall(isnan.(value))
+    aa[ind] .= NaN
+    #bb = LogNormal.(log.(value.^2 ./sqrt.((sd^2).+(value.^2))), #mu
+    #sqrt.(log.(1 .+((sd^2)./(value.^2))))) #sig
+    for i in 1:y*x
+        if !isnan(aa[i])
+            aa[i] = rand(LogNormal(log(value[i]^2 /sqrt((sd^2)+(value[i]^2))), #mu
+            sqrt(log(1 +((sd^2)/(value[i]^2)))))) #sig)
+        end
     end
-  end
-  return aa
+    return aa
 end
 
 ## Performs Sanity Check on constants

@@ -251,7 +251,7 @@ function get_pop_var(
         pop_param = ar
     end
     if sd_trait != 0
-        pop_param = Randomize(LS.ylength,LS.xlength,pop_param,sd_trait)
+        pop_param = Randomize(LS.ylength,LS.xlength,pop_param,sd_trait) #broken?
     end
     return pop_param #Matrix{Float64}
 end
@@ -350,7 +350,7 @@ end
     reproduce(species, reproduction, timestep)
 
 Reproduction function. Takes a vector of species structs, a reproduction function and a
-    timestep and calculates the amount of species in the next timestep.
+timestep and calculates the amount of species in the next timestep.
 """
 function reproduce!(species::Vector{Species}, Reproduction, timestep::Int)
     for sp in species
