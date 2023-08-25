@@ -231,12 +231,44 @@ end
 
 Initializes a simple default run Simulation_Data struct.
 """
-function default_run_data()
+function default_run_data(input::Bool=true)
     landscape = get_default_LS()
     parameters = get_testrun_simulation_parameters()
     #duration = Duration
     species = get_default_species(landscape, parameters)
-    return Simulation_Data(parameters, landscape, species, Duration(now(),now()))
+    SD = Simulation_Data(parameters, landscape, species, Duration(now(),now()))
+    if input 
+        # create all paths for input files
+        mkpath("./TESTRUN/environment/")
+        mkpath("./TESTRUN/species/")
+        # make into matrix: config, species, temp, precipitation
+        landscape.environment["precipitation"]
+        landscape.environment["temperature"]
+        a = Dict{String, Any}(
+            "Argument" => "Value",
+            "experiment_name" => "testrun",
+            "output_dir" => "./output/",
+            "species_dir" => "./TESTRUN/species/",
+            "environment_dir" => "./TESTRUN/environment/",
+            "input_backup" => false,
+            "temperature" => "Temperature",
+            "precipitation" => "Precipitation",
+            "env_attribute_mode" => "minimum",
+            "timesteps" => 20,
+            "randomseed" => 42,
+            "reproduction_model" => "Beverton",
+            "use_metabolic_theory" => true,
+            "use_stoch_allee" => false,
+            "use_stoch_carry" => false,
+            "use_stoch_num" => false,
+            "initialize_cells" => "habitat",
+        )
+        # save as CSV
+        CSV.write("./TESTRUN/configuration.csv",a, delim = ' ', writeheader=false)
+        
+        #CSV.write()
+    end
+    return SD
 end
 
 # what do you need for simulation data struct?
