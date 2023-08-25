@@ -79,7 +79,7 @@ function InitializeAbundances(
 end
 
 """
-    randomize(value,sd)
+    randomize!(value,sd)
 
 Takes a parameter or array of parameters and modifies it according to a lognormal
 distribution based on standard deviation sd

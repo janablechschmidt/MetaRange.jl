@@ -121,7 +121,7 @@ function read_species_dir(species_dir::String, LS::Landscape, SP::Simulation_Par
         # param_const_growrate, param_const_allee, param_const_bevmort and param_const_carry
         # should not be 0 as they produce 0s when using metabolic_theory in function
         # GetPopParam() function which in turn produce NAN values when the corresponding sd
-        # parameter is not 0 in the randomize() function bevmort can only be in range [0,1]
+        # parameter is not 0 in the randomize!() function bevmort can only be in range [0,1]
         # Build Traits struct
         traits = get_Traits(species)
         # calculate habitat
