@@ -79,25 +79,27 @@ function InitializeAbundances(
 end
 
 """
-    randomize(y,x,value,sd)
+    randomize(value,sd)
 
-adds stochasticity to parameters by adding random values of a lognormal distribution based on standard deviation sd
+Takes a parameter and modifies it according to a lognormal distribution based on standard
+deviation sd
 """
-function randomize(y,x,value,sd)
-    aa = Array{Float64}(undef,y,x)
-    ind = findall(isnan.(value))
-    aa[ind] .= NaN
-    for i in 1:y*x
-        if !isnan(aa[i]) && aa[i]>0
-            println("value: ",aa[i])
-            mu = log(value[i]^2 /sqrt((sd^2)+(value[i]^2)))
-            println("mu: ",mu)
-            sig = sqrt(log(1 +((sd^2)/(value[i]^2))))
-            println("sig: ",sig)
-            aa[i] = rand(LogNormal(mu, sig))
-        end
+function randomize!(value::Array, sd)
+    for i in eachindex(value)
+        value[i] = randomize!(value[i], sd)
     end
-    return aa
+    return value
+end
+function randomize!(value::Missing, sd)
+    return missing
+end
+function randomize!(value::Float64,sd)
+    if value > 0
+        mu = log(value^2 /sqrt((sd^2)+(value^2)))
+        sig = sqrt(log(1 +((sd^2)/(value^2))))
+        value = rand(LogNormal(mu, sig))
+    end
+    return value
 end
 
 ## Performs Sanity Check on constants
