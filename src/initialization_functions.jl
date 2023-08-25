@@ -255,8 +255,8 @@ function sp_sanity_checks!(config::Dict)
     if config["timesteps"] < 1
         throw("\"timesteps\" is "*config["timesteps"]*", it has to be larger than 1!")
     end
-    if !isdir(config["output_dir"])
-        mkdir(config["output_dir"])
+    if !ispath(config["output_dir"])
+        mkpath(config["output_dir"])
     end
     #normalize path formatting
     if !endswith(config["output_dir"], "/")
