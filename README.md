@@ -11,6 +11,12 @@ theoretical questions as well as a predictive tool to model future species distr
 
 ## About
 
+MetaRange integrates spatially-explicit demographic and behavioural processes with a niche- and metabolism-based approach. For each species, it considers species-specific environmental preferences and regulates demographic processes via the Metabolic Theory of Ecology.
+
+The user can model the spatial distribution of a species in any landscape. Niches are defined by temperature and precipitation and can include further niche axis if desired by the user. Demographic processes are adapted via the Metabolic Theory of Ecology, such that both biomass of the organism as well as temperature in a given patch influence demographic rates.
+
+A manuscript introducing MetaRange.jl is currently in preparation.
+
 ## Installation
 
 The package can be installed from github through the inbuilt Julia package manager. Open a Julia REPL and type `]` to enter the Pkg REPL mode and run:
