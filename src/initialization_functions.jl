@@ -81,19 +81,20 @@ end
 """
     Randomize(y,x,value,sd)
 
-TBW
+adds stochasticity to parameters by adding random values of a lognormal distribution based on standard deviation sd
 """
 function Randomize(y,x,value,sd)
-    # Randomizes the values in a matrix? I'm not sure. -R
     aa = Array{Float64}(undef,y,x)
     ind = findall(isnan.(value))
     aa[ind] .= NaN
-    #bb = LogNormal.(log.(value.^2 ./sqrt.((sd^2).+(value.^2))), #mu
-    #sqrt.(log.(1 .+((sd^2)./(value.^2))))) #sig
     for i in 1:y*x
-        if !isnan(aa[i])
-            aa[i] = rand(LogNormal(log(value[i]^2 /sqrt((sd^2)+(value[i]^2))), #mu
-            sqrt(log(1 +((sd^2)/(value[i]^2)))))) #sig)
+        if !isnan(aa[i]) && aa[i]>0
+            println("value: ",aa[i])
+            mu = log(value[i]^2 /sqrt((sd^2)+(value[i]^2)))
+            println("mu: ",mu)
+            sig = sqrt(log(1 +((sd^2)/(value[i]^2))))
+            println("sig: ",sig)
+            aa[i] = rand(LogNormal(mu, sig))
         end
     end
     return aa
