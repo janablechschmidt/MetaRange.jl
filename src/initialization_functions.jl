@@ -257,6 +257,7 @@ function sp_sanity_checks!(config::Dict)
     end
     if !ispath(config["output_dir"])
         mkpath(config["output_dir"])
+        @info("Output directory created here: ",config["output_dir"])
     end
     #normalize path formatting
     if !endswith(config["output_dir"], "/")
