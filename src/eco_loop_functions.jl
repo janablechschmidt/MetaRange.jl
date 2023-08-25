@@ -247,7 +247,7 @@ function get_pop_var(
         pop_param = ar
     end
     if sd_trait != 0
-        pop_param = randomize!(pop_param,sd_trait) #broken?
+        pop_param = randomize!(pop_param,sd_trait)
     end
     return pop_param #Matrix{Float64}
 end
