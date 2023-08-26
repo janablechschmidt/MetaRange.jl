@@ -94,7 +94,7 @@ end
 """
     Simulation_Variables
 
-Simulation variables used for a species during [Run_Simulation!](@ref)"
+Simulation variables used for a species during [run_simulation!](@ref)"
 
 # Fields
 -`habitat::Array{Float64, 2}`: habitability of landscape cells for a species at current

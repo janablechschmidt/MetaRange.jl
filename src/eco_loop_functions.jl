@@ -206,12 +206,8 @@ end
 TBW
 """
 function get_biomass(mass, sd_mass, ysize, xsize)
-    if sd_mass == 0
-        biomass = Array{Float64,2}(undef, ysize, xsize)
-        fill!(biomass, mass)
-    else
-      biomass = Randomize(ysize, xsize, mass, sd_mass)
-    end
+    biomass = fill(mass, (ysize, xsize))
+    randomize!(biomass, sd_mass)
     return biomass
 end
 
@@ -251,7 +247,7 @@ function get_pop_var(
         pop_param = ar
     end
     if sd_trait != 0
-        pop_param = Randomize(LS.ylength,LS.xlength,pop_param,sd_trait) #broken?
+        pop_param = randomize!(pop_param,sd_trait)
     end
     return pop_param #Matrix{Float64}
 end

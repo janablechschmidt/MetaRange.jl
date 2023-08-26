@@ -79,24 +79,27 @@ function InitializeAbundances(
 end
 
 """
-    Randomize(y,x,value,sd)
+    randomize!(value,sd)
 
-TBW
+Takes a parameter or array of parameters and modifies it according to a lognormal
+distribution based on standard deviation sd
 """
-function Randomize(y,x,value,sd)
-    # Randomizes the values in a matrix? I'm not sure. -R
-    aa = Array{Float64}(undef,y,x)
-    ind = findall(isnan.(value))
-    aa[ind] .= NaN
-    #bb = LogNormal.(log.(value.^2 ./sqrt.((sd^2).+(value.^2))), #mu
-    #sqrt.(log.(1 .+((sd^2)./(value.^2))))) #sig
-    for i in 1:y*x
-        if !isnan(aa[i])
-            aa[i] = rand(LogNormal(log(value[i]^2 /sqrt((sd^2)+(value[i]^2))), #mu
-            sqrt(log(1 +((sd^2)/(value[i]^2)))))) #sig)
-        end
+function randomize!(value::Array, sd)
+    for i in eachindex(value)
+        value[i] = randomize!(value[i], sd)
     end
-    return aa
+    return value
+end
+function randomize!(value::Missing, sd)
+    return missing
+end
+function randomize!(value::Float64,sd)
+    if sd != 0 && value > 0 #additional check for sd != 0 because change otherwise
+        mu = log(value^2 /sqrt((sd^2)+(value^2)))
+        sig = sqrt(log(1 +((sd^2)/(value^2))))
+        value = rand(LogNormal(mu, sig))
+    end
+    return value
 end
 
 ## Performs Sanity Check on constants
