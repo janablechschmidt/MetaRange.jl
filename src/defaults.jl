@@ -238,14 +238,10 @@ function default_run_data(input::Bool=true)
     species = get_default_species(landscape, parameters)
     SD = Simulation_Data(parameters, landscape, species, Duration(now(),now()))
     if input 
-        # create all paths for input files
-        mkpath("./TESTRUN/environment/")
+        mkpath("./TESTRUN/environment/Temperature")
+        mkpath("./TESTRUN/environment/Precipitation")
         mkpath("./TESTRUN/species/")
-        # make into matrix: config, species, temp, precipitation
-        landscape.environment["precipitation"]
-        landscape.environment["temperature"]
         a = Dict{String, Any}(
-            "Argument" => "Value",
             "experiment_name" => "testrun",
             "output_dir" => "./output/",
             "species_dir" => "./TESTRUN/species/",
@@ -263,13 +259,34 @@ function default_run_data(input::Bool=true)
             "use_stoch_num" => false,
             "initialize_cells" => "habitat",
         )
-        # save as CSV
+        b = Dict{String, Any}(
+            "species_name" => "default",
+            "mass" => "0.01",
+            "sd_mass" => "0",
+            "growrate" => "1.7",
+            "sd_growrate" => "0",
+            "max_dispersal_dist" => "3",
+            "mean_dispersal_dist" => "1",
+            "allee" => "-200",
+            "sd_allee" => "0",
+            "bevmort" => "0.3",
+            "sd_bevmort" => "0",
+            "carry" => "200",
+            "sd_carry" => "0",
+            "upper_limit_temperature" => "303.15",
+            "lower_limit_temperature" => "283.15",
+            "optimum_temperature" => "293.15",
+            "upper_limit_precipitation" => "400",
+            "lower_limit_precipitation" => "600",
+            "optimum_precipitation" => "500",
+            "habitat_cutoff_suitability" => "0.001",
+            )
         CSV.write("./TESTRUN/configuration.csv",a, delim = ' ', writeheader=false)
-        
-        #CSV.write()
+        CSV.write("./TESTRUN/species/default_species.csv",b, delim = ' ', writeheader=false)
+        for i in 1:size(landscape.environment["temperature"],3)
+            CSV.write(string("./TESTRUN/environment/Temperature/Temperature", i,".csv"),landscape.environment["temperature"][:,:,i], writeheader=false)
+            CSV.write(string("./TESTRUN/environment/Precipitation/Precipitation", i,".csv"),landscape.environment["precipitation"][:,:,i], writeheader=false)
+        end
     end
     return SD
 end
-
-# what do you need for simulation data struct?
-# SD hat landscape, parameters, species, duration
