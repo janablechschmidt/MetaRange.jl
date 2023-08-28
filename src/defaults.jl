@@ -284,8 +284,8 @@ function default_run_data(input::Bool=true)
         CSV.write("./TESTRUN/configuration.csv",a, delim = ' ', writeheader=false)
         CSV.write("./TESTRUN/species/default_species.csv",b, delim = ' ', writeheader=false)
         for i in 1:size(landscape.environment["temperature"],3)
-            CSV.write(string("./TESTRUN/environment/Temperature/Temperature", i,".csv"),landscape.environment["temperature"][:,:,i], writeheader=false)
-            CSV.write(string("./TESTRUN/environment/Precipitation/Precipitation", i,".csv"),landscape.environment["precipitation"][:,:,i], writeheader=false)
+            CSV.write(string("./TESTRUN/environment/Temperature/Temperature", i,".csv"),Tables.table(landscape.environment["temperature"][:,:,i]), writeheader=false)
+            CSV.write(string("./TESTRUN/environment/Precipitation/Precipitation", i,".csv"),Tables.table(landscape.environment["precipitation"][:,:,i]), writeheader=false)
         end
     end
     return SD
