@@ -92,9 +92,9 @@ matrix eqivalent to the landscape's size.
 function get_Simulation_Variables()
     return Simulation_Variables(
         Array{Float64}(undef, 0, 0), # habitat
-        Array{Bool}(undef, 0, 0), # is_habitat
+        BitArray(undef, 0, 0), # is_habitat
         Array{Float64}(undef, 0, 0), # future_habitat
-        Array{Bool}(undef, 0, 0), # future_is_habitat
+        BitArray(undef, 0, 0), # future_is_habitat
         Array{Float64}(undef, 0, 0), # biomass
         Array{Float64}(undef, 0, 0), # growrate
         Array{Float64}(undef, 0, 0), # carry
