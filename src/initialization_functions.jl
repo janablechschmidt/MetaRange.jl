@@ -78,19 +78,25 @@ function InitializeAbundances(
     return abundances
 end
 
-function Randomize(y,x,value,sd)
-  aa = Array{Float64}(undef,y,x)
-  ind = findall(isnan.(value))
-  aa[ind] .= NaN
-  #bb = LogNormal.(log.(value.^2 ./sqrt.((sd^2).+(value.^2))), #mu
-  #sqrt.(log.(1 .+((sd^2)./(value.^2))))) #sig
-  for i in 1:y*x
-    if !isnan(aa[i])
-    aa[i] = rand(LogNormal(log(value[i]^2 /sqrt((sd^2)+(value[i]^2))), #mu
-    sqrt(log(1 +((sd^2)/(value[i]^2)))))) #sig)
+"""
+    randomize!(value,sd)
+
+Takes a parameter or array of parameters and modifies it according to a lognormal
+distribution based on standard deviation sd
+"""
+function randomize!(value, sd)
+    if isa(value, Array)
+        for i in eachindex(value)
+            value[i] = randomize!(value[i], sd)
+        end
+    elseif isa(value, Float64)
+        if sd != 0 && value > 0 #additional check for sd != 0 because change otherwise
+            mu = log(value^2 /sqrt((sd^2)+(value^2)))
+            sig = sqrt(log(1 +((sd^2)/(value^2))))
+            value = rand(LogNormal(mu, sig))
+        end
     end
-  end
-  return aa
+    return value
 end
 
 ## Performs Sanity Check on constants
@@ -255,10 +261,10 @@ function sp_sanity_checks!(config::Dict)
     if config["timesteps"] < 1
         throw("\"timesteps\" is "*config["timesteps"]*", it has to be larger than 1!")
     end
-    #if !isdir(config["output_dir"])
-    #   throw("""the specified output directory "$(config["output_dir"])" does not exist!\n \
-    #   Please create the directory or check your configuration.csv.""")
-    #end
+    if !ispath(config["output_dir"])
+        mkpath(config["output_dir"])
+        @info("Output directory created at: ",config["output_dir"])
+    end
     #normalize path formatting
     if !endswith(config["output_dir"], "/")
         config["output_dir"] = config["output_dir"] * "/"
