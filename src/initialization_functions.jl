@@ -84,20 +84,17 @@ end
 Takes a parameter or array of parameters and modifies it according to a lognormal
 distribution based on standard deviation sd
 """
-function randomize!(value::Array, sd)
-    for i in eachindex(value)
-        value[i] = randomize!(value[i], sd)
-    end
-    return value
-end
-function randomize!(value::Missing, sd)
-    return missing
-end
-function randomize!(value::Float64,sd)
-    if sd != 0 && value > 0 #additional check for sd != 0 because change otherwise
-        mu = log(value^2 /sqrt((sd^2)+(value^2)))
-        sig = sqrt(log(1 +((sd^2)/(value^2))))
-        value = rand(LogNormal(mu, sig))
+function randomize!(value, sd)
+    if isa(value, Array)
+        for i in eachindex(value)
+            value[i] = randomize!(value[i], sd)
+        end
+    elseif isa(value, Float64)
+        if sd != 0 && value > 0 #additional check for sd != 0 because change otherwise
+            mu = log(value^2 /sqrt((sd^2)+(value^2)))
+            sig = sqrt(log(1 +((sd^2)/(value^2))))
+            value = rand(LogNormal(mu, sig))
+        end
     end
     return value
 end
