@@ -163,7 +163,18 @@ struct Species
 end
 
 ## Struct for saving all data related to the landscape/environment
+"""
+    Landscape
 
+Struct representing the landscape/environment.
+
+# Fields
+-`xlength::Int64`: equivalent to size[2] of any Array in this struct
+-`ylength::Int64`: equivalent to size[1] of any Array in this struct
+-`environment::Dict{String, Array{Float64, 3}}`: contains all environment attributes,
+addressable by name
+-`restrictions::Array{Float64, 3}`: #TODO
+"""
 struct Landscape
     xlength::Int64 # equivalent to size[2] of any Array in this struct
     ylength::Int64 # equivalent to size[1] of any Array in this struct
@@ -173,7 +184,32 @@ struct Landscape
 end
 
 ## Struct for saving simulation parameters
+"""
+    Simulation_Parameters
 
+Struct for saving simulation parameters.
+
+# Fields
+-`experiment_name::String`: name of the experiment
+-`config_dir::String`: path to the folder containing the config_file
+-`output_dir::String`: path to the folder where the output should be saved
+-`species_dir::String`: path to the folder containing the species definitions
+-`environment_dir::String`: path to the folder or file containing the environment tables
+-`input_backup::Bool`: if true, the input files will be copied to the output folder
+-`env_attribute_files::Dict{String, String}`: #TODO
+-`env_restriction_files::Dict{String, String}`: #TODO
+-`env_attribute_mode::String`: #TODO
+-`env_restriction_mode::String`: #TODO
+-`attribute_restriction_blending::String`: #TODO
+-`timesteps::Int64`: number of timesteps in the simulation
+-`randomseed::Int64`: seed for number gneratror used in the simulation
+-`reproduction_model::String`: #TODO
+-`use_metabolic_theory::Bool`: #TODO
+-`use_stoch_allee::Bool`: if true the allee effect will be stochastic
+-`use_stoch_carry::Bool`: if true the carrying capacity will be stochastic
+-`use_stoch_num::Bool`: #TODO Stochastic Survival see R code
+-`initialize_cells::String`: #TODO
+"""
 struct Simulation_Parameters
     experiment_name::String # Simulation Parameter
     config_dir::String # Location of the config_file
@@ -198,7 +234,15 @@ struct Simulation_Parameters
 end
 
 ## Struct for saving the duration of the entire simulation
+"""
+    Duration
 
+Struct for saving the length of the runtime for the entire simulation.
+
+# Fields
+-`start_time::DateTime`: time when simulation was started
+-`end_time::DateTime`: time when simulation has finished
+"""
 mutable struct Duration
     start_time::DateTime
     end_time::DateTime
