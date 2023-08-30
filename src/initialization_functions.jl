@@ -5,8 +5,10 @@ function ParamCalibration(
     exponent::Float64,
     mass::Float64,
     reference_temp::Float64,
-    E::Float64)
+    E::Float64,
+    )
     #we divide here because the numbers become too high to handle for some systems otherwise
+    #honestly not a fan of magic numbers, could this be fixed in another way? - R
     param_const = parameter/((mass^(exponent))*exp(-E/(k * reference_temp)))/500000000000
     return param_const
 end
