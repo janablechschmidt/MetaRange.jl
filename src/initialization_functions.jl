@@ -570,8 +570,9 @@ function read_ts_config(env_dir::String, ls_timeseries_config::String)
         ls_timeseries_config = "default"
     end
     if ls_timeseries_config != "default"
-        input_ts_config =
-            Dict{String,Int}(CSV.File(joinpath(env_dir, ls_timeseries_config)))
+        input_ts_config = Dict{String,Int}(
+            CSV.File(joinpath(env_dir, ls_timeseries_config))
+        )
         #Overwrite defaults where applicable
         for key in keys(input_ts_config)
             ts_config[key] = input_ts_config[key]
