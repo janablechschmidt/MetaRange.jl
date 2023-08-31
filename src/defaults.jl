@@ -5,27 +5,27 @@
 Returns a Dictionary with default simulation parameters.
 """
 function get_default_simulation_parameters()
-    A = Dict{String, Any}(
-    "experiment_name" => "default",
-    "config_dir" => nothing,
-    "output_dir" => "./output/",
-    "species_dir" => nothing,
-    "environment_dir" => nothing, # Default value gets built in the read_sp function!
-    "input_backup" => false,
-    "env_attribute_mode" => "minimum",
-    "env_restriction_mode" => "minimum",
-    "env_attribute_files" => "",
-    "attribute_restriction_blending" => "multiplication",
-    # "ls_timeseries_config" => "default",
-    "timesteps" => 20,
-    "randomseed" => 42,
-    "reproduction_model" => "Beverton",
-    "use_metabolic_theory" => true,
-    "use_stoch_allee" => false,
-    "use_stoch_carry" => false,
-    "use_stoch_num" => false,
-    "initialize_cells" => "habitat",
-    #"ls_cell_biomass_cap" => 200.0
+    return A = Dict{String,Any}(
+        "experiment_name" => "default",
+        "config_dir" => nothing,
+        "output_dir" => "./output/",
+        "species_dir" => nothing,
+        "environment_dir" => nothing, # Default value gets built in the read_sp function!
+        "input_backup" => false,
+        "env_attribute_mode" => "minimum",
+        "env_restriction_mode" => "minimum",
+        "env_attribute_files" => "",
+        "attribute_restriction_blending" => "multiplication",
+        # "ls_timeseries_config" => "default",
+        "timesteps" => 20,
+        "randomseed" => 42,
+        "reproduction_model" => "Beverton",
+        "use_metabolic_theory" => true,
+        "use_stoch_allee" => false,
+        "use_stoch_carry" => false,
+        "use_stoch_num" => false,
+        "initialize_cells" => "habitat",
+        #"ls_cell_biomass_cap" => 200.0
     )
 end
 
@@ -42,31 +42,31 @@ function get_testrun_simulation_parameters()
     #  "precipitation" => "none",
     #  "temperature" => "none")
     #  env_restriction_files = Dict{String, String}()
-    A = Dict{String, Any}(
-    "experiment_name" => "testrun",
-    "config_dir" => nothing,
-    "output_dir" => "./output/",
-    "species_dir" => "notreal",
-    "environment_dir" => "notreal",
-    "input_backup" => false,
-    "env_attribute_mode" => "minimum",
-    "env_restriction_mode" => "minimum",
-    "env_attribute_files" => Dict{String, String}(),
-    "env_restriction_files" => Dict{String, String}(),
-    "attribute_restriction_blending" => "multiplication",
-    "timesteps" => 20,
-    "randomseed" => 42,
-    "reproduction_model" => "Beverton",
-    "use_metabolic_theory" => true,
-    "use_stoch_allee" => false,
-    "use_stoch_carry" => false,
-    "use_stoch_num" => false,
-    "initialize_cells" => "habitat",
-    #"ls_cell_biomass_cap" => 200.0
+    A = Dict{String,Any}(
+        "experiment_name" => "testrun",
+        "config_dir" => nothing,
+        "output_dir" => "./output/",
+        "species_dir" => "notreal",
+        "environment_dir" => "notreal",
+        "input_backup" => false,
+        "env_attribute_mode" => "minimum",
+        "env_restriction_mode" => "minimum",
+        "env_attribute_files" => Dict{String,String}(),
+        "env_restriction_files" => Dict{String,String}(),
+        "attribute_restriction_blending" => "multiplication",
+        "timesteps" => 20,
+        "randomseed" => 42,
+        "reproduction_model" => "Beverton",
+        "use_metabolic_theory" => true,
+        "use_stoch_allee" => false,
+        "use_stoch_carry" => false,
+        "use_stoch_num" => false,
+        "initialize_cells" => "habitat",
+        #"ls_cell_biomass_cap" => 200.0
     )
     config_path = "./TESTRUN"
     if !isdir(config_path)
-      mkdir(config_path)
+        mkdir(config_path)
     end
     A["config_dir"] = config_path
     sp_sanity_checks!(A)
@@ -75,11 +75,7 @@ function get_testrun_simulation_parameters()
 end
 
 function get_default_ls_timeseries_config()
-    return Dict{String, Any}(
-    "prediction" => 0,
-    "change_onset" => 0,
-    "sd" => 0
-    )
+    return Dict{String,Any}("prediction" => 0, "change_onset" => 0, "sd" => 0)
 end
 
 """
@@ -88,22 +84,22 @@ end
 Creates a Default Landscape with random values and some NAs for testing.
 """
 function get_default_LS()
-    environment = Dict{String, Array{Float64, 3}}()
-    landscape_size = (20,20)
+    environment = Dict{String,Array{Float64,3}}()
+    landscape_size = (20, 20)
     timesteps = 25
     # TODO maybe make randomness not over time?
     environment["temperature"] = fill(293.15, landscape_size..., timesteps)
     environment["temperature"] .+= randn(size(environment["temperature"])) .* 2.5
-    environment["precipitation" ] = fill(500, landscape_size..., timesteps)
+    environment["precipitation"] = fill(500, landscape_size..., timesteps)
     environment["precipitation"] .+= randn(size(environment["precipitation"])) .* 100
     restrictions = ones(Float64, landscape_size..., timesteps)
-    environment["temperature"][14:16,14:16,1:25] .= NaN
-    environment["precipitation"][14:16,14:16,1:25] .= NaN
+    environment["temperature"][14:16, 14:16, 1:25] .= NaN
+    environment["precipitation"][14:16, 14:16, 1:25] .= NaN
     return Landscape(
-    landscape_size[2], #xlength
-    landscape_size[1], #ylength
-    environment,
-    restrictions,
+        landscape_size[2], #xlength
+        landscape_size[1], #ylength
+        environment,
+        restrictions,
     )
 end
 
@@ -113,27 +109,27 @@ end
 Returns a dictionary of default species traits for initialisation
 """
 function species_default()
-    return Dict{String, Any}(
-    "species_name" => "default",
-    "mass" => "0.01",
-    "sd_mass" => "0",
-    "growrate" => "1.7",
-    "sd_growrate" => "0",
-    "max_dispersal_dist" => "3",
-    "mean_dispersal_dist" => "1",
-    "allee" => "-200",
-    "sd_allee" => "0",
-    "bevmort" => "0.3",
-    "sd_bevmort" => "0",
-    "carry" => "200",
-    "sd_carry" => "0",
-    "upper_limit_temperature" => "303.15",
-    "lower_limit_temperature" => "283.15",
-    "optimum_temperature" => "293.15",
-    "upper_limit_precipitation" => "400",
-    "lower_limit_precipitation" => "600",
-    "optimum_precipitation" => "500",
-    "habitat_cutoff_suitability" => "0.001",
+    return Dict{String,Any}(
+        "species_name" => "default",
+        "mass" => "0.01",
+        "sd_mass" => "0",
+        "growrate" => "1.7",
+        "sd_growrate" => "0",
+        "max_dispersal_dist" => "3",
+        "mean_dispersal_dist" => "1",
+        "allee" => "-200",
+        "sd_allee" => "0",
+        "bevmort" => "0.3",
+        "sd_bevmort" => "0",
+        "carry" => "200",
+        "sd_carry" => "0",
+        "upper_limit_temperature" => "303.15",
+        "lower_limit_temperature" => "283.15",
+        "optimum_temperature" => "293.15",
+        "upper_limit_precipitation" => "400",
+        "lower_limit_precipitation" => "600",
+        "optimum_precipitation" => "500",
+        "habitat_cutoff_suitability" => "0.001",
     )
 end
 
@@ -149,9 +145,9 @@ function get_default_species(LS::Landscape, SP::Simulation_Parameters)
     # convert all Float and Integer arguments to their respective Julia types
     parse_species_datatypes!(species)
     # calculate properties
-    species["max_dispersal_buffer"] = species["max_dispersal_dist"]*2
+    species["max_dispersal_buffer"] = species["max_dispersal_dist"] * 2
     # calculate environment properties
-    env_preferences = Dict{String, Env_Preferences}()
+    env_preferences = Dict{String,Env_Preferences}()
     for key in keys(LS.environment)
         if key == "temperature"
             if species["lower_limit_temperature"] < 60
@@ -167,7 +163,7 @@ function get_default_species(LS::Landscape, SP::Simulation_Parameters)
     end
     species["env_preferences"] = env_preferences
     # calibrate pop params if they weren't provided
-    pop_param = ["growrate","carry","allee","bevmort"]
+    pop_param = ["growrate", "carry", "allee", "bevmort"]
     exp = Dict(
         "growrate" => exp_growrate,
         "carry" => exp_carry,
@@ -178,7 +174,7 @@ function get_default_species(LS::Landscape, SP::Simulation_Parameters)
         "growrate" => E_growrate,
         "carry" => E_carry,
         "allee" => E_allee,
-        "bevmort" => E_bevmort
+        "bevmort" => E_bevmort,
     )
     for param in pop_param
         if "param_const_$param" ∉ keys(species)
@@ -200,26 +196,23 @@ function get_default_species(LS::Landscape, SP::Simulation_Parameters)
     # Build Traits struct
     traits = get_Traits(species)
     # calculate habitat
-    habitat_init = get_habitat(traits.env_preferences,LS,SP.env_attribute_mode,1)
-    habitat = Array{Float64, 3}(
-        undef,
-        size(habitat_init)[1],
-        size(habitat_init)[2],
-        SP.timesteps
+    habitat_init = get_habitat(traits.env_preferences, LS, SP.env_attribute_mode, 1)
+    habitat = Array{Float64,3}(
+        undef, size(habitat_init)[1], size(habitat_init)[2], SP.timesteps
     )
-    habitat[:,:,1] = habitat_init
+    habitat[:, :, 1] = habitat_init
     # initialize abundances
-    abundances = InitializeAbundances(SP,habitat[:,:,1],traits.carry)
+    abundances = InitializeAbundances(SP, habitat[:, :, 1], traits.carry)
     dispersal_kernel = DispersalNegExpKernel(
-        traits.max_dispersal_dist,
-        traits.mean_dispersal_dist
+        traits.max_dispersal_dist, traits.mean_dispersal_dist
     )
     # total_abundance = Vector{Union{Nothing,Int64}}(undef,SP.timesteps)
-    push!(
+    return push!(
         species_vec,
         Species(
             species["species_name"],
-            traits,abundances,
+            traits,
+            abundances,
             habitat,
             dispersal_kernel,
             get_Simulation_Variables(),
@@ -236,7 +229,7 @@ function default_run_data()
     parameters = get_testrun_simulation_parameters()
     #duration = Duration
     species = get_default_species(landscape, parameters)
-    return Simulation_Data(parameters, landscape, species, Duration(now(),now()))
+    return Simulation_Data(parameters, landscape, species, Duration(now(), now()))
 end
 
 # what do you need for simulation data struct?

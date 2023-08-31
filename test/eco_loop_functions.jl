@@ -6,7 +6,8 @@
     @testset "GetReproductionModel" begin
         @test MetaRange.GetReproductionModel("Ricker") == MetaRange.ReproductionRicker
         @test MetaRange.GetReproductionModel("Beverton") == MetaRange.BV
-        @test MetaRange.GetReproductionModel("RickerAllee") == MetaRange.ReproductionRickerAllee
+        @test MetaRange.GetReproductionModel("RickerAllee") ==
+            MetaRange.ReproductionRickerAllee
         @test_throws ArgumentError MetaRange.GetReproductionModel("foo")
     end
 end

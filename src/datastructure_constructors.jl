@@ -30,7 +30,6 @@ function get_Simulation_Parameters(config::Dict)
     )
 end
 
-
 """
     get_Traits(species::Dict)
 
@@ -40,7 +39,6 @@ function get_Traits(species::Dict)
     return Traits(
         species["mass"],
         species["sd_mass"],
-
         species["growrate"],
         species["sd_growrate"],
         species["param_const_growrate"],
@@ -49,22 +47,17 @@ function get_Traits(species::Dict)
         species["max_dispersal_dist"],
         species["max_dispersal_buffer"],
         species["mean_dispersal_dist"],
-
         species["allee"],
         species["sd_allee"],
         species["param_const_allee"],
-
         species["bevmort"],
         species["sd_bevmort"],
         species["param_const_bevmort"],
-
         species["carry"],
         species["sd_carry"],
         species["param_const_carry"],
-
         species["env_preferences"],
-
-        species["habitat_cutoff_suitability"]
+        species["habitat_cutoff_suitability"],
     )
 end
 
@@ -76,9 +69,7 @@ as an Env_Preferences object.
 """
 function get_Env_Preferences(species::Dict, key::String)
     return Env_Preferences(
-        species["upper_limit_$key"],
-        species["lower_limit_$key"],
-        species["optimum_$key"],
+        species["upper_limit_$key"], species["lower_limit_$key"], species["optimum_$key"]
     )
 end
 
@@ -101,6 +92,6 @@ function get_Simulation_Variables()
         Array{Float64}(undef, 0, 0), # allee
         Array{Float64}(undef, 0, 0), # bevmort
         Vector{CartesianIndex{2}}(undef, 0), # occurrences
-        Array{Float64}(undef, 0, 0) # offspring
+        Array{Float64}(undef, 0, 0), # offspring
     )
 end
