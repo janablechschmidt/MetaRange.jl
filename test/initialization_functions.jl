@@ -3,7 +3,7 @@
         Random.seed!(10)
         @testset "standard deviation" begin
             @test MetaRange.randomize!(10.0, 0.0) == 10.0
-            @test MetaRange.randomize!(10.0, 0.0001) ≈ 10.0 rtol=1e-4
+            @test MetaRange.randomize!(10.0, 0.0001) ≈ 10.0 rtol = 1e-4
             m = fill(10.0, (10, 10))
             @test MetaRange.randomize!(m, 0.0) == fill(10.0, (10, 10))
             @test MetaRange.randomize!(m, 0.1) != fill(10.0, (10, 10))
