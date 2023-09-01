@@ -19,23 +19,25 @@ A manuscript introducing MetaRange.jl is currently in preparation.
 
 ## Installation
 
-The package can be installed from github through the inbuilt Julia package manager. Open a Julia REPL and type `]` to enter the Pkg REPL mode and run:
+The package can be installed from github through the inbuilt Julia package manager. Open a Julia REPL, e.g. by running the command `julia` in your command line in the place where your Julia is installed. Then, type `]` to enter the Pkg REPL mode and run:
 
 ```text
 pkg> add https://github.com/janablechschmidt/MetaRange.jl.git
 ```
 
-Alternatively using `Pkg` directly:
+Alternativelyy you can use `Pkg` directly by running:
 
 ```julia
 julia> import Pkg; Pkg.add(url = "https://github.com/janablechschmidt/MetaRange.jl.git")
 ```
 
+This will download all scripts, files, and dependencies that are necessary to run the model.
+
 MetaRange has been tested on Julia 1.6 and upwards on Windows and Linux.
 
 ## Usage
 
-MetaRange works by first creating a simulation struct and then calling the function `run_simulation!()` on the object.  
+MetaRange works by first creating a simulation struct and then calling the function `run_simulation!()` on the object. There are two main functions to execute a simulation. First, your input must be read and initialized with the `read_input()` function. This function will create a SimulationData struct, typically named SD (but you can name it whatever you want), which contains all input data as well as the structures that will hold the results, but are empty initially. SD can then be given to the function `run_simulation(SD)`, which will modify it to include the simulation results.  
 Here is a minimum example on a random landscape:
 
 ```julia
