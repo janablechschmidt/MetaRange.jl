@@ -173,7 +173,7 @@ function parse_environment_parameters!(config::Dict, input_config::Dict)
     end
     #check if any environment attribute files have been defined
     if isempty(env_attribute_files)
-        throw(UndefVarError("No environment attribute (i.e. precipitation) was given"))
+        error("No environment attribute files have been defined in the configuration ")
     end
     #update dictionary
     config["env_attribute_files"] = env_attribute_files

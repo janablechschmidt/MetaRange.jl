@@ -14,7 +14,12 @@ makedocs(;
         edit_link="main",
         assets=String[],
     ),
-    pages=["Home" => "index.md", "Functions" => "functions.md", "Usage" => "usage.md"],
+    pages=[
+        "Home" => "index.md",
+        "Functions" => "functions.md",
+        "Parameters" => "parameters.md",
+        "Usage" => "usage.md",
+    ],
 )
 
 deploydocs(; repo="github.com/janablechschmidt/MetaRange.jl", devbranch="main")

@@ -106,7 +106,7 @@ end
 """
     species_default()
 
-Returns a dictionary of default species traits for initialisation
+Returns a dictionary of default species
 """
 function species_default()
     return Dict{String,Any}(
@@ -226,6 +226,7 @@ Initializes a simple default run Simulation_Data struct.
 """
 function default_run_data()
     landscape = get_default_LS()
+    # Why is this calling testrun and not default? - R
     parameters = get_testrun_simulation_parameters()
     #duration = Duration
     species = get_default_species(landscape, parameters)

@@ -1,0 +1,4 @@
+experiment_name test
+timesteps 50
+temperature temperature.csv
+precipitation precipitation.csv
