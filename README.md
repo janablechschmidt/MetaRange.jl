@@ -47,7 +47,7 @@ run_simulation!(SD)
 Results can be viewed by inspection the relevant parts of the `Simulation_Data` object. To see the abundances in the last simulation step for example call:
 
 ```julia
-SD.species[1].abundances
+SD.species[1].abundances[:,:,end]
 ```
 
 For further examples of usage and how to use different data for simulations as well as further description of the used objects, please refer to the [documentation](https://janablechschmidt.github.io/MetaRange.jl/dev/)
