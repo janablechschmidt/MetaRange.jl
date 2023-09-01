@@ -22,7 +22,4 @@ makedocs(;
     ],
 )
 
-deploydocs(;
-    repo="github.com/janablechschmidt/MetaRange.jl",
-    devbranch="main",
-)
+deploydocs(; repo="github.com/janablechschmidt/MetaRange.jl", devbranch="main")

@@ -54,7 +54,7 @@ struct Traits
     "Species Parameter standard deviation"
     sd_growrate::Float64 # Species Parameter std dev
     "Species Parameter"
-    param_const_growrate::Union{Float64, Nothing}  # Species Parameter
+    param_const_growrate::Union{Float64,Nothing}  # Species Parameter
 
     #prob_dispersal::Float64 # Species Parameter
     "Species Parameter"
@@ -69,24 +69,24 @@ struct Traits
     "Allee effect standard deviation"
     sd_allee::Float64
     "Species parameter"
-    param_const_allee::Union{Float64, Nothing} # Species Parameter
+    param_const_allee::Union{Float64,Nothing} # Species Parameter
 
     "Beverton mortality"
     bevmort::Float64
     "Beverton mortality standard deviation"
     sd_bevmort::Float64
     "Species Parameter"
-    param_const_bevmort::Union{Float64, Nothing} # Species Parameter
+    param_const_bevmort::Union{Float64,Nothing} # Species Parameter
 
     "Species Parameter"
     carry::Float64 # Species Parameter
     "Species Parameter standard deviation"
     sd_carry::Float64 # Species Parameter std dev
     "Species Parameter"
-    param_const_carry::Union{Float64, Nothing} # Species Parameter
+    param_const_carry::Union{Float64,Nothing} # Species Parameter
 
     "Dictionary of environmental preferences"
-    env_preferences::Dict{String, Env_Preferences}
+    env_preferences::Dict{String,Env_Preferences}
 
     "Species Parameter"
     habitat_cutoff_suitability::Float64 # Species Parameter
@@ -115,27 +115,27 @@ timestep
 """
 mutable struct Simulation_Variables
     "habitability of landscape cells for a species at current sim timestep"
-    habitat::Array{Float64, 2}
+    habitat::Array{Float64,2}
     "if landscape cells are habitable for a species at current sim timestep"
     is_habitat::BitArray{2}
     "if landscape cells are habitable for a species at next sim timestep"
-    future_habitat::Array{Float64, 2}
+    future_habitat::Array{Float64,2}
     "if landscape cells are habitable for a species at next sim timestep"
     future_is_habitat::BitArray{2}
     "biomass of a species individual at landscape cells"
-    biomass::Array{Float64, 2}
+    biomass::Array{Float64,2}
     "growrate of species at landscape cells"
-    growrate::Array{Float64, 2}
+    growrate::Array{Float64,2}
     "carry property of species at landscape cells"
-    carry::Array{Float64, 2}
+    carry::Array{Float64,2}
     "allee property of species at landscape cells"
-    allee::Array{Float64, 2}
+    allee::Array{Float64,2}
     "Beverton mortaility of species at landscape cells"
-    bevmort::Array{Float64, 2}
+    bevmort::Array{Float64,2}
     "list of cells where species occurs at current timestep"
     occurrences::Vector{CartesianIndex{2}}
     "offspring of species at current timestep"
-    offspring::Array{Float64, 2}
+    offspring::Array{Float64,2}
 end
 
 ## Struct for saving all data related to a species
@@ -156,8 +156,8 @@ each timestep
 struct Species
     species_name::String
     traits::Traits
-    abundances::Array{Union{Int64, Missing}, 3} #amount of species individuals
-    habitat::Array{Float64, 3} # habitat suitability in each timestep
+    abundances::Array{Union{Int64,Missing},3} #amount of species individuals
+    habitat::Array{Float64,3} # habitat suitability in each timestep
     dispersal_kernel::Matrix{Float64}
     vars::Simulation_Variables
 end
@@ -178,8 +178,8 @@ addressable by name
 struct Landscape
     xlength::Int64 # equivalent to size[2] of any Array in this struct
     ylength::Int64 # equivalent to size[1] of any Array in this struct
-    environment::Dict{String, Array{Float64, 3}} # contains all environment attributes, addressable by name
-    restrictions::Array{Float64, 3}
+    environment::Dict{String,Array{Float64,3}} # contains all environment attributes, addressable by name
+    restrictions::Array{Float64,3}
     #biomass_capacity::Matrix{Float64} # contains biomass_capacity of current timestep in simulation
 end
 
@@ -217,8 +217,8 @@ struct Simulation_Parameters
     species_dir::String # directory of species definitions used in the simulation
     environment_dir::String # directory of environment definitions
     input_backup::Bool # Toggle if input should be included in the output folder
-    env_attribute_files::Dict{String, String}
-    env_restriction_files::Dict{String, String}
+    env_attribute_files::Dict{String,String}
+    env_restriction_files::Dict{String,String}
     env_attribute_mode::String
     env_restriction_mode::String
     attribute_restriction_blending::String
