@@ -586,7 +586,7 @@ function init_out_dir(SP::Simulation_Parameters)
         SP.output_dir,
         string(SP.experiment_name, Dates.format(now(), " at dd.mm.yyyy HH-MM-SS")),
     )
-    mkdir(out_dir)
+    mkpath(out_dir)
     if SP.input_backup
         backup_dir = joinpath(out_dir, "input")
         cp(SP.config_dir, backup_dir)
