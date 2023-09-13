@@ -6,10 +6,16 @@ using Dates
 using DelimitedFiles
 using Distributions
 using Random
+using Plots
 
 #main module functions
 export read_input
 export run_simulation!
+
+#visualization functions
+export plot_abundances
+export image_suitability
+export image_abundances
 
 #main module struct
 export Simulation_Data

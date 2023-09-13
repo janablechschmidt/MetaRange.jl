@@ -31,7 +31,6 @@ function MetabolicRate(
     return modified_parameter
 end
 
-### TODO re-write this as calculation of habitat suitability, not tolerance
 function get_habitat_suit(vmax, vopt, vmin, venv)
     left = ((vmax .- venv) ./ (vmax - vopt))
     right = ((venv .- vmin) / (vopt - vmin))
