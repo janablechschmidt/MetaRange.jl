@@ -18,7 +18,7 @@ plots the species abundance in the landscape for a given timestep t
 """
 function image_abundances(SD::Simulation_Data, t::Int)
     abundance = SD.species[1].abundances[:,:,t]
-    heatmap(abundance)
+    heatmap(abundance, title = "Species Abundance at Timestep $t", c = :YlGnBu)
 end
 
 """
@@ -27,5 +27,6 @@ plots the habitat suitability of a landscape for a given timestep t
 """
 function image_suitability(SD::Simulation_Data, t::Int)
     suitability = SD.species[1].habitat[:,:,t]
-    heatmap(suitability)
+    heatmap(suitability, title = "Habitat Suitability at Timestep $t", c = :YlOrBr)
 end
+
