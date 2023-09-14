@@ -45,6 +45,14 @@ using MetaRange
 SD = default_run_data()
 run_simulation!(SD)
 ```
+Alternatively, you can use our `examples` folder. It is recommended to save the folder where you would like the simulation data to be saved. For the static example we provide, your code would look like this:
+
+```julia
+using MetaRange
+pathname = "./static/"
+SD = read_input(pathname)
+run_simulation!(SD)
+```
 
 Results can be viewed by inspection the relevant parts of the `Simulation_Data` object. To see the abundances in the last simulation step for example call:
 
