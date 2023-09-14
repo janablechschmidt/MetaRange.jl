@@ -190,24 +190,22 @@ function check_speciesdir!(config::Dict, config_path::String)
     if isnothing(config["species_dir"])
         config["species_dir"] = config_path * "species/"
         if !isdir(config["species_dir"])
-            throw(
-                string(
-                    "\"species\" directory is missing in the configuration input folder!\n",
-                    "Please provide either a \"species\" directory at \"$config_path\" or ",
-                    "provide a custom path to a directory with species data with a ",
-                    "\"species_dir\" argument in \"configuration.csv\"!",
-                ),
+            msg = string(
+                "\"species\" directory is missing in the configuration input folder!\n",
+                "Please provide either a \"species\" directory at \"$config_path\" or ",
+                "provide a custom path to a directory with species data with a ",
+                "\"species_dir\" argument in \"configuration.csv\"!",
             )
+            throw(ErrorException(msg))
         end
         #TODO Except empty species dir
     else
         if !isdir(config["species_dir"])
-            throw(
-                string(
-                    "The specified species directory at $(config["species_dir"]) ",
-                    "does not exist!",
-                ),
+            msg = string(
+                "The specified species directory at $(config["species_dir"]) ",
+                "does not exist!",
             )
+            throw(ErrorException(msg))
         end
     end
 end
@@ -221,26 +219,24 @@ function check_environmentdir!(config::Dict, config_path::String)
     if isnothing(config["environment_dir"])
         config["environment_dir"] = config_path * "environment/"
         if !isdir(config["environment_dir"])
-            throw(
-                string(
-                    "\"environment\" directory is missing in the configuration input ",
-                    " folder!\n",
-                    "Please provide either an \"environment\" directory at ",
-                    "\"$config_path\" or provide a custom path to a directory with ",
-                    "environment data with an \"environment_dir\" argument in ",
-                    "\"configuration.csv\"!",
-                ),
+            msg = string(
+                "\"environment\" directory is missing in the configuration input ",
+                " folder!\n",
+                "Please provide either an \"environment\" directory at ",
+                "\"$config_path\" or provide a custom path to a directory with ",
+                "environment data with an \"environment_dir\" argument in ",
+                "\"configuration.csv\"!",
             )
+            throw(ErrorException(msg))
         end
     else
         if !isdir(config["environment_dir"])
-            throw(
-                string(
-                    "The specified environment directory at \"",
-                    config["environment_dirraw"],
-                    "\" does not exist!",
-                ),
+            msg = string(
+                "The specified environment directory at \"",
+                config["environment_dirraw"],
+                "\" does not exist!",
             )
+            throw(ErrorException(msg))
         end
     end
 end
@@ -253,12 +249,14 @@ Check if necessary configuration fields are missing
 function sp_sanity_checks!(config::Dict)
     for key in keys(config)
         if isnothing(config[key])
-            throw("Argument \"" * key * "\" is missing in configuration.csv!")
+            msg = "Argument \"" * key * "\" is missing in configuration.csv!"
+            throw(ErrorException(msg))
         end
     end
     # Sanity Checks
     if config["timesteps"] < 1
-        throw("\"timesteps\" is " * config["timesteps"] * ", it has to be larger than 1!")
+        msg = "\"timesteps\" is " * config["timesteps"] * ", it has to be larger than 1!"
+        throw(ErrorException(msg))
     end
     if !ispath(config["output_dir"])
         mkpath(config["output_dir"])
@@ -285,7 +283,8 @@ Checks for NaNs in parameter matrix
 """
 function check_for_nan(attribute::Array{Float64})
     if any(isnan.(attribute))
-        throw("$key matrix contains NA")
+        msg = "$key matrix contains NA"
+        throw(ErrorException(msg))
     end
 end
 
@@ -322,22 +321,20 @@ function check_attribute_values!(attribute::Array{Float64}, key::String)
             )
         end
         if any(x -> x <= 0, attribute)
-            throw(
-                string(
-                    "Temperature below 0 Kelvin detected, something is wrong with the ",
-                    "provided temperature data!",
-                ),
+            msg = string(
+                "Temperature below 0 Kelvin detected, something is wrong with the ",
+                "provided temperature data!",
             )
+            throw(ErrorException(msg))
         end
     elseif key == "precipitation"
         # special checks for environment attribute precipitation
         if any(x -> x <= 0, attribute)
-            throw(
-                string(
-                    "Precipitation below 0 detected, something is wrong with the provided ",
-                    "precipitation data!",
-                ),
+            msg = string(
+                "Precipitation below 0 detected, something is wrong with the provided ",
+                "precipitation data!",
             )
+            throw(ErrorException(msg))
         end
         #Implement further sanity checks as needed!
     end
@@ -352,7 +349,8 @@ function read_env_para_dir(env_dir::String, dir::String, key::String)
     param_dir = joinpath(env_dir, dir)
     param_files = sort_dir(readdir(param_dir))
     if isempty(param_files)
-        throw("""the directory "$param_dir" of environment parameter $key is empty.""")
+        msg = """the directory "$param_dir" of environment parameter $key is empty."""
+        throw(ErrorException(msg))
     end
     # read first timestep to get the required dimensions for the matrix
     param_init = readdlm(joinpath(param_dir, param_files[1]), ' ', Float64)
@@ -378,7 +376,8 @@ function CreateTimeseries(
 )
     # check landscape #######
     if !isa(landscape, Array)
-        throw("landscape is not array or does not exist")
+        msg = "landscape is not array or does not exist"
+        throw(ErrorException(msg))
     end
     if any(isnan.(landscape))
         println("landscape contains NA")
@@ -388,22 +387,27 @@ function CreateTimeseries(
             println("prediction contains NA")
         end
         if !all(size(landscape) == size(prediction))
-            throw("landscape & prediction do not have the same dimensions")
+            msg = "landscape & prediction do not have the same dimensions"
+            throw(ErrorException(msg))
             #stop()
         end
     end
     if !isinteger(change_onset)
-        throw("change_onset not integer")#;stop()
+        msg = "change_onset not integer"
+        throw(ErrorException(msg))#;stop()
     end
     # if 2<change_onset<timesteps == false
-    #   throw("change_onset not within 2:timesteps. No enviromental change will be used")
+    #   msg = "change_onset not within 2:timesteps. No enviromental change will be used"
+    #   throw(ErrorException(msg))
     # end
     if !isinteger(timesteps) || timesteps < 0
-        throw("timesteps not positive integer")
+        msg = "timesteps not positive integer"
+        throw(ErrorException(msg))
         #stop
     end
     if !isa(sd, Number) || sd < 0
-        throw("sd not positive numeric")
+        msg = "sd not positive numeric"
+        throw(ErrorException(msg))
         #stop()
     end
     # start of creation #######
@@ -448,12 +452,11 @@ function read_ls(
         elseif ispath(joinpath(env_dir, env_attib[key]))
             attribute = read_env_para_dir(env_dir, env_attib[key], key)
         else
-            throw(
-                string(
-                    "$key file or directory $(env_attib[key]), does not exist at specified ",
-                    "environment data location: $env_dir",
-                ),
+            msg = string(
+                "$key file or directory $(env_attib[key]), does not exist at specified ",
+                "environment data location: $env_dir",
             )
+            throw(ErrorException(msg))
         end
         # sanity checks
         #check_for_nan(attribute)
@@ -473,12 +476,11 @@ function read_ls(
         elseif ispath(joinpath(env_dir, env_restr[key]))
             restriction = read_env_para_dir(env_dir, env_restr[key], key)
         else
-            throw(
-                string(
-                    "$key file or directory $(env_restr[key]), does not exist at specified ",
-                    "environment data location: $env_dir",
-                ),
+            msg = string(
+                "$key file or directory $(env_restr[key]), does not exist at specified ",
+                "environment data location: $env_dir",
             )
+            throw(ErrorException(msg))
         end
         # sanity checks
         #check_for_nan(restriction)
@@ -502,13 +504,12 @@ function read_ls(
                 ") \n",
             )
         end
-        throw(
-            string(
-                "Size mismatch in dimensions of provided environment data, please make ",
-                "sure that they match in all dimensions! \n",
-                sizes,
-            ),
+        msg = string(
+            "Size mismatch in dimensions of provided environment data, please make ",
+            "sure that they match in all dimensions! \n",
+            sizes,
         )
+        throw(ErrorException(msg))
     end
 
     # check if all inputs are defined for sufficiently many timesteps
@@ -522,14 +523,13 @@ function read_ls(
                 "\n",
             )
         end
-        throw(
-            string(
-                "Some input properties dont provide the necessary timesteps of ",
-                "$timesteps. Please make sure that for each landscape properties at least ",
-                "the minimum required simulation timesteps are provided! \n",
-                durations,
-            ),
+        msg = string(
+            "Some input properties dont provide the necessary timesteps of ",
+            "$timesteps. Please make sure that for each landscape properties at least ",
+            "the minimum required simulation timesteps are provided! \n",
+            durations,
         )
+        throw(ErrorException(msg))
     end
 
     # process restrictions
