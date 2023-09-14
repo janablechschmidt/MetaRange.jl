@@ -46,11 +46,13 @@ SD = default_run_data()
 run_simulation!(SD)
 ```
 
-Results can be viewed by inspection the relevant parts of the `Simulation_Data` object. To see the abundances in the last simulation step for example call:
+Results can be viewed by inspection the relevant parts of the `Simulation_Data` object. There are also several visualization functions that will plot the output (see [documentation](https://janablechschmidt.github.io/MetaRange.jl/dev/) for all functions and their description). Output images can be static or dynamic. For example, to create a GIF of the abundance of a species for each timestep of the simulation call:
 
 ```julia
-SD.species[1].abundances[:,:,end]
+abundance_gif(SD)
 ```
+[Abundance GIF](https://github.com/janablechschmidt/MetaRange.jl/blob/visualization/examples/Abundances.gif)
+
 
 For further examples of usage and how to use different data for simulations as well as further description of the used objects, please refer to the [documentation](https://janablechschmidt.github.io/MetaRange.jl/dev/)
 
