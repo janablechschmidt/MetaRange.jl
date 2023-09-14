@@ -30,3 +30,17 @@ function image_suitability(SD::Simulation_Data, t::Int)
     heatmap(suitability, title = "Habitat Suitability at Timestep $t", c = :YlOrBr)
 end
 
+function image_temperature(SD::Simulation_Data, t::Int)
+    temp = SD.landscape.environment["temperature"][:,:,t]
+    heatmap(temp, title = "Temperature at Timestep $t", c = :plasma)
+end
+
+function image_precipitation(SD::Simulation_Data, t::Int)
+    prec = SD.landscape.environment["precipitation"][:,:,t]
+    heatmap(prec, title = "Precipitation at Timestep $t", c = :viridis)
+end
+
+function image_restrictions(SD::Simulation_Data, t::Int)
+    restr = SD.landscape.restrictions[:,:,t]
+    heatmap(restr, title = "Restrictions at Timestep $t", c = :grays)
+end
