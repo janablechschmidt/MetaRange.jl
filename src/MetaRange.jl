@@ -16,6 +16,9 @@ export run_simulation!
 export plot_abundances
 export image_suitability
 export image_abundances
+export image_temperature
+export image_precipitation
+export image_restrictions
 
 #main module struct
 export Simulation_Data
