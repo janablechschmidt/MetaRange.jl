@@ -53,6 +53,8 @@ pathname = "./static/"
 SD = read_input(pathname)
 run_simulation!(SD)
 ```
+Running the simulation with your own data requires your data to be in the same format as found in our example folder. Your folder needs to contain a .csv file with configuration parameters for the model, a folder named `species` which includes a .csv file with species-specific parameters, and a folder named `environment` which includes the landscape, again in .csv format.
+A detailed explanation on how to run the simulation with your own data and folder structure can be found in the [documentation](https://janablechschmidt.github.io/MetaRange.jl/dev/).
 
 Results can be viewed by inspection the relevant parts of the `Simulation_Data` object. To see the abundances in the last simulation step for example call:
 
