@@ -57,3 +57,27 @@ function image_restrictions(SD::Simulation_Data, t::Int)
     heatmap(restr, title = "Restrictions at Timestep $t", c = :grays)
 end
 
+"""
+abundance_gif(SD::Simulation_Data, frames=2)
+creates a gif for the abundance of a species in a landscape for all timesteps
+"""
+function abundance_gif(SD::Simulation_Data, frames=2)
+    t = size(SD.species[1].abundances,3)
+    max_ab = maximum(SD.species[1].abundances)
+    anim = @animate for i ∈ 1:t
+                heatmap(SD.species[1].abundances[:,:,i], title = "Species Abundance at Timestep $i", c = :YlGnBu, clims = (0, max_ab))
+            end
+    gif(anim, "Abundances.gif", fps = frames)
+end
+
+"""
+suitability_gif(SD::Simulation_Data, frames=2)
+creates a gif for the habitat suitability of a landscape for all timesteps
+"""
+function suitability_gif(SD::Simulation_Data, frames=2)
+    t = size(SD.species[1].habitat,3)
+    anim = @animate for i ∈ 1:t
+                heatmap(SD.species[1].habitat[:,:,i], title = "Habitat Suitability at Timestep $i", c = :YlOrBr, clims = (0, 1))
+            end
+    gif(anim, "Suitability.gif", fps = frames)
+end

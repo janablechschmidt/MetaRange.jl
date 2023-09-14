@@ -19,6 +19,8 @@ export image_abundances
 export image_temperature
 export image_precipitation
 export image_restrictions
+export suitability_gif
+export abundance_gif
 
 #main module struct
 export Simulation_Data
