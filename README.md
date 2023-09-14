@@ -25,7 +25,7 @@ The package can be installed from github through the inbuilt Julia package manag
 pkg> add https://github.com/janablechschmidt/MetaRange.jl.git
 ```
 
-Alternativelyy you can use `Pkg` directly by running:
+Alternatively you can use `Pkg` directly by running:
 
 ```julia
 julia> import Pkg; Pkg.add(url = "https://github.com/janablechschmidt/MetaRange.jl.git")
