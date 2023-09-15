@@ -188,7 +188,7 @@ Check if species directory was given and apply default path if not
 """
 function check_speciesdir!(config::Dict, config_path::String)
     if isnothing(config["species_dir"])
-        config["species_dir"] = config_path * "species/"
+        config["species_dir"] = joinpath(config_path, "species/")
         if !isdir(config["species_dir"])
             throw(
                 string(
@@ -219,7 +219,7 @@ Check if environment directory was given and apply default path if not.
 """
 function check_environmentdir!(config::Dict, config_path::String)
     if isnothing(config["environment_dir"])
-        config["environment_dir"] = config_path * "environment/"
+        config["environment_dir"] = joinpath(config_path, "environment/")
         if !isdir(config["environment_dir"])
             throw(
                 string(
