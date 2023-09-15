@@ -1,5 +1,6 @@
 """
 plot_abundances(SD::Simulation_Data)
+
 plots the total abundances of a species over time
 """
 function plot_abundances(SD::Simulation_Data)
@@ -21,6 +22,7 @@ end
 
 """
 image_abundances(SD::Simulation_Data, t::Int)
+
 plots the species abundance in the landscape for a given timestep t
 """
 function image_abundances(SD::Simulation_Data, t::Int)
@@ -30,6 +32,7 @@ end
 
 """
 image_suitability(SD::Simulation_Data, t::Int)
+
 plots the habitat suitability of a landscape for a given timestep t
 """
 function image_suitability(SD::Simulation_Data, t::Int)
@@ -39,6 +42,7 @@ end
 
 """
 image_temperature(SD::Simulation_Data, t::Int)
+
 plots the temperature of a landscape for a given timestep t
 """
 function image_temperature(SD::Simulation_Data, t::Int)
@@ -48,6 +52,7 @@ end
 
 """
 image_precipitation(SD::Simulation_Data, t::Int)
+
 plots the precipitation of a landscape for a given timestep t
 """
 function image_precipitation(SD::Simulation_Data, t::Int)
@@ -57,6 +62,7 @@ end
 
 """
 image_restrictions(SD::Simulation_Data, t::Int)
+
 plots the restrictions of a landscape for a given timestep t
 """
 function image_restrictions(SD::Simulation_Data, t::Int)
@@ -66,6 +72,7 @@ end
 
 """
 abundance_gif(SD::Simulation_Data, frames=2)
+
 creates a gif for the abundance of a species in a landscape for all timesteps
 """
 function abundance_gif(SD::Simulation_Data, frames=2)
@@ -84,6 +91,7 @@ end
 
 """
 suitability_gif(SD::Simulation_Data, frames=2)
+
 creates a gif for the habitat suitability of a landscape for all timesteps
 """
 function suitability_gif(SD::Simulation_Data, frames=2)
