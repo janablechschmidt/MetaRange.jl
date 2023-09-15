@@ -460,9 +460,9 @@ function disperse_chunk!(
         y, x = coordinates[1], coordinates[2]
         #check if x,y is in a given chunk
         if y >= chunk.y &&
-            y < chunk.y + (species.traits.max_dispersal_buffer * 2) &&
-            x >= chunk.x &&
-            x < chunk.x + (species.traits.max_dispersal_buffer * 2) #TODO: rewrite this condition
+           y < chunk.y + (species.traits.max_dispersal_buffer * 2) &&
+           x >= chunk.x &&
+           x < chunk.x + (species.traits.max_dispersal_buffer * 2) #TODO: rewrite this condition
             # Dispersal (Race conditions in SD.Offspring averted by separating landscape into disjunct chunks)
             offspring[y:(y + species.traits.max_dispersal_buffer), x:(x + species.traits.max_dispersal_buffer)] = KernelDispersal!(
                 species.abundances[y, x, t + 1], #N
