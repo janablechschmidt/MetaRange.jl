@@ -25,7 +25,7 @@ The package can be installed from github through the inbuilt Julia package manag
 pkg> add https://github.com/janablechschmidt/MetaRange.jl.git
 ```
 
-Alternativelyy you can use `Pkg` directly by running:
+Alternatively you can use `Pkg` directly by running:
 
 ```julia
 julia> import Pkg; Pkg.add(url = "https://github.com/janablechschmidt/MetaRange.jl.git")
@@ -38,13 +38,23 @@ MetaRange has been tested on Julia 1.6 and upwards on Windows and Linux.
 ## Usage
 
 MetaRange works by first creating a simulation struct and then calling the function `run_simulation!()` on the object. There are two main functions to execute a simulation. First, your input must be read and initialized with the `read_input()` function. This function will create a SimulationData struct, typically named SD (but you can name it whatever you want), which contains all input data as well as the structures that will hold the results, but are empty initially. SD can then be given to the function `run_simulation(SD)`, which will modify it to include the simulation results.  
-Here is a minimum example on a random landscape:
+Here is a minimum example on a random landscape, which will run a simulation of 20 timesteps without needing any input to be provided:
 
 ```julia
 using MetaRange
 SD = default_run_data()
 run_simulation!(SD)
 ```
+Alternatively, you can use our `examples` folder. It is recommended to save the folder where you would like the simulation data to be saved. For the static example we provide, your code would look like this:
+
+```julia
+using MetaRange
+pathname = "./static/"
+SD = read_input(pathname)
+run_simulation!(SD)
+```
+Running the simulation with your own data requires your data to be in the same format as found in our example folder. Your folder needs to contain a .csv file with configuration parameters for the model, a folder named `species` which includes a .csv file with species-specific parameters, and a folder named `environment` which includes the landscape, again in .csv format.
+A detailed explanation on how to run the simulation with your own data and folder structure can be found in the [documentation](https://janablechschmidt.github.io/MetaRange.jl/dev/).
 
 Results can be viewed by inspection the relevant parts of the `Simulation_Data` object. To see the abundances in the last simulation step for example call:
 
