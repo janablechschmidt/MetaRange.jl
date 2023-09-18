@@ -6,10 +6,21 @@ using Dates
 using DelimitedFiles
 using Distributions
 using Random
+using Plots
 
 #main module functions
 export read_input
 export run_simulation!
+
+#visualization functions
+export plot_abundances
+export image_suitability
+export image_abundances
+export image_temperature
+export image_precipitation
+export image_restrictions
+export suitability_gif
+export abundance_gif
 
 #main module struct
 export Simulation_Data
@@ -26,4 +37,5 @@ include("eco_functions.jl")
 include("eco_loop_functions.jl")
 include("defaults.jl")
 include("constants.jl")
+include("visualization.jl")
 end
