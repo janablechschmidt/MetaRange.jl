@@ -37,7 +37,7 @@ MetaRange has been tested on Julia 1.6 and upwards on Windows and Linux.
 
 ## Usage
 
-MetaRange works by first creating a simulation struct and then calling the function `run_simulation!()` on the object. There are two main functions to execute a simulation. First, your input must be read and initialized with the `read_input()` function. This function will create a SimulationData struct, typically named SD (but you can name it whatever you want), which contains all input data as well as the structures that will hold the results, but are empty initially. SD can then be given to the function `run_simulation(SD)`, which will modify it to include the simulation results.  
+MetaRange works by first creating a simulation struct and then calling the function `run_simulation!()` on the object. There are two main functions to execute a simulation. First, your input must be read and initialized with the `read_input()` function. This function will create a `Simulation_Data` struct, typically named `SD` (but you can name it whatever you want), which contains all input data as well as the structures that will hold the results, but are empty initially. `SD` can then be given to the function `run_simulation(SD)`, which will modify it to include the simulation results.  
 Here is a minimum example on a random landscape, which will run a simulation of 20 timesteps without needing any input to be provided:
 
 ```julia

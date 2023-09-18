@@ -91,7 +91,7 @@ To run the simulation first load in your files as a [`Simulation_Data`](@ref) st
 function. Then run the simulation by using the [`run_simulation!()`](@ref) function on the `Simulation_Data` object.  
 
 ```julia
-SD = read_configs("./examples/static/")
+SD = read_input("./examples/static/")
 run_simulation!(SD)
 ```
 
