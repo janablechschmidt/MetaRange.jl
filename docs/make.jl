@@ -6,7 +6,7 @@ DocMeta.setdocmeta!(MetaRange, :DocTestSetup, :(using MetaRange); recursive=true
 makedocs(;
     modules=[MetaRange],
     authors="janablechschmidt <jana.blechschmidt@uni-wuerzburg.de, rroelz <robin.roelz@gmail.com>",
-    repo= "",
+    repo="",
     sitename="MetaRange.jl",
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
