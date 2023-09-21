@@ -20,7 +20,6 @@ makedocs(;
         "Parameters" => "parameters.md",
         "Usage" => "usage.md",
     ],
-    warnonly=true,
 )
 
 deploydocs(; repo="github.com/janablechschmidt/MetaRange.jl", devbranch="main")
