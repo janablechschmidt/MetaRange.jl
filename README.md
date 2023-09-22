@@ -61,7 +61,7 @@ Results can be viewed by inspecting the relevant parts of the `Simulation_Data` 
 ```julia
 abundance_gif(SD)
 ```
-![Abundance GIF](https://github.com/janablechschmidt/MetaRange.jl/blob/visualization/examples/Abundances.gif)
+![Abundance GIF](./docs/src/assets/img/static_abundance.gif)
 
 
 For further examples of usage and how to use different data for simulations as well as further description of the used objects, please refer to the [documentation](https://janablechschmidt.github.io/MetaRange.jl/dev/)
