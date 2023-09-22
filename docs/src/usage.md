@@ -38,7 +38,7 @@ configuration/
 ### Configuration File
 
 The configuration files are all formatted as space separated `.csv` files. This is the same minimal example as in
-`examples/static/`. More information on the configuration files can be found in the [parameters](@ref) section.  
+`examples/static/`. More information on the configuration files can be found in the [Parameters](@ref) section.  
 
 ```text
 Argument Value
@@ -56,7 +56,7 @@ Environment files are formatted as space separated `.csv` files. The model needs
 
 ### Species Files
 
-Several species files can be supplied to the model at the same time. Here is the example species file from `examples/static/`. More information on the species configuration files can be found in the [parameters](@ref) section.
+Several species files can be supplied to the model at the same time. Here is the example species file from `examples/static/`. More information on the species configuration files can be found in the [Parameters](@ref) section.
 
 ```text
 Argument Value
