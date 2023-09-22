@@ -37,7 +37,7 @@ MetaRange has been tested on Julia 1.6 and upwards on Windows and Linux.
 
 ## Usage
 
-MetaRange works by first creating a simulation struct and then calling the function `run_simulation!()` on the object. There are two main functions to execute a simulation. First, your input must be read and initialized with the `read_input()` function. This function will create a SimulationData struct, typically named SD (but you can name it whatever you want), which contains all input data as well as the structures that will hold the results, but are empty initially. SD can then be given to the function `run_simulation(SD)`, which will modify it to include the simulation results.  
+MetaRange works by first creating a simulation struct and then calling the function `run_simulation!()` on the object. There are two main functions to execute a simulation. First, your input must be read and initialized with the `read_input()` function. This function will create a `Simulation_Data` struct, typically named `SD` (but you can name it whatever you want), which contains all input data as well as the structures that will hold the results, but are empty initially. `SD` can then be given to the function `run_simulation(SD)`, which will modify it to include the simulation results.  
 Here is a minimum example on a random landscape, which will run a simulation of 20 timesteps without needing any input to be provided:
 
 ```julia
@@ -56,11 +56,13 @@ run_simulation!(SD)
 Running the simulation with your own data requires your data to be in the same format as found in our example folder. Your folder needs to contain a .csv file with configuration parameters for the model, a folder named `species` which includes a .csv file with species-specific parameters, and a folder named `environment` which includes the landscape, again in .csv format.
 A detailed explanation on how to run the simulation with your own data and folder structure can be found in the [documentation](https://janablechschmidt.github.io/MetaRange.jl/dev/).
 
-Results can be viewed by inspection the relevant parts of the `Simulation_Data` object. To see the abundances in the last simulation step for example call:
+Results can be viewed by inspecting the relevant parts of the `Simulation_Data` object. There are also several visualization functions that will plot the output (see [documentation](https://janablechschmidt.github.io/MetaRange.jl/dev/) for all functions and their description). Output images can be static or dynamic. For example, to create a GIF of the abundance of a species for each timestep of the simulation call:
 
 ```julia
-SD.species[1].abundances[:,:,end]
+abundance_gif(SD)
 ```
+![Abundance GIF](https://github.com/janablechschmidt/MetaRange.jl/blob/visualization/examples/Abundances.gif)
+
 
 For further examples of usage and how to use different data for simulations as well as further description of the used objects, please refer to the [documentation](https://janablechschmidt.github.io/MetaRange.jl/dev/)
 
