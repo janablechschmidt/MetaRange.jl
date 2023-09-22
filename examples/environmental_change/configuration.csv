@@ -1,4 +1,4 @@
-experiment_name static
-timesteps 50
-temperature temperature.csv
-precipitation precipitation.csv
+experiment_name environmental_change
+timesteps 40
+temperature temperature
+precipitation precipitation
