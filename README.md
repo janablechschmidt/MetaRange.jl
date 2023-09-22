@@ -66,6 +66,24 @@ abundance_gif(SD)
 
 For further examples of usage and how to use different data for simulations as well as further description of the used objects, please refer to the [documentation](https://janablechschmidt.github.io/MetaRange.jl/dev/)
 
+## Style Guide
+
+We try to adhere to the [Blue Style Guide](https://github.com/invenia/BlueStyle) and the tool that we use is [JuliaFormatter](https://docs.juliahub.com/JuliaFormatter/). If you want to contribute to this project you can install the package on your Julia environment with:
+
+```
+julia -e 'using Pkg; Pkg.add("JuliaFormatter")'
+```
+
+Then, from the root of the project run:
+
+```
+julia -e 'using JuliaFormatter; format(".", BlueStyle(), overwrite=true)'
+```
+
+JuliaFormatter will traverse the directory structure and modify in-place (`overwrite=true`) all .jl files following the Blue Style.
+
+We also run automated code style checks for pull requests using the same tool.
+
 ## License
 
 This project is licensed under the terms of the **MIT** license. See `LICENSE` for more information.
