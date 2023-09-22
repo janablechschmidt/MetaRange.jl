@@ -64,7 +64,7 @@ end
 """
     get_Env_Preferences(species::Dict, key::String)
 
-Returns the environmental preference for the supplied trait in "key" with limits and optimum
+Returns the environmental preference for the supplied trait in `key` with limits and optimum
 as an Env_Preferences object.
 """
 function get_Env_Preferences(species::Dict, key::String)

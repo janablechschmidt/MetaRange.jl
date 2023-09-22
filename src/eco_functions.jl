@@ -205,8 +205,8 @@ Habitat based mortality
 This function kills individuals that are in non suitable Habitat in
 code{Run}
 
-Abundances: array with the number of individuals in the landscape
-Is_habitat: array with boolean values that indicate
+- `Abundances`: array with the number of individuals in the landscape
+- `Is_habitat`: array with boolean values that indicate
 which cell is habitat in the next timestep
 """
 function HabitatMortality(Abundances::Matrix{Union{Missing,Int64}}, Is_habitat::BitArray{2})
