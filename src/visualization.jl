@@ -27,7 +27,9 @@ plots the species abundance in the landscape for a given timestep t
 """
 function image_abundances(SD::Simulation_Data, t::Int)
     abundance = SD.species[1].abundances[:, :, t]
-    return heatmap(abundance; title="Species Abundance at Timestep $t", c=:YlGnBu)
+    return heatmap(
+        abundance; title="Species Abundance at Timestep $t", c=:YlGnBu, yflip=true
+    )
 end
 
 """
@@ -37,7 +39,9 @@ plots the habitat suitability of a landscape for a given timestep t
 """
 function image_suitability(SD::Simulation_Data, t::Int)
     suitability = SD.species[1].habitat[:, :, t]
-    return heatmap(suitability; title="Habitat Suitability at Timestep $t", c=:YlOrBr)
+    return heatmap(
+        suitability; title="Habitat Suitability at Timestep $t", c=:YlOrBr, yflip=true
+    )
 end
 
 """
@@ -47,7 +51,7 @@ plots the temperature of a landscape for a given timestep t
 """
 function image_temperature(SD::Simulation_Data, t::Int)
     temp = SD.landscape.environment["temperature"][:, :, t]
-    return heatmap(temp; title="Temperature at Timestep $t", c=:plasma)
+    return heatmap(temp; title="Temperature at Timestep $t", c=:plasma, yflip=true)
 end
 
 """
@@ -57,7 +61,7 @@ plots the precipitation of a landscape for a given timestep t
 """
 function image_precipitation(SD::Simulation_Data, t::Int)
     prec = SD.landscape.environment["precipitation"][:, :, t]
-    return heatmap(prec; title="Precipitation at Timestep $t", c=:viridis)
+    return heatmap(prec; title="Precipitation at Timestep $t", c=:viridis, yflip=true)
 end
 
 """
@@ -67,7 +71,7 @@ plots the restrictions of a landscape for a given timestep t
 """
 function image_restrictions(SD::Simulation_Data, t::Int)
     restr = SD.landscape.restrictions[:, :, t]
-    return heatmap(restr; title="Restrictions at Timestep $t", c=:grays)
+    return heatmap(restr; title="Restrictions at Timestep $t", c=:grays, yflip=true)
 end
 
 """
@@ -77,13 +81,14 @@ creates a gif for the abundance of a species in a landscape for all timesteps
 """
 function abundance_gif(SD::Simulation_Data, frames=2)
     t = size(SD.species[1].abundances, 3)
-    max_ab = maximum(SD.species[1].abundances)
+    max_ab = maximum(skipmissing(SD.species[1].abundances))
     anim = @animate for i in 1:t
         heatmap(
             SD.species[1].abundances[:, :, i];
             title="Species Abundance at Timestep $i",
             c=:YlGnBu,
             clims=(0, max_ab),
+            yflip=true,
         )
     end
     return gif(anim, "Abundances.gif"; fps=frames)
@@ -102,6 +107,7 @@ function suitability_gif(SD::Simulation_Data, frames=2)
             title="Habitat Suitability at Timestep $i",
             c=:YlOrBr,
             clims=(0, 1),
+            yflip=true,
         )
     end
     return gif(anim, "Suitability.gif"; fps=frames)
