@@ -103,3 +103,6 @@ In julia this is done by looking at the fields with a `.`. So to see the final p
 ```julia
 SD.species[1].abundances[:,:,end]
 ```
+
+output functions:  
+![abundance static](./img/static_abundance.gif)  
