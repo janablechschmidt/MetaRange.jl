@@ -202,7 +202,7 @@ Struct for saving simulation parameters.
 - `env_restriction_mode::String`: #TODO
 - `attribute_restriction_blending::String`: #TODO
 - `timesteps::Int64`: number of timesteps in the simulation
-- `randomseed::Int64`: seed for number gneratror used in the simulation
+- `randomseed::Int64`: seed for number generator used in the simulation
 - `reproduction_model::String`: #TODO
 - `use_metabolic_theory::Bool`: #TODO
 - `use_stoch_allee::Bool`: if true the allee effect will be stochastic
