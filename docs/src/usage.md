@@ -103,7 +103,7 @@ For a quick visualization there are a few functions implemented. These can be fo
 
 The function [`abundance_gif`](@ref) creates a gif of the abundance heatmap over time:  
 
-![Abundance plot in a static landscape.](./img/static_abundance.gif)  
+![Abundance plot in a static landscape.](./img/static_abundances.gif)  
 
 Other visualization functions are [`image_suitability`](@ref), [`suitability_gif`](@ref), [`image_temperature`](@ref), [`image_precipitation`](@ref) and [`image_restrictions`](@ref).
 
