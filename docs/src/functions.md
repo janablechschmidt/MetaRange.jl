@@ -9,7 +9,7 @@
 
 ### Exported Functions
 
-#### Visualization
+#### Visualization Functions
 
 ```@docs
 plot_abundances
