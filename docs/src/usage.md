@@ -97,9 +97,20 @@ run_simulation!(SD)
 
 ## Output
 
-Using the `Simulation_Data` object you can inspect the results.
-In julia this is done by looking at the fields with a `.`. So to see the final population size of the first species you would use:
+### Visualization
+
+For a quick visualization there are a few functions implemented. These can be found in the [Visualization Functions](@ref) section. [`plot_abundances`](@ref) creates a line plot of the first species in the simulation over time. [`image_abundances`](@ref) creates a heatmap of the abundances at the specified time-step.
+
+The function [`abundance_gif`](@ref) creates a gif of the abundance heatmap over time:  
+
+![Abundance plot in a static landscape.](./img/static_abundances.gif)  
+
+Other visualization functions are [`image_suitability`](@ref), [`suitability_gif`](@ref), [`image_temperature`](@ref), [`image_precipitation`](@ref) and [`image_restrictions`](@ref).
+
+### Simulation Data Object
+
+To directly check the results and to do more detailed analyses directly inspect the `Simulation_Data` object. In julia this is done by looking at the fields with the period character `.`. So to see the final population size of the first species you would use:
 
 ```julia
 SD.species[1].abundances[:,:,end]
-```
+```  

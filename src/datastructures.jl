@@ -97,21 +97,21 @@ end
 Simulation variables used for a species during [`run_simulation!`](@ref)"
 
 # Fields
--`habitat::Array{Float64, 2}`: habitability of landscape cells for a species at current
+- `habitat::Array{Float64, 2}`: habitability of landscape cells for a species at current
 simulation timestep
--`is_habitat::BitArray{2}`: if landscape cells are habitable for a species at current
+- `is_habitat::BitArray{2}`: if landscape cells are habitable for a species at current
 simulation timestep
--`future_habitat::Array{Float64}`: TODO
--`future_is_habitat::BitArray{2}`: if landscape cells are habitable for a species at next
+- `future_habitat::Array{Float64}`: TODO
+- `future_is_habitat::BitArray{2}`: if landscape cells are habitable for a species at next
 simulation timestep
--`biomass::Array{Float64, 2}`: biomass of a species individual at landscape cells
--`growrate::Array{Float64, 2}`: growrate of species at landscape cells
--`carry::Array{Float64, 2}`: carry property of species at landscape cells
--`allee::Array{Float64, 2}`: allee property of species at landscape cells
--`bevmort::Array{Float64, 2}`: Beverton mortaility of species at landscape cells
--`occurrences::Vector{CartesianIndex{2}}`: list of cells where species occurs at current
+- `biomass::Array{Float64, 2}`: biomass of a species individual at landscape cells
+- `growrate::Array{Float64, 2}`: growrate of species at landscape cells
+- `carry::Array{Float64, 2}`: carry property of species at landscape cells
+- `allee::Array{Float64, 2}`: allee property of species at landscape cells
+- `bevmort::Array{Float64, 2}`: Beverton mortaility of species at landscape cells
+- `occurrences::Vector{CartesianIndex{2}}`: list of cells where species occurs at current
 timestep
--`offspring::Array{Float64, 2}`: offspring of species at current timestep
+- `offspring::Array{Float64, 2}`: offspring of species at current timestep
 """
 mutable struct Simulation_Variables
     "habitability of landscape cells for a species at current sim timestep"
@@ -145,13 +145,13 @@ end
 Saving all data related to a species.
 
 # Fields
--`species_name::String`: name of the species
--`traits::Traits`: a (Traits)[@ref] struct for the species
--`abundances::Array{Union{Int64, Missing}, 3}`: amount of individuals of this species in
+- `species_name::String`: name of the species
+- `traits::Traits`: a (Traits)[@ref] struct for the species
+- `abundances::Array{Union{Int64, Missing}, 3}`: amount of individuals of this species in
 each timestep
--`habitat::Array{Float64, 3}`: habitat suitability in each timestep
--`dispersal_kernel::Matrix{Float64}`:#TODO
--`vars::Simulation_Variables`:#TODO
+- `habitat::Array{Float64, 3}`: habitat suitability in each timestep
+- `dispersal_kernel::Matrix{Float64}`:#TODO
+- `vars::Simulation_Variables`:#TODO
 """
 struct Species
     species_name::String
@@ -169,11 +169,11 @@ end
 Struct representing the landscape/environment.
 
 # Fields
--`xlength::Int64`: equivalent to size[2] of any Array in this struct
--`ylength::Int64`: equivalent to size[1] of any Array in this struct
--`environment::Dict{String, Array{Float64, 3}}`: contains all environment attributes,
+- `xlength::Int64`: equivalent to size[2] of any Array in this struct
+- `ylength::Int64`: equivalent to size[1] of any Array in this struct
+- `environment::Dict{String, Array{Float64, 3}}`: contains all environment attributes,
 addressable by name
--`restrictions::Array{Float64, 3}`: #TODO
+- `restrictions::Array{Float64, 3}`: #TODO
 """
 struct Landscape
     xlength::Int64 # equivalent to size[2] of any Array in this struct
@@ -190,25 +190,25 @@ end
 Struct for saving simulation parameters.
 
 # Fields
--`experiment_name::String`: name of the experiment
--`config_dir::String`: path to the folder containing the config_file
--`output_dir::String`: path to the folder where the output should be saved
--`species_dir::String`: path to the folder containing the species definitions
--`environment_dir::String`: path to the folder or file containing the environment tables
--`input_backup::Bool`: if true, the input files will be copied to the output folder
--`env_attribute_files::Dict{String, String}`: #TODO
--`env_restriction_files::Dict{String, String}`: #TODO
--`env_attribute_mode::String`: #TODO
--`env_restriction_mode::String`: #TODO
--`attribute_restriction_blending::String`: #TODO
--`timesteps::Int64`: number of timesteps in the simulation
--`randomseed::Int64`: seed for number gneratror used in the simulation
--`reproduction_model::String`: #TODO
--`use_metabolic_theory::Bool`: #TODO
--`use_stoch_allee::Bool`: if true the allee effect will be stochastic
--`use_stoch_carry::Bool`: if true the carrying capacity will be stochastic
--`use_stoch_num::Bool`: #TODO Stochastic Survival see R code
--`initialize_cells::String`: #TODO
+- `experiment_name::String`: name of the experiment
+- `config_dir::String`: path to the folder containing the config_file
+- `output_dir::String`: path to the folder where the output should be saved
+- `species_dir::String`: path to the folder containing the species definitions
+- `environment_dir::String`: path to the folder or file containing the environment tables
+- `input_backup::Bool`: if true, the input files will be copied to the output folder
+- `env_attribute_files::Dict{String, String}`: #TODO
+- `env_restriction_files::Dict{String, String}`: #TODO
+- `env_attribute_mode::String`: #TODO
+- `env_restriction_mode::String`: #TODO
+- `attribute_restriction_blending::String`: #TODO
+- `timesteps::Int64`: number of timesteps in the simulation
+- `randomseed::Int64`: seed for number generator used in the simulation
+- `reproduction_model::String`: #TODO
+- `use_metabolic_theory::Bool`: #TODO
+- `use_stoch_allee::Bool`: if true the allee effect will be stochastic
+- `use_stoch_carry::Bool`: if true the carrying capacity will be stochastic
+- `use_stoch_num::Bool`: #TODO Stochastic Survival see R code
+- `initialize_cells::String`: #TODO
 """
 struct Simulation_Parameters
     experiment_name::String # Simulation Parameter
@@ -240,8 +240,8 @@ end
 Struct for saving the length of the runtime for the entire simulation.
 
 # Fields
--`start_time::DateTime`: time when simulation was started
--`end_time::DateTime`: time when simulation has finished
+- `start_time::DateTime`: time when simulation was started
+- `end_time::DateTime`: time when simulation has finished
 """
 mutable struct Duration
     start_time::DateTime
@@ -273,8 +273,8 @@ end
 Struct for saving chunk coordinates
 
 # Fields
--`x::Int`
--`y::Int`
+- `x::Int`
+- `y::Int`
 """
 struct Chunk
     x::Int

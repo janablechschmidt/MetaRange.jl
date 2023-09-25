@@ -45,6 +45,7 @@ using MetaRange
 SD = default_run_data()
 run_simulation!(SD)
 ```
+
 Alternatively, you can use our `examples` folder. It is recommended to save the folder where you would like the simulation data to be saved. For the static example we provide, your code would look like this:
 
 ```julia
@@ -53,6 +54,7 @@ pathname = "./static/"
 SD = read_input(pathname)
 run_simulation!(SD)
 ```
+
 Running the simulation with your own data requires your data to be in the same format as found in our example folder. Your folder needs to contain a .csv file with configuration parameters for the model, a folder named `species` which includes a .csv file with species-specific parameters, and a folder named `environment` which includes the landscape, again in .csv format.
 A detailed explanation on how to run the simulation with your own data and folder structure can be found in the [documentation](https://janablechschmidt.github.io/MetaRange.jl/dev/).
 
@@ -61,8 +63,8 @@ Results can be viewed by inspecting the relevant parts of the `Simulation_Data` 
 ```julia
 abundance_gif(SD)
 ```
-![Abundance GIF](https://github.com/janablechschmidt/MetaRange.jl/tree/main/examples/Abundances.gif)
 
+![Abundance GIF](./docs/src/img/static_abundances.gif)
 
 For further examples of usage and how to use different data for simulations as well as further description of the used objects, please refer to the [documentation](https://janablechschmidt.github.io/MetaRange.jl/dev/)
 
