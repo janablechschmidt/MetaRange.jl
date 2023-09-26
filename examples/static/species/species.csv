@@ -16,9 +16,7 @@ sd_carry 50.0
 upper_limit_temperature 300.0
 lower_limit_temperature 285.0
 optimum_temperature 292.5
-response_temperature sqrt
 upper_limit_precipitation 1900
 lower_limit_precipitation 1100
 optimum_precipitation 1500
-response_precipitation sqrt
 habitat_cutoff_suitability 0.01
