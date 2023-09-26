@@ -24,8 +24,8 @@ Returns simulation parameters in "path/configuration.csv" as a Simulation_Parame
 ## Returns the Simulation Parameters as a Simulation_Parameters struct
 function read_sp(config_path::String)
     config = get_default_simulation_parameters()
-    config["config_dir"] = config_path
-    input_config = Dict{String,Any}(CSV.File(joinpath(config_path, "configuration.csv")))
+    config["config_dir"] = dirname(config_path)
+    input_config = Dict{String,Any}(CSV.File(config_path))
 
     # Convert datatypes
     parse_fields_numeric!(input_config)
@@ -37,8 +37,8 @@ function read_sp(config_path::String)
     end
 
     # check if dictionaries exist
-    check_speciesdir!(config, config_path)
-    check_environmentdir!(config, config_path)
+    check_speciesdir(config, config["config_dir"])
+    check_environmentdir(config, config["config_dir"])
     # apply sanity checks and normalize input path format
     sp_sanity_checks!(config)
 
