@@ -185,7 +185,7 @@ end
 
 Check if species directory was given and apply default path if not
 """
-function check_speciesdir!(config::Dict, config_path::String)
+function check_speciesdir(config::Dict, config_path::String)
     if isnothing(config["species_dir"])
         config["species_dir"] = joinpath(config_path, "species/")
         if !isdir(config["species_dir"])
@@ -199,7 +199,7 @@ function check_speciesdir!(config::Dict, config_path::String)
         end
         #TODO Except empty species dir
     else
-        if !isdir(config["species_dir"])
+        if !isdir(joinpath(config_path, config["species_dir"]))
             msg = string(
                 "The specified species directory at $(config["species_dir"]) ",
                 "does not exist!",
@@ -214,7 +214,7 @@ end
 
 Check if environment directory was given and apply default path if not.
 """
-function check_environmentdir!(config::Dict, config_path::String)
+function check_environmentdir(config::Dict, config_path::String)
     if isnothing(config["environment_dir"])
         config["environment_dir"] = joinpath(config_path, "environment/")
         if !isdir(config["environment_dir"])
@@ -229,10 +229,10 @@ function check_environmentdir!(config::Dict, config_path::String)
             error(msg)
         end
     else
-        if !isdir(config["environment_dir"])
+        if !isdir(joinpath(config_path, config["environment_dir"]))
             msg = string(
                 "The specified environment directory at \"",
-                config["environment_dirraw"],
+                config["environment_dir"],
                 "\" does not exist!",
             )
             error(msg)
