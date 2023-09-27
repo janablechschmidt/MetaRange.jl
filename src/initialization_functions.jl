@@ -181,66 +181,6 @@ end
 
 ## auxillary functions for the reading of simulation parameters (configuration.csv)
 """
-    check_speciesdir!(config::Dict, config_path::String)
-
-Check if species directory was given and apply default path if not
-"""
-function check_speciesdir(config::Dict, config_path::String)
-    if isnothing(config["species_dir"])
-        config["species_dir"] = joinpath(config_path, "species/")
-        if !isdir(config["species_dir"])
-            msg = string(
-                "\"species\" directory is missing in the configuration input folder!\n",
-                "Please provide either a \"species\" directory at \"$config_path\" or ",
-                "provide a custom path to a directory with species data with a ",
-                "\"species_dir\" argument in \"configuration.csv\"!",
-            )
-            error(msg)
-        end
-        #TODO Except empty species dir
-    else
-        if !isdir(joinpath(config_path, config["species_dir"]))
-            msg = string(
-                "The specified species directory at $(config["species_dir"]) ",
-                "does not exist!",
-            )
-            error(msg)
-        end
-    end
-end
-
-"""
-    check_environmentdir!(config::Dict, config_path::String)
-
-Check if environment directory was given and apply default path if not.
-"""
-function check_environmentdir(config::Dict, config_path::String)
-    if isnothing(config["environment_dir"])
-        config["environment_dir"] = joinpath(config_path, "environment/")
-        if !isdir(config["environment_dir"])
-            msg = string(
-                "\"environment\" directory is missing in the configuration input ",
-                " folder!\n",
-                "Please provide either an \"environment\" directory at ",
-                "\"$config_path\" or provide a custom path to a directory with ",
-                "environment data with an \"environment_dir\" argument in ",
-                "\"configuration.csv\"!",
-            )
-            error(msg)
-        end
-    else
-        if !isdir(joinpath(config_path, config["environment_dir"]))
-            msg = string(
-                "The specified environment directory at \"",
-                config["environment_dir"],
-                "\" does not exist!",
-            )
-            error(msg)
-        end
-    end
-end
-
-"""
     sp_sanity_checks!(config::Dict)
 
 Check if necessary configuration fields are missing
@@ -258,21 +198,15 @@ function sp_sanity_checks!(config::Dict)
         error(msg)
     end
     if !ispath(config["output_dir"])
+        #TODO: Sanity check sholdn't write or modify files
         mkpath(config["output_dir"])
         @info("Output directory created at: ", config["output_dir"])
     end
     #normalize path formatting
-    if !endswith(config["output_dir"], "/")
-        config["output_dir"] = config["output_dir"] * "/"
-    end
-    if !endswith(config["species_dir"], "/")
-        config["species_dir"] = config["species_dir"] * "/"
-    end
-    if !endswith(config["environment_dir"], "/")
-        config["environment_dir"] = config["environment_dir"] * "/"
-    end
-    #TODO check if invasion boundaries are within landsape
+    check_environment_dir(config)
+    return check_species_dir(config)
 end
+#TODO check if invasion boundaries are within landsape
 
 ## auxillary functions for the reading of landscape parameters (environment folder)
 """

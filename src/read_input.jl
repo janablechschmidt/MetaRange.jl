@@ -24,7 +24,7 @@ Returns simulation parameters in "path/configuration.csv" as a Simulation_Parame
 ## Returns the Simulation Parameters as a Simulation_Parameters struct
 function read_sp(config_path::String)
     config = get_default_simulation_parameters()
-    config["config_dir"] = dirname(config_path)
+    config["config_dir"] = abspath(dirname(config_path))
     input_config = Dict{String,Any}(CSV.File(config_path))
 
     # Convert datatypes
@@ -36,10 +36,11 @@ function read_sp(config_path::String)
         config[key] = input_config[key]
     end
 
-    # check if dictionaries exist
-    check_speciesdir(config, config["config_dir"])
-    check_environmentdir(config, config["config_dir"])
-    # apply sanity checks and normalize input path format
+    # get the full path to the species and environment directories
+    config["species_dir"] = get_species_dir(config)
+    config["environment_dir"] = get_environment_dir(config)
+
+    # apply sanity checks
     sp_sanity_checks!(config)
 
     # configure dicts for hoding the files containing the environment parameter files
@@ -143,4 +144,74 @@ function read_species_dir(species_dir::String, LS::Landscape, SP::Simulation_Par
         )
     end
     return species_vec
+end
+
+"""
+    get_environment_dir(config::Simulation_Parameters)
+
+Returns full path to environment folder or returns config_dir/environment when no path to
+the species folder is provided.
+"""
+function get_environment_dir(config::Dict{String,Any})
+    if isnothing(config["environment_dir"])
+        env_dir = joinpath(config["config_dir"], "environment/")
+    else
+        env_dir = normpath(joinpath(config["config_dir"], config["environment_dir"]))
+    end
+    return env_dir
+end
+
+"""
+    get_species_dir(config::Simulation_Parameters)
+
+Returns full path to species folder or returns config_dir/species when no path to the
+species folder is provided.
+"""
+function get_species_dir(config::Dict{String,Any})
+    if isnothing(config["species_dir"])
+        spc_dir = joinpath(config["config_dir"], "species/")
+    else
+        spc_dir = normpath(joinpath(config["config_dir"], config["species_dir"]))
+    end
+    return spc_dir
+end
+
+"""
+    check_environment_dir(config::Simulation_Parameters)
+
+Checks if the environment directory exists and throws an error if it doesn't.
+"""
+function check_environment_dir(config::Dict{String,Any})
+    env_dir = config["environment_dir"]
+    if !isdir(env_dir)
+        error(
+            "The specified environment directory at \"",
+            env_dir,
+            "\" does not exist!\n",
+            "Please provide either an \"environment\" directory at \"",
+            joinpath(config["config_dir"], "environment/"),
+            "\" or a custom path to a directory with environment data through an ",
+            "\"environment_dir\" argument in your configuration file!",
+        )
+    end
+end
+
+"""
+    check_species_dir(config::Simulation_Parameters)
+
+Checks if the species directory exists and throws an error if it doesn't.
+"""
+function check_species_dir(config::Dict{String,Any})
+    spc_dir = config["species_dir"]
+    if !isdir(spc_dir)
+        error(
+            "The specified species directory at \"",
+            spc_dir,
+            "\" does not exist!\n",
+            "Please provide either a \"species\" directory at \"",
+            joinpath(config["config_dir"], "environment/"),
+            "\" or a custom path to a directory with species data through a ",
+            "\"species_dir\" argument in your configuration file!",
+        )
+    end
 end
