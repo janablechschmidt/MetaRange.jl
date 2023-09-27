@@ -12,4 +12,5 @@ using Test
     include("eco_loop.jl")
     include("initialization_functions.jl")
     include("read_input.jl")
+    include("visualization.jl")
 end
