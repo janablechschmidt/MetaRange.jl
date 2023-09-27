@@ -31,7 +31,7 @@
             Abundances = Matrix{Union{Missing,Int64}}([1 2 3; 4 5 6; 7 8 9])
             # Test case 1
             Is_habitat = BitArray([1 1 1; 1 0 1; 1 1 1])
-            expected_output = [1 2 3; 4 missing 6; 7 8 9]
+            expected_output = [1 2 3; 4 0 6; 7 8 9]
             @test MetaRange.HabitatMortality(Abundances, Is_habitat) == expected_output
             # Test case 2
             Is_habitat = BitArray([0 0 0; 0 0 0; 0 0 0])
