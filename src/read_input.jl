@@ -1,7 +1,7 @@
 """
     read_input(path::String)
 
-Reads in the .config and associated files in the folder and returns a Simulation_Data
+Reads in the configuration and associated files in the folder and returns a Simulation_Data
 struct.
 """
 function read_input(config_path::String)
