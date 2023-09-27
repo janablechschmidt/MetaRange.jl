@@ -407,13 +407,13 @@ end
 #end
 
 ## Survival function
-
 """
     Survive!(species::Vector{Species}, DispersalSurvival, t::Int64)
 
 TBW
 """
 function Survive!(species::Vector{Species}, DispersalSurvival, t::Int64)
+    # good candidate for tests. What even is happening here?
     for sp in species
         occurrences = findall((
             sp.vars.offspring[1:size(sp.abundances, 1), 1:size(sp.abundances, 2)] .> 0
@@ -427,7 +427,7 @@ function Survive!(species::Vector{Species}, DispersalSurvival, t::Int64)
         )
         # Survival to the next timestep depending on habitat quality
         sp.abundances[:, :, t + 1] =
-            round.(HabitatMortality(sp.abundances[:, :, t + 1], sp.vars.future_is_habitat))
+            round.(HabitatMortality(sp.abundances[:, :, t + 1], sp.vars.future_is_habitat)) #error happens here
         pos = findall(isnan.(sp.habitat[:, :, 1]))
         #sp.abundances[pos,t] = NaN
         sp.abundances[pos, t + 1] .= missing
