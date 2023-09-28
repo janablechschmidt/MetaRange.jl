@@ -74,14 +74,14 @@
         Dispersalbuffer = 2
         mean_dispersal_dist = 1
         spDispKernel = MetaRange.DispersalNegExpKernel(Dispersalbuffer, mean_dispersal_dist)
-        @test size(spDispKernel) == (2*Dispersalbuffer+1, 2*Dispersalbuffer+1)
+        @test size(spDispKernel) == (2 * Dispersalbuffer + 1, 2 * Dispersalbuffer + 1)
         @test sum(spDispKernel) ≈ 1.0
     end
     @testset "DispersalNegExpFunction" begin
-        @test MetaRange.DispersalNegExpFunction(1, 0) ≈ 0.159 atol=1e-3
-        @test MetaRange.DispersalNegExpFunction(1, 1) ≈ 0.058 atol=1e-3
-        @test MetaRange.DispersalNegExpFunction(2, 0) ≈ 0.039 atol=1e-3
-        @test MetaRange.DispersalNegExpFunction(2, 1) ≈ 0.024 atol=1e-3
+        @test MetaRange.DispersalNegExpFunction(1, 0) ≈ 0.159 atol = 1e-3
+        @test MetaRange.DispersalNegExpFunction(1, 1) ≈ 0.058 atol = 1e-3
+        @test MetaRange.DispersalNegExpFunction(2, 0) ≈ 0.039 atol = 1e-3
+        @test MetaRange.DispersalNegExpFunction(2, 1) ≈ 0.024 atol = 1e-3
     end
 
     @testset "HabitatMortality" begin
