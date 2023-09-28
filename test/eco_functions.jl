@@ -70,6 +70,19 @@
             @test isnan(MetaRange.BVNoStoch(100, 0.0, 200.0, 1.0))
         end
     end
+    @testset "DispersalNegExpKernel" begin
+        Dispersalbuffer = 2
+        mean_dispersal_dist = 1
+        spDispKernel = MetaRange.DispersalNegExpKernel(Dispersalbuffer, mean_dispersal_dist)
+        @test size(spDispKernel) == (2*Dispersalbuffer+1, 2*Dispersalbuffer+1)
+        @test sum(spDispKernel) ≈ 1.0
+    end
+    @testset "DispersalNegExpFunction" begin
+        @test MetaRange.DispersalNegExpFunction(1, 0) ≈ 0.159 atol=1e-3
+        @test MetaRange.DispersalNegExpFunction(1, 1) ≈ 0.058 atol=1e-3
+        @test MetaRange.DispersalNegExpFunction(2, 0) ≈ 0.039 atol=1e-3
+        @test MetaRange.DispersalNegExpFunction(2, 1) ≈ 0.024 atol=1e-3
+    end
     @testset "HabitatMortality" begin
         Abundances = Matrix{Union{Missing,Int64}}([1 2 3; 4 5 6; 7 8 9])
         # Test case 1
