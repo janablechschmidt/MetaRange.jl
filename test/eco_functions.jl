@@ -83,6 +83,7 @@
         @test MetaRange.DispersalNegExpFunction(2, 0) ≈ 0.039 atol=1e-3
         @test MetaRange.DispersalNegExpFunction(2, 1) ≈ 0.024 atol=1e-3
     end
+
     @testset "HabitatMortality" begin
         Abundances = Matrix{Union{Missing,Int64}}([1 2 3; 4 5 6; 7 8 9])
         # Test case 1
