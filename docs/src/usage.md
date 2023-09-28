@@ -18,8 +18,8 @@ Pkg.add(url = "https://github.com/janablechschmidt/MetaRange.jl.git")
 
 ## Configuration
 
-Configuration files for MetaRange should be supplied together in a folder.
-The folder should contain a `configuration.csv` file and two sub-folders "`environment/`" and "`species/`". The configuration file defines the environment and species configuration files.
+Configuration files for MetaRange are most conveniently supplied together in a folder.
+The folder should contain a configuration file and two sub-folders "`environment/`" and "`species/`". The configuration file can also define a path to environment or species files elsewhere.
 
 ```text
 configuration/
@@ -52,7 +52,7 @@ precipitation precipitation.csv
 
 ### Environment Files
 
-Environment files are formatted as space separated `.csv` files. The model needs a temperature file to calculate metabolic rates. MetaRange works with either a single `.csv` that is used for the whole simulation or a folder with several `.csv` files to simulate a change in the environment.  
+Environment files are formatted as space separated `.csv` files. The model needs a temperature file to calculate metabolic rates. MetaRange works with either a single `.csv` that is used for the whole simulation or a folder with several `.csv` files to simulate a change in the environment. In this case the folder should contain one file for each timestep.
 
 ### Species Files
 
@@ -91,7 +91,7 @@ To run the simulation first load in your files as a [`Simulation_Data`](@ref) st
 function. Then run the simulation by using the [`run_simulation!()`](@ref) function on the `Simulation_Data` object.  
 
 ```julia
-SD = read_input("./examples/static/")
+SD = read_input("./examples/static/configuration.csv")
 run_simulation!(SD)
 ```
 
