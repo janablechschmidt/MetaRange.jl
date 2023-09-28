@@ -26,21 +26,63 @@
             end
         end
     end
-    @testset "Mortality" begin
-        @testset "HabitatMortality" begin
-            Abundances = Matrix{Union{Missing,Int64}}([1 2 3; 4 5 6; 7 8 9])
-            # Test case 1
-            Is_habitat = BitArray([1 1 1; 1 0 1; 1 1 1])
-            expected_output = [1 2 3; 4 0 6; 7 8 9]
-            @test MetaRange.HabitatMortality(Abundances, Is_habitat) == expected_output
-            # Test case 2
-            Is_habitat = BitArray([0 0 0; 0 0 0; 0 0 0])
-            expected_output = zeros(size(Abundances))
-            @test MetaRange.HabitatMortality(Abundances, Is_habitat) == expected_output
-            # Test case 3
-            Is_habitat = BitArray([1 1 1; 1 1 1; 1 1 1])
-            expected_output = Abundances
-            @test MetaRange.HabitatMortality(Abundances, Is_habitat) == expected_output
+    @testset "MortalityBev" begin
+        @testset "known cases" begin
+            @test MetaRange.MortalityBev(100, 1.0) == 0
+            @test MetaRange.MortalityBev(100, 0.0) == 100
         end
+        @testset "stochasticity" begin
+            @test MetaRange.MortalityBev(100, 0.5) < 100
+            @test MetaRange.MortalityBev(100, 0.5) > 0
+        end
+    end
+    @testset "MortalityBevNoStoch" begin
+        @testset "known cases" begin
+            @test MetaRange.MortalityBevNoStoch(100, 1.0) == 0
+            @test MetaRange.MortalityBevNoStoch(100, 0.0) == 100
+            @test MetaRange.MortalityBevNoStoch(100, 0.5) == 50
+        end
+    end
+    @testset "BV" begin
+        @testset "known cases" begin
+            @test MetaRange.BV(100, 1.0, 100.0, 1.0) == 100
+        end
+        @testset "growth" begin
+            n = MetaRange.BV(100, 1.0, 200.0, 1.0)
+            @test n < MetaRange.BV(100, 2.0, 200.0, 1.0)
+            @test n > MetaRange.BV(100, 0.5, 200.0, 1.0)
+        end
+        @testset "failcase" begin
+            @test isnan(MetaRange.BV(100, 0.0, 200.0, 1.0))
+        end
+    end
+    @testset "BVNoStoch" begin
+        @testset "known cases" begin
+            @test MetaRange.BVNoStoch(100, 1.0, 100.0, 1.0) == 100
+            @test MetaRange.BVNoStoch(100, 0.5, 200.0, 1.0) ≈ 66.666666
+        end
+        @testset "growth" begin
+            n = MetaRange.BVNoStoch(100, 1.0, 200.0, 1.0)
+            @test n < MetaRange.BVNoStoch(100, 2.0, 200.0, 1.0)
+            @test n > MetaRange.BVNoStoch(100, 0.5, 200.0, 1.0)
+        end
+        @testset "failcase" begin
+            @test isnan(MetaRange.BVNoStoch(100, 0.0, 200.0, 1.0))
+        end
+    end
+    @testset "HabitatMortality" begin
+        Abundances = Matrix{Union{Missing,Int64}}([1 2 3; 4 5 6; 7 8 9])
+        # Test case 1
+        Is_habitat = BitArray([1 1 1; 1 0 1; 1 1 1])
+        expected_output = [1 2 3; 4 0 6; 7 8 9]
+        @test MetaRange.HabitatMortality(Abundances, Is_habitat) == expected_output
+        # Test case 2
+        Is_habitat = BitArray([0 0 0; 0 0 0; 0 0 0])
+        expected_output = zeros(size(Abundances))
+        @test MetaRange.HabitatMortality(Abundances, Is_habitat) == expected_output
+        # Test case 3
+        Is_habitat = BitArray([1 1 1; 1 1 1; 1 1 1])
+        expected_output = Abundances
+        @test MetaRange.HabitatMortality(Abundances, Is_habitat) == expected_output
     end
 end
