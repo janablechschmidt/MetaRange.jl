@@ -211,7 +211,6 @@ which cell is habitat in the next timestep
 """
 function HabitatMortality(Abundances::Matrix{Union{Missing,Int64}}, Is_habitat::BitArray{2})
     h = findall(iszero, Is_habitat)
-    h = hcat(getindex.(h, 1), getindex.(h, 2))
     Abundances[h] .= 0
     return Abundances
 end
