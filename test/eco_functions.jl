@@ -89,7 +89,7 @@
     @testset "KernelDispersal" begin
         #TODO
     end
-    @testset "DispersalSurvivalStoch"
+    @testset "DispersalSurvivalStoch" begin
         #TODO
     end
     @testset "DispersalSurvivalRound" begin
