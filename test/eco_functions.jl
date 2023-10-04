@@ -14,6 +14,9 @@
                 @test xor(MetaRange.ReproductionRicker(p...) > p[1], p[1] > p[3])
             end
         end
+        @testset "Ricker Allee" begin
+            #TODO
+        end
         @testset "Beverton" begin
             @testset "known cases" begin
                 @test MetaRange.ReproductionBeverton(100, 1.0, 100.0, 1.0) == 100
@@ -83,7 +86,15 @@
         @test MetaRange.DispersalNegExpFunction(2, 0) ≈ 0.039 atol = 1e-3
         @test MetaRange.DispersalNegExpFunction(2, 1) ≈ 0.024 atol = 1e-3
     end
-
+    @testset "KernelDispersal" begin
+        #TODO
+    end
+    @testset "DispersalSurvivalStoch"
+        #TODO
+    end
+    @testset "DispersalSurvivalRound" begin
+        #TODO
+    end
     @testset "HabitatMortality" begin
         Abundances = Matrix{Union{Missing,Int64}}([1 2 3; 4 5 6; 7 8 9])
         # Test case 1
