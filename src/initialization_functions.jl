@@ -518,7 +518,7 @@ function read_ls(
         for key in keys(all_properties)
             durations = string(
                 "$durations Timesteps given with $key: ",
-                string(size(all_properties["key"])[3]),
+                string(size(all_properties[key])[3]),
                 "\n",
             )
         end
