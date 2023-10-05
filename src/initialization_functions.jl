@@ -524,8 +524,8 @@ function read_ls(
         end
         msg = string(
             "Some input properties dont provide the necessary timesteps of ",
-            "$timesteps. Please make sure that for each landscape properties at least ",
-            "the minimum required simulation timesteps are provided! \n",
+            "$timesteps. Please make sure that for each landscape property ",
+            "the minimum required number of simulation timesteps are provided! \n",
             durations,
         )
         error(msg)
