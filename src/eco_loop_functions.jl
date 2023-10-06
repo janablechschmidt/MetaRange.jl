@@ -427,7 +427,7 @@ function Survive!(species::Vector{Species}, DispersalSurvival, t::Int64)
         )
         # Survival to the next timestep depending on habitat quality
         sp.abundances[:, :, t + 1] =
-            round.(HabitatMortality(sp.abundances[:, :, t + 1], sp.vars.future_is_habitat)) #error happens here
+            round.(HabitatMortality(sp.abundances[:, :, t + 1], sp.vars.future_is_habitat))
         pos = findall(isnan.(sp.habitat[:, :, 1]))
         #sp.abundances[pos,t] = NaN
         sp.abundances[pos, t + 1] .= missing
