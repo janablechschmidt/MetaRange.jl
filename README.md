@@ -92,4 +92,4 @@ This project is licensed under the terms of the **MIT** license. See `LICENSE` f
 
 ## Acknowledgements
 
-This module is an adaptation of the [metaRange](https://srfall.github.io/metaRange) model written in R.  
+This module is an adaptation of the [metaRange](https://metarange.github.io/metaRange/) model written in R and C++.

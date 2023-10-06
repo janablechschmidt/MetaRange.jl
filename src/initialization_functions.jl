@@ -452,14 +452,14 @@ function read_ls(
         for key in keys(all_properties)
             durations = string(
                 "$durations Timesteps given with $key: ",
-                string(size(all_properties["key"])[3]),
+                string(size(all_properties[key])[3]),
                 "\n",
             )
         end
         msg = string(
             "Some input properties dont provide the necessary timesteps of ",
-            "$timesteps. Please make sure that for each landscape properties at least ",
-            "the minimum required simulation timesteps are provided! \n",
+            "$timesteps. Please make sure that for each landscape property ",
+            "the minimum required number of simulation timesteps are provided! \n",
             durations,
         )
         error(msg)
