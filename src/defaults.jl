@@ -48,7 +48,7 @@ function get_testrun_simulation_parameters()
         "output_dir" => "./output/",
         "species_dir" => "notreal",
         "environment_dir" => "notreal",
-        "input_backup" => false,
+        "input_backup" => true,
         "env_attribute_mode" => "minimum",
         "env_restriction_mode" => "minimum",
         "env_attribute_files" => Dict{String,String}(),
@@ -69,8 +69,9 @@ function get_testrun_simulation_parameters()
         mkdir(config_path)
     end
     A["config_dir"] = config_path
-    sp_sanity_checks!(A)
+    #sp_sanity_checks!(A)
     #return A
+    init_out_dir(get_Simulation_Parameters(A))
     return get_Simulation_Parameters(A)
 end
 
