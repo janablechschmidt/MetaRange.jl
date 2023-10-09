@@ -39,4 +39,19 @@ The CSV file "configuration.csv" contains instructions for the model on the simu
 - precipitation: where the model can find your precipitation input. Can either be a CSV file or a folder containing multiple CSV files in alphabetical order
 For the optional parameters, refer to the parameters section of the documentation.
 
+### Environment folder
+This folder contains the environment that you want to model your species in. It can contain one CSV file for each environmental variable, which means the environment will stay the same for each timestep. Alternatively, it can contain folders with one CSV file for each timestep. These need to be named in a way that can be sorted by your PC - for example, you can name them "Temp1.csv", "Temp2.csv", etc. If you use one single CSV file, put its name in the corresponding row of the config file. If you are using multiple files, put the name of the folder that contains them.
+In our example, we are modelling "Example2_Static_Environment" for 50 timesteps and provide precipitation.csv and temperature.csv.
+
+### Species folder
+The species folder contains information on the species that you are modelling. It has to contain one CSV file per species.
+
+!!! note
+    Multiple species modelling is currently broken. You can only simulate one species at a time.
+
+You'll need to supply parameters on your species' demographics, mass, environmental preferences, and dispersal abilities. Check out the species.csv to have a look at all required parameters and refer to the parameters section of the documentation for more info.
+
+### Running the simulation 
+Let's try
+
 ## Using MetaRange - Use your own data
