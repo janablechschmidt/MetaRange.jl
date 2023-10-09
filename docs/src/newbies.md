@@ -28,6 +28,15 @@ When installation is done, you'll need to locate the package on your PC. On wind
 Once you've located it, it is recommended to copy the folder "examples" from the MetaRange package to the place where you want to run your simulations.
 
 ## Using MetaRange - Example folder
+You'll see that there are two folders inside the examples folder. One contains a static environment, meaning environmental conditions stay the same throughout all timesteps. The other one contains some environmental change, so conditions will vary with each timestep.
+Let's take a look at the files in the "static environment" folder for now.
 
+### Configuration file
+The CSV file "configuration.csv" contains instructions for the model on the simulation settings. It has several optional parameters and four required ones: 
+- experiment_name: the folder that contains all simulation inputs, in this case "Experiment2_Static_Environment"
+- timesteps: number of timesteps to be simulated, in this case 50
+- temperature: where the model can find your temperature input. Can either be a CSV file or a folder containing multiple CSV files in alphabetical order
+- precipitation: where the model can find your precipitation input. Can either be a CSV file or a folder containing multiple CSV files in alphabetical order
+For the optional parameters, refer to the parameters section of the documentation.
 
 ## Using MetaRange - Use your own data
