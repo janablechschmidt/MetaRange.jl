@@ -52,6 +52,30 @@ The species folder contains information on the species that you are modelling. I
 You'll need to supply parameters on your species' demographics, mass, environmental preferences, and dispersal abilities. Check out the species.csv to have a look at all required parameters and refer to the parameters section of the documentation for more info.
 
 ### Running the simulation 
-Let's try
+Let's try running the example on your machine.
+Use
+```julia
+using MetaRange
+```
+to tell your PC that you want to use functions from the MetaRange package.
+It's easiest to run the model from where you saved your simulation inputs. So, let's say you saved your input folder in a path like "C:\\Users\\yourname\\Simulations\\".
+To change your working directory to that folder, type 
+```julia
+cd("C:\\Users\\yourname\\Simulations")
+```
+If you are ever unsure about where your computer currently thinks you are, you can type `pwd()` (short for "print working directory") and your PC will tell you in which folder it currently is.
+
+Next up, we'll read the input files into the model to set up the simulation. Type
+```julia
+SD = read_input("./Example2_Static_Environment/configuration.csv")
+```
+You are doing two things here. First, you are naming a variable called SD - short for Simulation Data - and assigning it the result of the read_input() function. Second, you are telling read_input() where it can find the simulation configurations: in a folder called "Example2_Static_Environment" in a file called "configuration.csv".
+
+Finally, it is time for the simulation itself.
+```julia
+run_simulation!(SD)
+```
+You are now telling the model to run the simulation on your previously created variable "SD". The exclamation point behind the function name indicates that the variable you give it as an argument, SD, will be altered by the function.
+
 
 ## Using MetaRange - Use your own data
