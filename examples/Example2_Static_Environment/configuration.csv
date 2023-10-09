@@ -1,4 +1,4 @@
-experiment_name static
+experiment_name Example2_Static_Environment
 timesteps 50
 temperature temperature.csv
 precipitation precipitation.csv
