@@ -198,12 +198,11 @@ function DispersalSurvivalRound(
 end
 
 """
-    HabitatMortality(Abundances, Is_habitat)
+    HabitatMortality(Abundances::Matrix{Union{Missing,Int64}}, Is_habitat::BitArray{2})
 
-Habitat based mortality
+Habitat based mortality.
 
-This function kills individuals that are in non suitable Habitat in
-code{Run}
+This function kills individuals that are in non suitable Habitat.
 
 - `Abundances`: array with the number of individuals in the landscape
 - `Is_habitat`: array with boolean values that indicate

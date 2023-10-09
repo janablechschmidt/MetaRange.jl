@@ -6,4 +6,8 @@
         @test c["change_onset"] == 0
         @test c["sd"] == 0
     end
+    @testset "default_run_data" begin
+        SD = default_run_data()
+        @test typeof(SD) == Simulation_Data
+    end
 end
