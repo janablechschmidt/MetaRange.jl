@@ -525,6 +525,7 @@ function init_out_dir(SP::Simulation_Parameters)
         cp(SP.config_dir, backup_dir)
         configfile = joinpath(backup_dir, "configuration.csv")
         df = DataFrame(CSV.File(configfile))
+        rename!(df, Symbol.(["Argument", "Value"]))
         config = Dict{String,Any}(CSV.File(configfile))
         config["species_dir"] = replace(joinpath(backup_dir, "species"), "\\" => "/")
         config["environment_dir"] = replace(
