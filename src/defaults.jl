@@ -39,7 +39,7 @@ TBW
 """
 function get_testrun_simulation_parameters()
     #env_attribute_files = Dict{String, String}(
-      
+
     #  env_restriction_files = Dict{String, String}()
     A = Dict{String,Any}(
         "Argument" => "Value",
@@ -72,7 +72,7 @@ function get_testrun_simulation_parameters()
     end
     A["config_dir"] = config_path
     if A["input_backup"]
-        CSV.write(joinpath(config_path,"configuration.csv"),A)
+        CSV.write(joinpath(config_path, "configuration.csv"), A)
     end
     #return A
     init_out_dir(get_Simulation_Parameters(A))
