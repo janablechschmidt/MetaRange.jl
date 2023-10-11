@@ -154,7 +154,7 @@ the species folder is provided.
 """
 function get_environment_dir(config::Dict{String,Any})
     if isnothing(config["environment_dir"])
-        env_dir = joinpath(config["config_dir"], "environment/")
+        env_dir = normpath(joinpath(config["config_dir"], "environment/"))
     else
         env_dir = normpath(joinpath(config["config_dir"], config["environment_dir"]))
     end
@@ -169,7 +169,7 @@ species folder is provided.
 """
 function get_species_dir(config::Dict{String,Any})
     if isnothing(config["species_dir"])
-        spc_dir = joinpath(config["config_dir"], "species/")
+        spc_dir = normpath(joinpath(config["config_dir"], "species/"))
     else
         spc_dir = normpath(joinpath(config["config_dir"], config["species_dir"]))
     end
