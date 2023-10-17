@@ -39,16 +39,18 @@ TBW
 """
 function get_testrun_simulation_parameters()
     #env_attribute_files = Dict{String, String}(
-    #  "precipitation" => "none",
-    #  "temperature" => "none")
+
     #  env_restriction_files = Dict{String, String}()
     A = Dict{String,Any}(
+        "Argument" => "Value",
+        "precipitation" => "none",
+        "temperature" => "none",
         "experiment_name" => "testrun",
         "config_dir" => nothing,
         "output_dir" => "./output/",
         "species_dir" => "notreal",
         "environment_dir" => "notreal",
-        "input_backup" => false,
+        "input_backup" => true,
         "env_attribute_mode" => "minimum",
         "env_restriction_mode" => "minimum",
         "env_attribute_files" => Dict{String,String}(),
@@ -64,13 +66,16 @@ function get_testrun_simulation_parameters()
         "initialize_cells" => "habitat",
         #"ls_cell_biomass_cap" => 200.0
     )
-    config_path = "./TESTRUN"
+    config_path = "./testrun"
     if !isdir(config_path)
         mkdir(config_path)
     end
     A["config_dir"] = config_path
-    sp_sanity_checks!(A)
+    if A["input_backup"]
+        CSV.write(joinpath(config_path, "configuration.csv"), A)
+    end
     #return A
+    init_out_dir(get_Simulation_Parameters(A))
     return get_Simulation_Parameters(A)
 end
 
@@ -110,6 +115,7 @@ Returns a dictionary of default species
 """
 function species_default()
     return Dict{String,Any}(
+        "Argument" => "Value",
         "species_name" => "default",
         "mass" => "0.01",
         "sd_mass" => "0",
