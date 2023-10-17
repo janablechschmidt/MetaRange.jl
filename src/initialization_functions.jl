@@ -197,11 +197,11 @@ function sp_sanity_checks!(config::Dict)
         msg = "\"timesteps\" is " * config["timesteps"] * ", it has to be larger than 1!"
         error(msg)
     end
-    if !ispath(config["output_dir"])
-        #TODO: Sanity check sholdn't write or modify files
-        mkpath(config["output_dir"])
-        @info("Output directory created at: ", config["output_dir"])
-    end
+    #if !ispath(config["output_dir"])
+    #    #TODO: Sanity check sholdn't write or modify files
+    #    mkpath(config["output_dir"])
+    #    @info("Output directory created at: ", config["output_dir"])
+    #end
     #normalize path formatting
     check_environment_dir(config)
     return check_species_dir(config)
@@ -541,8 +541,8 @@ function make_out_dir(out_dir::String)
 end
 
 function init_out_dir(SP::Simulation_Parameters)
-    make_out_dir(out_dir)
     if SP.input_backup
+        make_out_dir(out_dir)
         backup_dir = joinpath(out_dir, "input")
         cp(SP.config_dir, backup_dir)
         configfile = joinpath(backup_dir, "configuration.csv")
