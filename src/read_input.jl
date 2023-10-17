@@ -36,9 +36,10 @@ function read_sp(config_path::String)
         config[key] = input_config[key]
     end
 
-    # get the full path to the species and environment directories
+    # get the full path to the provided directories
     config["species_dir"] = get_species_dir(config)
     config["environment_dir"] = get_environment_dir(config)
+    config["output_dir"] = get_out_dir(config)
 
     # apply sanity checks
     sp_sanity_checks!(config)
