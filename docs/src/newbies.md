@@ -119,3 +119,15 @@ write.table(precipitation_metarange, "Precipitation.csv", col.names = F, row.nam
 ```
 We've now prepared our Precipitation file for input. You can prepare your temperature data the same way. 
 
+### Species data
+Researching your species traits can be tedious. Check out which traits you need in the species section of the documentation. Here is a list of data bases that can be useful:
+* [BIEN](https://bien.nceas.ucsb.edu/bien/biendata/)
+* [LEDA](https://uol.de/en/landeco/research/leda/data-files)
+* [GBIF](https://www.gbif.org/occurrence/search)
+* [FloraWeb](https://www.floraweb.de/) (in German)
+For some traits, you can use estimates based on other traits: for example, to calculate the mass of a plant, the weight of the seed may be a good starting point.
+
+Make sure to save your species traits in a CSV file in a space-separated "Argument Value" format.
+
+### Simulation Configuration
+
