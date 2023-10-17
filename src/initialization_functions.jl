@@ -513,13 +513,35 @@ function read_ts_config(env_dir::String, ls_timeseries_config::String)
     end
     return ts_config
 end
+"""
+    get_out_dir(SP::Simulation_Parameters)
+
+Names a new output directory for the simulation used in `init_out_dir()`[@ref]. This
+directory will only be created if backup is true or the user later saves an output into the
+default paths
+"""
+function get_out_dir(config::Dict{String,Any})
+    # set the name for the output directory
+    out_name = string(
+        Dates.format(now(), "yyyy-mm-dd_HH-MM-SS"), "_", config["experiment_name"]
+    )
+    out_dir = normpath(joinpath(config["config_dir"], config["output_dir"], out_name))
+    return out_dir
+end
+"""
+    make_out_dir(out_dir::String)
+
+create an output directory if it does not exist
+"""
+function make_out_dir(out_dir::String)
+    if !ispath(out_dir)
+        mkpath(out_dir)
+        @info("Output directory created at: ", out_dir)
+    end
+end
 
 function init_out_dir(SP::Simulation_Parameters)
-    out_dir = joinpath(
-        SP.output_dir,
-        string(SP.experiment_name, Dates.format(now(), " at dd.mm.yyyy HH-MM-SS")),
-    )
-    mkpath(out_dir)
+    make_out_dir(out_dir)
     if SP.input_backup
         backup_dir = joinpath(out_dir, "input")
         cp(SP.config_dir, backup_dir)
