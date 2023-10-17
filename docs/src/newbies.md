@@ -70,6 +70,7 @@ Next up, we'll read the input files into the model to set up the simulation. Typ
 SD = read_input("./Example2_Static_Environment/configuration.csv")
 ```
 You are doing two things here. First, you are naming a variable called SD - short for Simulation Data - and assigning it the result of the read_input() function. Second, you are telling read_input() where it can find the simulation configurations: in a folder called "Example2_Static_Environment" in a file called "configuration.csv".
+You are providing the function with a relative path, as indicated by the point in front the first slash. You could also give an absolute path name.
 
 Finally, it is time for the simulation itself.
 ```julia
@@ -77,5 +78,20 @@ run_simulation!(SD)
 ```
 You are now telling the model to run the simulation on your previously created variable "SD". The exclamation point behind the function name indicates that the variable you give it as an argument, SD, will be altered by the function.
 
+You will see the simulation progress in your Julia REPL: the model prints each timestep and lets you know how much time has passed once the simulation is completed.
+The output of the simulation will be saved to the same SimulationData object SD we created before. You can access any trait or parameter in this struct. SD has four main properties: parameters (holds the simulation configurations), landscape (holds environmental matrices), species (hold the species-specific traits, their abundances and habitat suitability per timestep), and duration (which has the start and end time of your simulation). 
+
+If you want to check what you set as your output directory, you can access that parameter via
+```julia
+SD.parameters.output_dir
+```
+Or if you want to investigate the abundances of your species 1 at timestep 10, type
+```julia
+SD.species[1].abundances[:,:,10]
+```
+You can also use one of the plotting functions to have a look at your results, for example
+```julia
+image_abundances(SD, 10)
+```
 
 ## Using MetaRange - Use your own data
