@@ -95,3 +95,27 @@ image_abundances(SD, 10)
 ```
 
 ## Using MetaRange - Use your own data
+
+When you feel ready to apply the model to your own data, here's an example walkthrough on how to prepare your data so that the model can use it as input.
+
+### Environmental data
+Typically, you'll have your environmental data as some sort of TIFF or Raster file. For example, if you download your files from [CHELSA](https://chelsa-climate.org/downloads/), the files will be in TIFF format. You then need to extract the value for each grid cell and save the resulting array as a CSV file. If the TIFF has a higher resolution than what you want to model, you need to downscale it first. 
+You can do the data preparation in whatever language you feel most comfortable in - below you'll find an example for how to save the precipitation of Bavaria in R.
+
+```R
+library(raster)
+precipitation <- raster("yourpath/CHELSA_bio12_1981-2010_V.2.1.tif")
+# this holds data for the whole world, so we reduce size to our area of interest, e.g. Bavaria
+Germany <- getData("GADM", country="DE",level=1)
+Bavaria <- Germany[Germany@data$NAME_1 == "Bayern", ]
+precipitation_bav <- crop(precipitation, extent(Bavaria))
+# now we reduce resolution
+precipitation_bav_red <- aggregate(precipitation_bav, fact = 10)
+# now save as CSV in MetaRange format
+precipitation_metarange <- round(as.matrix(precipitation_bav_red))
+precipitation_metarange[which(is.na(precipitation_metarange))] <- "NaN"
+# Julia needs to have grid cells without values filled with "NaN"
+write.table(precipitation_metarange, "Precipitation.csv", col.names = F, row.names = F)
+```
+We've now prepared our Precipitation file for input. You can prepare your temperature data the same way. 
+
