@@ -12,6 +12,9 @@ using Plots
 export read_input
 export run_simulation!
 
+#output functions
+export save_csv
+
 #visualization functions
 export plot_abundances
 export image_suitability
