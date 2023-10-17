@@ -79,6 +79,8 @@ run_simulation!(SD)
 You are now telling the model to run the simulation on your previously created variable "SD". The exclamation point behind the function name indicates that the variable you give it as an argument, SD, will be altered by the function.
 
 You will see the simulation progress in your Julia REPL: the model prints each timestep and lets you know how much time has passed once the simulation is completed.
+
+### Analysis
 The output of the simulation will be saved to the same SimulationData object SD we created before. You can access any trait or parameter in this struct. SD has four main properties: parameters (holds the simulation configurations), landscape (holds environmental matrices), species (hold the species-specific traits, their abundances and habitat suitability per timestep), and duration (which has the start and end time of your simulation). 
 
 If you want to check what you set as your output directory, you can access that parameter via
@@ -130,4 +132,13 @@ For some traits, you can use estimates based on other traits: for example, to ca
 Make sure to save your species traits in a CSV file in a space-separated "Argument Value" format.
 
 ### Simulation Configuration
+For a list of all possible configuration parameters please refer to the parameters section of the documentation. You don't need to provide every single argument here, these configurations have default values to fall back on. 
+Again, your configurations need to be saved in a CSV file in a space-separated "Argument Value" format. In the configs, provide the paths to your species config file and your environment files.
 
+### Running the simulation
+To run your simulation, two simple lines are enough:
+```julia
+SD = read_input("yourpath/configuration.csv")
+run_simulation!(SD)
+```
+For how to access your output data for your analysis, refer to the Analysis section above.
