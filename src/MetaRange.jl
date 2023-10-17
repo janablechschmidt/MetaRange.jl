@@ -37,5 +37,5 @@ include("eco_functions.jl")
 include("eco_loop_functions.jl")
 include("defaults.jl")
 include("constants.jl")
-include("visualization.jl")
+include("output.jl")
 end
