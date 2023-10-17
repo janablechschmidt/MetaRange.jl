@@ -542,17 +542,21 @@ end
 
 function init_out_dir(SP::Simulation_Parameters)
     if SP.input_backup
-        make_out_dir(out_dir)
-        backup_dir = joinpath(out_dir, "input")
-        cp(SP.config_dir, backup_dir)
+        make_out_dir(SP.output_dir) #create output directory
+        backup_dir = mkpath(joinpath(SP.output_dir, "input")) #create input backup directory
+
+        # copy all input files into backup folder
+        cp(SP.species_dir, joinpath(backup_dir, "species")) #species
+        cp(SP.environment_dir, joinpath(backup_dir, "environment")) #environment
+
+        #copy configuration file and replace paths with relative paths
         configfile = joinpath(backup_dir, "configuration.csv")
+        touch(configfile)
         df = DataFrame(CSV.File(configfile))
         rename!(df, Symbol.(["Argument", "Value"]))
         config = Dict{String,Any}(CSV.File(configfile))
-        config["species_dir"] = replace(joinpath(backup_dir, "species"), "\\" => "/")
-        config["environment_dir"] = replace(
-            joinpath(backup_dir, "environment"), "\\" => "/"
-        )
+        config["species_dir"] = normpath(joinpath(backup_dir, "species"))
+        config["environment_dir"] = normpath(joinpath(backup_dir, "environment"))
         df.Value = map(akey -> config[akey], df.Argument)
         CSV.write(configfile, df; delim=" ")
     end
