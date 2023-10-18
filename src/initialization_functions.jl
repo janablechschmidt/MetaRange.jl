@@ -540,24 +540,34 @@ function make_out_dir(out_dir::String)
     end
 end
 
+"""
+    init_out_dir(SP::Simulation_Parameters)
+
+Initializes the output directory. This is called when input_backup in the configuration file
+is set to `true` and creates a backup of the input files in the output directory.
+"""
 function init_out_dir(SP::Simulation_Parameters)
     if SP.input_backup
         make_out_dir(SP.output_dir) #create output directory
         backup_dir = mkpath(joinpath(SP.output_dir, "input")) #create input backup directory
 
-        # copy all input files into backup folder
-        cp(SP.species_dir, joinpath(backup_dir, "species")) #species
-        cp(SP.environment_dir, joinpath(backup_dir, "environment")) #environment
+        # set paths for backups
+        backup_config = normpath(joinpath(backup_dir, "configuration.csv"))
+        backup_species = normpath(joinpath(backup_dir, "species"))
+        backup_environment = normpath(joinpath(backup_dir, "environment"))
 
-        #copy configuration file and replace paths with relative paths
-        configfile = joinpath(backup_dir, "configuration.csv")
-        touch(configfile)
-        df = DataFrame(CSV.File(configfile))
+        #copy species and environment folders
+        cp(SP.species_dir, backup_species) #species
+        cp(SP.environment_dir, backup_environment) #environment
+
+        #copy configuration file and set paths to species and environment folders
+        cp(SP.config_file, backup_config)
+        df = DataFrame(CSV.File(backup_config))
         rename!(df, Symbol.(["Argument", "Value"]))
-        config = Dict{String,Any}(CSV.File(configfile))
-        config["species_dir"] = normpath(joinpath(backup_dir, "species"))
-        config["environment_dir"] = normpath(joinpath(backup_dir, "environment"))
+        config = Dict{String,Any}(CSV.File(backup_config))
+        config["species_dir"] = backup_species
+        config["environment_dir"] = backup_environment
         df.Value = map(akey -> config[akey], df.Argument)
-        CSV.write(configfile, df; delim=" ")
+        CSV.write(backup_config, df; delim=" ")
     end
 end
