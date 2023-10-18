@@ -24,8 +24,9 @@ Returns simulation parameters in "path/configuration.csv" as a Simulation_Parame
 ## Returns the Simulation Parameters as a Simulation_Parameters struct
 function read_sp(config_path::String)
     config = get_default_simulation_parameters()
-    config["config_dir"] = abspath(dirname(config_path))
-    input_config = Dict{String,Any}(CSV.File(config_path))
+    config["config_file"] = normpath(abspath(config_path))
+    config["config_dir"] = normpath(abspath(dirname(config_path)))
+    input_config = Dict{String,Any}(CSV.File(config["config_file"]))
 
     # Convert datatypes
     parse_fields_numeric!(input_config)
