@@ -1,4 +1,4 @@
-experiment_name environmental_change
+experiment_name Example1_Environmental_Change
 timesteps 40
 temperature temperature
 precipitation precipitation
