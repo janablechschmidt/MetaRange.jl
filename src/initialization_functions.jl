@@ -557,17 +557,19 @@ function init_out_dir(SP::Simulation_Parameters)
         backup_environment = normpath(joinpath(backup_dir, "environment"))
 
         #copy species and environment folders
-        cp(SP.species_dir, backup_species) #species
-        cp(SP.environment_dir, backup_environment) #environment
+        ispath(SP.species_dir) && cp(SP.species_dir, backup_species) #species
+        ispath(SP.species_dir) && cp(SP.environment_dir, backup_environment) #environment
 
         #copy configuration file and set paths to species and environment folders
-        cp(SP.config_file, backup_config)
-        df = DataFrame(CSV.File(backup_config))
-        rename!(df, Symbol.(["Argument", "Value"]))
-        config = Dict{String,Any}(CSV.File(backup_config))
-        config["species_dir"] = backup_species
-        config["environment_dir"] = backup_environment
-        df.Value = map(akey -> config[akey], df.Argument)
-        CSV.write(backup_config, df; delim=" ")
+        if ispath(SP.config_file)
+            cp(SP.config_file, backup_config)
+            df = DataFrame(CSV.File(backup_config))
+            rename!(df, Symbol.(["Argument", "Value"]))
+            config = Dict{String,Any}(CSV.File(backup_config))
+            config["species_dir"] = backup_species
+            config["environment_dir"] = backup_environment
+            df.Value = map(akey -> config[akey], df.Argument)
+            CSV.write(backup_config, df; delim=" ")
+        end
     end
 end
