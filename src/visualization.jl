@@ -112,3 +112,30 @@ function suitability_gif(SD::Simulation_Data, frames=2)
     end
     return gif(anim, "Suitability.gif"; fps=frames)
 end
+
+function plot_all(SD::Simulation_Data, t::Int)
+    l = @layout [a b ; _ c]
+    temp = SD.landscape.environment["temperature"][:, :, t]
+    env_t = heatmap(temp)#; title="Temperature at Timestep $t", c=:plasma, yflip=true)
+    prec = SD.landscape.environment["precipitation"][:, :, t]
+    env_p = heatmap(prec)#; title="Precipitation at Timestep $t", c=:viridis, yflip=true)
+    x_prec = collect(range(0, stop = 3000, length = 1000))
+    y_prec = get_habitat_suit(SD.species[1].traits.env_preferences["precipitation"].upper_limit,
+        SD.species[1].traits.env_preferences["precipitation"].optimum,
+        SD.species[1].traits.env_preferences["precipitation"].lower_limit,
+        x_prec)
+    tol_p = plot(x_prec, y_prec)
+    x_temp = collect(range(200, stop = 400, length = 1000))
+    y_temp = get_habitat_suit(SD.species[1].traits.env_preferences["temperature"].upper_limit,
+        SD.species[1].traits.env_preferences["temperature"].optimum,
+        SD.species[1].traits.env_preferences["temperature"].lower_limit,
+        x_temp)
+    tol_t = plot(x_temp, y_temp)
+    input_plot = plot(tol_t, tol_p, env_t, env_p, layout = 4)
+    suitability = SD.species[1].habitat[:, :, t]
+    output_suit = heatmap(suitability)#; title="Habitat Suitability at Timestep $t", c=:YlOrBr, yflip=true)
+    abundance = SD.species[1].abundances[:, :, t]
+    output_abund = heatmap(abundance)#; title="Species Abundance at Timestep $t", c=:YlGnBu, yflip=true)
+    allplot = plot(input_plot, output_suit, output_abund, layout = l)
+    return allplot
+end
