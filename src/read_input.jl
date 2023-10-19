@@ -219,11 +219,10 @@ function check_species_dir(config::Dict{String,Any})
 end
 
 """
-    write_config(SD::Simulation_Data, config_path::String)
+    write_config(SD::Simulation_Data, backup_path::String)
 
-Record the settings actually used for a simulation run.
-Creates a config file that can be used for future replicate runs.
-Also records a time stamp and the current git commit.
+Record the settings actually used for a simulation run and creates a config file that can be
+used for future replicate runs.
 """
 function write_config(SD::Simulation_Data, backup_path::String)
     SP = SD.parameters
