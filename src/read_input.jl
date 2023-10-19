@@ -217,3 +217,32 @@ function check_species_dir(config::Dict{String,Any})
         )
     end
 end
+
+"""
+    write_config(SD::Simulation_Data, config_path::String)
+
+Record the settings actually used for a simulation run.
+Creates a config file that can be used for future replicate runs.
+Also records a time stamp and the current git commit.
+"""
+function write_config(SD::Simulation_Data, backup_path::String)
+    SP = SD.parameters
+    config_path = joinpath(backup_path, "configuration.csv")
+    open(config_path, "w") do f
+        println(f, "Argument Value")
+        for k in fieldnames(typeof(SP)) #get the names of the SP object
+            val = getfield(SP, k)
+            if isa(val, Dict) #if the value is a dictionary
+                for key in keys(val)
+                    println(f, key, " ", val[key]) #print name and value
+                end
+            elseif occursin((r"(config|output)"), string(k))
+                nothing #do not print the config_dir, config_file and output_dir
+            elseif occursin("dir", string(k))
+                println(f, k, " ", joinpath(backup_path, splitpath(val)[end])) #print name and value
+            else
+                println(f, k, " ", val) #print name and value
+            end
+        end
+    end
+end
