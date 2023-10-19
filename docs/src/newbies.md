@@ -32,8 +32,9 @@ You'll see that there are two folders inside the examples folder. One contains a
 Let's take a look at the files in the "static environment" folder for now.
 
 ### Configuration file
-The CSV file "configuration.csv" contains instructions for the model on the simulation settings. It has several optional parameters and four required ones: 
-- experiment_name: the folder that contains all simulation inputs, in this case "Experiment2_Static_Environment"
+The CSV file "configuration.csv" contains instructions for the model on the simulation settings. It has several optional parameters and four required ones:
+
+- experiment\_name: the folder that contains all simulation inputs, in this case "Experiment2\_Static\_Environment"
 - timesteps: number of timesteps to be simulated, in this case 50
 - temperature: where the model can find your temperature input. Can either be a CSV file or a folder containing multiple CSV files in alphabetical order
 - precipitation: where the model can find your precipitation input. Can either be a CSV file or a folder containing multiple CSV files in alphabetical order
