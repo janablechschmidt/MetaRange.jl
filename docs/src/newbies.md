@@ -25,6 +25,13 @@ Installation may take a while. You'll know it's done when on the far left of you
 
 ### Where did it install
 When installation is done, you'll need to locate the package on your PC. On windows, packages typically install inside the folder called ".julia" (the dot indicates that this folder is hidden), which contains a folder called "packages". If you cannot find it, try searching for "MetaRange" in the search bar.
+To get the location of the `MetaRange.jl` install run
+
+```julia
+using MetaRange
+pathof(MetaRange)
+```
+
 Once you've located it, it is recommended to copy the folder "examples" from the MetaRange package to the place where you want to run your simulations.
 
 ## Using MetaRange - Example folder
