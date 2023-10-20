@@ -12,6 +12,9 @@ using Plots
 export read_input
 export run_simulation!
 
+#output functions
+export save_csv
+
 #visualization functions
 export plot_abundances
 export image_suitability
@@ -37,5 +40,5 @@ include("eco_functions.jl")
 include("eco_loop_functions.jl")
 include("defaults.jl")
 include("constants.jl")
-include("visualization.jl")
+include("output.jl")
 end

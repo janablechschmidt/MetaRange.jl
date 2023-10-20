@@ -1,4 +1,10 @@
 """
+    save_csv(SD::Simulation_Data)
+
+Exports the data from a simulation to csv
+"""
+function save_csv(SD::Simulation_Data) end
+"""
     plot_abundances(SD::Simulation_Data)
 
 plots the total abundances of a species over time

@@ -197,11 +197,11 @@ function sp_sanity_checks!(config::Dict)
         msg = "\"timesteps\" is " * config["timesteps"] * ", it has to be larger than 1!"
         error(msg)
     end
-    if !ispath(config["output_dir"])
-        #TODO: Sanity check sholdn't write or modify files
-        mkpath(config["output_dir"])
-        @info("Output directory created at: ", config["output_dir"])
-    end
+    #if !ispath(config["output_dir"])
+    #    #TODO: Sanity check sholdn't write or modify files
+    #    mkpath(config["output_dir"])
+    #    @info("Output directory created at: ", config["output_dir"])
+    #end
     #normalize path formatting
     check_environment_dir(config)
     return check_species_dir(config)
@@ -452,14 +452,14 @@ function read_ls(
         for key in keys(all_properties)
             durations = string(
                 "$durations Timesteps given with $key: ",
-                string(size(all_properties["key"])[3]),
+                string(size(all_properties[key])[3]),
                 "\n",
             )
         end
         msg = string(
             "Some input properties dont provide the necessary timesteps of ",
-            "$timesteps. Please make sure that for each landscape properties at least ",
-            "the minimum required simulation timesteps are provided! \n",
+            "$timesteps. Please make sure that for each landscape property ",
+            "the minimum required number of simulation timesteps are provided! \n",
             durations,
         )
         error(msg)
@@ -513,24 +513,63 @@ function read_ts_config(env_dir::String, ls_timeseries_config::String)
     end
     return ts_config
 end
+"""
+    get_out_dir(SP::Simulation_Parameters)
 
-function init_out_dir(SP::Simulation_Parameters)
-    out_dir = joinpath(
-        SP.output_dir,
-        string(SP.experiment_name, Dates.format(now(), " at dd.mm.yyyy HH-MM-SS")),
+Names a new output directory for the simulation used in `init_out_dir()`[@ref]. This
+directory will only be created if backup is true or the user later saves an output into the
+default paths
+"""
+function get_out_dir(config::Dict{String,Any})
+    # set the name for the output directory
+    out_name = string(
+        Dates.format(now(), "yyyy-mm-dd_HH-MM-SS"), "_", config["experiment_name"]
     )
-    mkpath(out_dir)
+    out_dir = normpath(joinpath(config["config_dir"], config["output_dir"], out_name))
+    return out_dir
+end
+"""
+    make_out_dir(out_dir::String)
+
+create an output directory if it does not exist
+"""
+function make_out_dir(out_dir::String)
+    if !ispath(out_dir)
+        mkpath(out_dir)
+        @info("Output directory created at: ", out_dir)
+    end
+end
+
+"""
+    init_out_dir(SP::Simulation_Parameters)
+
+Initializes the output directory. This is called when input_backup in the configuration file
+is set to `true` and creates a backup of the input files in the output directory.
+"""
+function init_out_dir(SP::Simulation_Parameters)
     if SP.input_backup
-        backup_dir = joinpath(out_dir, "input")
-        cp(SP.config_dir, backup_dir)
-        configfile = joinpath(backup_dir, "configuration.csv")
-        df = DataFrame(CSV.File(configfile))
-        config = Dict{String,Any}(CSV.File(configfile))
-        config["species_dir"] = replace(joinpath(backup_dir, "species"), "\\" => "/")
-        config["environment_dir"] = replace(
-            joinpath(backup_dir, "environment"), "\\" => "/"
-        )
-        df.Value = map(akey -> config[akey], df.Argument)
-        CSV.write(configfile, df; delim=" ")
+        make_out_dir(SP.output_dir) #create output directory
+        backup_dir = mkpath(joinpath(SP.output_dir, "input")) #create input backup directory
+
+        # set paths for backups
+        backup_config = normpath(joinpath(backup_dir, "configuration.csv"))
+        backup_species = normpath(joinpath(backup_dir, "species"))
+        backup_environment = normpath(joinpath(backup_dir, "environment"))
+
+        #copy species and environment folders
+        ispath(SP.species_dir) && cp(SP.species_dir, backup_species) #species
+        ispath(SP.species_dir) && cp(SP.environment_dir, backup_environment) #environment
+
+        #copy configuration file and set paths to species and environment folders
+        if ispath(SP.config_file)
+            cp(SP.config_file, backup_config)
+            df = DataFrame(CSV.File(backup_config))
+            rename!(df, Symbol.(["Argument", "Value"]))
+            config = Dict{String,Any}(CSV.File(backup_config))
+            config["species_dir"] = backup_species
+            config["environment_dir"] = backup_environment
+            df.Value = map(akey -> config[akey], df.Argument)
+            CSV.write(backup_config, df; delim=" ")
+        end
     end
 end

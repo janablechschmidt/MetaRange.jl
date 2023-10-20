@@ -24,8 +24,9 @@ Returns simulation parameters in "path/configuration.csv" as a Simulation_Parame
 ## Returns the Simulation Parameters as a Simulation_Parameters struct
 function read_sp(config_path::String)
     config = get_default_simulation_parameters()
-    config["config_dir"] = abspath(dirname(config_path))
-    input_config = Dict{String,Any}(CSV.File(config_path))
+    config["config_file"] = normpath(abspath(config_path))
+    config["config_dir"] = normpath(abspath(dirname(config_path)))
+    input_config = Dict{String,Any}(CSV.File(config["config_file"]))
 
     # Convert datatypes
     parse_fields_numeric!(input_config)
@@ -36,9 +37,10 @@ function read_sp(config_path::String)
         config[key] = input_config[key]
     end
 
-    # get the full path to the species and environment directories
+    # get the full path to the provided directories
     config["species_dir"] = get_species_dir(config)
     config["environment_dir"] = get_environment_dir(config)
+    config["output_dir"] = get_out_dir(config)
 
     # apply sanity checks
     sp_sanity_checks!(config)
@@ -154,7 +156,7 @@ the species folder is provided.
 """
 function get_environment_dir(config::Dict{String,Any})
     if isnothing(config["environment_dir"])
-        env_dir = joinpath(config["config_dir"], "environment/")
+        env_dir = normpath(joinpath(config["config_dir"], "environment/"))
     else
         env_dir = normpath(joinpath(config["config_dir"], config["environment_dir"]))
     end
@@ -169,7 +171,7 @@ species folder is provided.
 """
 function get_species_dir(config::Dict{String,Any})
     if isnothing(config["species_dir"])
-        spc_dir = joinpath(config["config_dir"], "species/")
+        spc_dir = normpath(joinpath(config["config_dir"], "species/"))
     else
         spc_dir = normpath(joinpath(config["config_dir"], config["species_dir"]))
     end
@@ -213,5 +215,33 @@ function check_species_dir(config::Dict{String,Any})
             "\" or a custom path to a directory with species data through a ",
             "\"species_dir\" argument in your configuration file!",
         )
+    end
+end
+
+"""
+    write_config(SD::Simulation_Data, backup_path::String)
+
+Record the settings actually used for a simulation run and creates a config file that can be
+used for future replicate runs.
+"""
+function write_config(SD::Simulation_Data, backup_path::String)
+    SP = SD.parameters
+    config_path = joinpath(backup_path, "configuration.csv")
+    open(config_path, "w") do f
+        println(f, "Argument Value")
+        for k in fieldnames(typeof(SP)) #get the names of the SP object
+            val = getfield(SP, k)
+            if isa(val, Dict) #if the value is a dictionary
+                for key in keys(val)
+                    println(f, key, " ", val[key]) #print name and value
+                end
+            elseif occursin((r"(config|output)"), string(k))
+                nothing #do not print the config_dir, config_file and output_dir
+            elseif occursin("dir", string(k))
+                println(f, k, " ", joinpath(backup_path, splitpath(val)[end])) #print name and value
+            else
+                println(f, k, " ", val) #print name and value
+            end
+        end
     end
 end
