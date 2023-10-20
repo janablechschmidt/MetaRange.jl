@@ -142,5 +142,5 @@ function save_all(SD::Simulation_Data)
     bevmort_out = hcat(t, x, y, bevmort, repeat(["bevmort"], length(t)))
     out = vcat(abundance_out, habitat_out, reproduction_out, carry_out, bevmort_out)
     make_out_dir(SD.parameters.output_dir)
-    writedlm(joinpath(SD.parameters.output_dir, "output.csv"), out)
+    writedlm(joinpath(SD.parameters.output_dir, "output.csv"), out, ',')
 end
