@@ -138,6 +138,13 @@ mutable struct Simulation_Variables
     offspring::Array{Float64,2}
 end
 
+struct Output
+    abundances::Array{Union{Int64,Missing},3} #amount of species individuals
+    habitat::Array{Float64,3} # habitat suitability in each timestep
+    carry::Array{Float64,3}
+    growrate::Array{Float64,3}
+    bevmort::Array{Float64,3}
+end
 ## Struct for saving all data related to a species
 """
     Species
@@ -160,13 +167,7 @@ struct Species
     dispersal_kernel::Matrix{Float64}
     vars::Simulation_Variables
 end
-struct Output
-    abundances::Array{Union{Int64,Missing},3} #amount of species individuals
-    habitat::Array{Float64,3} # habitat suitability in each timestep
-    carry::Array{Float64,3}
-    growrate::Array{Float64,3}
-    bevmort::Array{Float64,3}
-end
+
 ## Struct for saving all data related to the landscape/environment
 """
     Landscape
