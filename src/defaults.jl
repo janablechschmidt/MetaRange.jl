@@ -8,6 +8,7 @@ function get_default_simulation_parameters()
     return A = Dict{String,Any}(
         "experiment_name" => "default",
         "config_dir" => nothing,
+        "config_file" => nothing,
         "output_dir" => "./output/",
         "species_dir" => nothing,
         "environment_dir" => nothing, # Default value gets built in the read_sp function!
@@ -47,6 +48,7 @@ function get_testrun_simulation_parameters()
         "temperature" => "none",
         "experiment_name" => "testrun",
         "config_dir" => nothing,
+        "config_file" => nothing,
         "output_dir" => "./output/",
         "species_dir" => "notreal",
         "environment_dir" => "notreal",
@@ -71,8 +73,9 @@ function get_testrun_simulation_parameters()
         mkdir(config_path)
     end
     A["config_dir"] = config_path
+    A["config_file"] = joinpath(config_path, "configuration.csv")
     if A["input_backup"]
-        CSV.write(joinpath(config_path, "configuration.csv"), A)
+        CSV.write(joinpath(A["config_file"]), A; delim=" ")
     end
     #return A
     init_out_dir(get_Simulation_Parameters(A))

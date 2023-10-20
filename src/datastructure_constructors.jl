@@ -9,6 +9,7 @@ function get_Simulation_Parameters(config::Dict)
     return Simulation_Parameters(
         config["experiment_name"],
         config["config_dir"],
+        config["config_file"],
         config["output_dir"],
         config["species_dir"],
         config["environment_dir"],
