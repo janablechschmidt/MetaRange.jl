@@ -13,7 +13,7 @@ It is best to use a User Interface when applying MetaRange, though it is not req
 Download VSCode [here](https://code.visualstudio.com/Download) and install it on your PC.
 
 ### Connecting the two
-Now, we need to set VSCode up so it knows that you want to program in Julia language. To do so, open VSCode. In the top menu bar, select "View", then "Extensions". In the appearing search bar, type "julia". Select the Julia extension and hit the "Install" button. (If you have previously installed an older version of the Julia extension before, you might need to hit the "require" button.) Finally, restart VSCode.
+Now, we need to set VSCode up so it knows that you want to program in Julia language. To do so, open VSCode. In the top menu bar, select "View", then "Extensions". In the appearing search bar, type "julia". Select the Julia extension and hit the "Install" button. (If you have previously installed an older version of the Julia extension before, you might need to hit the "Reload Required" button.) Finally, restart VSCode.
 You have now connected Julia and VSCode! 
 
 ### Defining your workspace
