@@ -65,7 +65,7 @@ function init_species_sim_vars!(
         sp.vars.habitat = get_habitat(
             sp.traits.env_preferences, LS, parameters.env_attribute_mode, timestep
         )
-        sp.habitat[:, :, timestep] = get_habitat(
+        sp.output.habitat[:, :, timestep] = get_habitat(
             sp.traits.env_preferences, LS, parameters.env_attribute_mode, timestep
         )
         sp.vars.is_habitat = get_is_habitat(
@@ -92,6 +92,7 @@ function init_species_sim_vars!(
             timestep,
             E_growrate,
         )
+        sp.output.growrate[:,:,timestep] = sp.vars.growrate
         sp.vars.carry = get_pop_carry(
             sp.traits,
             LS,
@@ -101,6 +102,7 @@ function init_species_sim_vars!(
             timestep,
             E_carry,
         )
+        sp.output.carry[:,:,timestep] = sp.vars.carry
         sp.vars.allee = get_pop_var(
             sp.traits.carry,
             sp.traits.sd_carry,
@@ -122,8 +124,9 @@ function init_species_sim_vars!(
             timestep,
             E_bevmort,
         )
+        sp.output.bevmort[:,:,timestep] = sp.vars.bevmort
         sp.vars.occurrences = findall(
-            (sp.abundances[:, :, timestep] .> 0) .& (sp.vars.is_habitat)
+            (sp.output.abundances[:, :, timestep] .> 0) .& (sp.vars.is_habitat)
         )
     end
     end_time = now()
@@ -333,10 +336,10 @@ timestep and calculates the amount of species in the next timestep.
 function reproduce!(species::Vector{Species}, Reproduction, timestep::Int)
     for sp in species
         for coordinates in sp.vars.occurrences # spatial loop
-            sp.abundances[coordinates, timestep + 1] = trunc(
+            sp.output.abundances[coordinates, timestep + 1] = trunc(
                 Int,
                 Reproduction(
-                    sp.abundances[coordinates, timestep],
+                    sp.output.abundances[coordinates, timestep],
                     sp.vars.growrate[coordinates],
                     sp.vars.carry[coordinates],
                     sp.vars.bevmort[coordinates],
@@ -400,7 +403,7 @@ end
 #      sp_exess_biomass = exess_biomass * (sp.vars.habitat[coordinates] / habitat_sum)
 #      # convert biomass to individuals
 #      comp_dieoff = ceil(sp_exess_biomass / sp.vars.biomass[coordinates])
-#      sp.abundances[coordinates, t+1] -= comp_dieoff
+#      sp.output.abundances[coordinates, t+1] -= comp_dieoff
 #      dieoff[sp.species_name] += comp_dieoff
 #    end
 #  end
@@ -416,21 +419,21 @@ function Survive!(species::Vector{Species}, DispersalSurvival, t::Int64)
     # good candidate for tests. What even is happening here?
     for sp in species
         occurrences = findall((
-            sp.vars.offspring[1:size(sp.abundances, 1), 1:size(sp.abundances, 2)] .> 0
+            sp.vars.offspring[1:size(sp.output.abundances, 1), 1:size(sp.output.abundances, 2)] .> 0
         ))
         occurrences = hcat(getindex.(occurrences, 1), getindex.(occurrences, 2))
-        sp.abundances[:, :, t + 1] = DispersalSurvival(
-            sp.abundances[:, :, t + 1],
+        sp.output.abundances[:, :, t + 1] = DispersalSurvival(
+            sp.output.abundances[:, :, t + 1],
             sp.vars.offspring,
             occurrences,
             sp.traits.max_dispersal_dist,
         )
         # Survival to the next timestep depending on habitat quality
-        sp.abundances[:, :, t + 1] =
-            round.(HabitatMortality(sp.abundances[:, :, t + 1], sp.vars.future_is_habitat))
-        pos = findall(isnan.(sp.habitat[:, :, 1]))
-        #sp.abundances[pos,t] = NaN
-        sp.abundances[pos, t + 1] .= missing
+        sp.output.abundances[:, :, t + 1] =
+            round.(HabitatMortality(sp.output.abundances[:, :, t + 1], sp.vars.future_is_habitat))
+        pos = findall(isnan.(sp.output.habitat[:, :, 1]))
+        #sp.output.abundances[pos,t] = NaN
+        sp.output.abundances[pos, t + 1] .= missing
     end
 end
 
