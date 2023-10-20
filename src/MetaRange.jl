@@ -24,6 +24,7 @@ export image_precipitation
 export image_restrictions
 export suitability_gif
 export abundance_gif
+export save_all
 
 #main module struct
 export Simulation_Data
