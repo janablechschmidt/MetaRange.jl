@@ -118,3 +118,28 @@ function suitability_gif(SD::Simulation_Data, frames=2)
     end
     return gif(anim, "Suitability.gif"; fps=frames)
 end
+
+"""
+    save_all(SD::Simulation_Data)
+
+saves all output variables - reproduction, mortality rate, carrying capacity, habitat suitability, abundance - in a CSV file.
+The format is as follows: t, x, y, value, parameter
+"""
+function save_all(SD::Simulation_Data)
+    abundance = vec(SD.species[1].output.abundances)
+    habitat = vec(SD.species[1].output.habitat)
+    reproduction = vec(SD.species[1].output.growrate)
+    carry = vec(SD.species[1].output.carry)
+    bevmort = vec(SD.species[1].output.bevmort)
+    inds = vec(CartesianIndices(abundance))
+    t = getindex.(inds, 3)
+    x = getindex.(inds,2)
+    y = getindex.(inds,1)
+    abundance_out = hcat(t, x, y, abundance, repeat(["abundance"], length(t)))
+    reproduction_out = hcat(t, x, y, reproduction, repeat(["reproduction"], length(t)))
+    habitat_out = hcat(t, x, y, habitat, repeat(["habitat"], length(t)))
+    carry_out = hcat(t, x, y, carry, repeat(["carry"], length(t)))
+    bevmort_out = hcat(t, x, y, bevmort, repeat(["bevmort"], length(t)))
+    out = vcat(abundance_out, habitat_out, reproduction_out, carry_out, bevmort_out)
+    writedlm(joinpath(SD.parameters.output_dir, "output.csv"), out)
+end
