@@ -468,7 +468,7 @@ function disperse_chunk!(
             x < chunk.x + (species.traits.max_dispersal_buffer * 2) #TODO: rewrite this condition
             # Dispersal (Race conditions in SD.Offspring averted by separating landscape into disjunct chunks)
             offspring[y:(y + species.traits.max_dispersal_buffer), x:(x + species.traits.max_dispersal_buffer)] = KernelDispersal!(
-                species.abundances[y, x, t + 1], #N
+                species.output.abundances[y, x, t + 1], #N
                 offspring[ #number offspring
                     y:(y + species.traits.max_dispersal_buffer),
                     x:(x + species.traits.max_dispersal_buffer),
