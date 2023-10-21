@@ -114,6 +114,63 @@ function suitability_gif(SD::Simulation_Data, frames=2)
 end
 
 """
+    carry_gif(SD::Simulation_Data, frames=2)
+
+creates a gif for the carrying capacity of a landscape for all timesteps
+"""
+function carry_gif(SD::Simulation_Data, frames=2)
+    t = size(SD.species[1].output.carry, 3)
+    anim = @animate for i in 1:t
+        heatmap(
+            SD.species[1].output.carry[:, :, i];
+            title="Carrying Capacity at Timestep $i",
+            c=:YlOrBr,
+            clims=(0, 1),
+            yflip=true,
+        )
+    end
+    return gif(anim, "Carry.gif"; fps=frames)
+end
+
+"""
+    reproduction_gif(SD::Simulation_Data, frames=2)
+
+creates a gif for the reproduction rate of a species in landscape for all timesteps
+"""
+function reproduction_gif(SD::Simulation_Data, frames=2)
+    t = size(SD.species[1].output.growrate, 3)
+    anim = @animate for i in 1:t
+        heatmap(
+            SD.species[1].output.growrate[:, :, i];
+            title="Reproduction Rate at Timestep $i",
+            c=:YlOrBr,
+            clims=(0, 1),
+            yflip=true,
+        )
+    end
+    return gif(anim, "Reproduction.gif"; fps=frames)
+end
+
+"""
+    mortality_gif(SD::Simulation_Data, frames=2)
+
+creates a gif for the mortality rate of a species in a landscape for all timesteps
+"""
+function mortality_gif(SD::Simulation_Data, frames=2)
+    t = size(SD.species[1].output.bevmort, 3)
+    anim = @animate for i in 1:t
+        heatmap(
+            SD.species[1].output.bevmort[:, :, i];
+            title="Mortality Rate at Timestep $i",
+            c=:YlOrBr,
+            clims=(0, 1),
+            yflip=true,
+        )
+    end
+    return gif(anim, "Mortality.gif"; fps=frames)
+end
+
+"""
     save_all(SD::Simulation_Data)
 
 saves all output variables - reproduction, mortality rate, carrying capacity, habitat suitability, abundance - in a CSV file.
