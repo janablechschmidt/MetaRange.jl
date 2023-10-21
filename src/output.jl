@@ -125,7 +125,7 @@ function carry_gif(SD::Simulation_Data, frames=2)
             SD.species[1].output.carry[:, :, i];
             title="Carrying Capacity at Timestep $i",
             c=:YlOrBr,
-            clims=(0, 1),
+            clims=(0, maximum(SD.species[1].output.carry)),
             yflip=true,
         )
     end
@@ -144,7 +144,7 @@ function reproduction_gif(SD::Simulation_Data, frames=2)
             SD.species[1].output.growrate[:, :, i];
             title="Reproduction Rate at Timestep $i",
             c=:YlOrBr,
-            clims=(0, 1),
+            clims=(0, maximum(SD.species[1].output.growrate)),
             yflip=true,
         )
     end
@@ -163,7 +163,7 @@ function mortality_gif(SD::Simulation_Data, frames=2)
             SD.species[1].output.bevmort[:, :, i];
             title="Mortality Rate at Timestep $i",
             c=:YlOrBr,
-            clims=(0, 1),
+            clims=(0, maximum(SD.species[1].output.bevmort)),
             yflip=true,
         )
     end
