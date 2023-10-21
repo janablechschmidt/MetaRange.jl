@@ -24,6 +24,9 @@ export image_precipitation
 export image_restrictions
 export suitability_gif
 export abundance_gif
+export carry_gif
+export reproduction_gif
+export mortality_gif
 export save_all
 
 #main module struct
