@@ -132,14 +132,17 @@ function read_species_dir(species_dir::String, LS::Landscape, SP::Simulation_Par
         dispersal_kernel = DispersalNegExpKernel(
             traits.max_dispersal_dist, traits.mean_dispersal_dist
         )
+        carry_out = zeros(Float64, LS.ylength, LS.xlength, SP.timesteps)
+        growrate_out = zeros(Float64, LS.ylength, LS.xlength, SP.timesteps)
+        bevmort_out = zeros(Float64, LS.ylength, LS.xlength, SP.timesteps)
+        output = Output(abundances, habitat, carry_out, growrate_out, bevmort_out)
         #total_abundance = Vector{Union{Nothing,Int64}}(undef,SP.timesteps)
         push!(
             species_vec,
             Species(
                 species["species_name"],
                 traits,
-                abundances,
-                habitat,
+                output,
                 dispersal_kernel,
                 get_Simulation_Variables(),
             ),

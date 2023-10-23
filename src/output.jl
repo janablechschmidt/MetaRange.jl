@@ -1,16 +1,10 @@
 """
-    save_csv(SD::Simulation_Data)
-
-Exports the data from a simulation to csv
-"""
-function save_csv(SD::Simulation_Data) end
-"""
     plot_abundances(SD::Simulation_Data)
 
 plots the total abundances of a species over time
 """
 function plot_abundances(SD::Simulation_Data)
-    total_abundance = vec(sum(sum(SD.species[1].abundances; dims=1); dims=2))
+    total_abundance = vec(sum(sum(SD.species[1].output.abundances; dims=1); dims=2))
     x = 1:length(total_abundance)
     carry = fill(
         sum(SD.species[1].vars.carry .* SD.species[1].vars.habitat), length(total_abundance)
@@ -32,7 +26,7 @@ end
 plots the species abundance in the landscape for a given timestep t
 """
 function image_abundances(SD::Simulation_Data, t::Int)
-    abundance = SD.species[1].abundances[:, :, t]
+    abundance = SD.species[1].output.abundances[:, :, t]
     return heatmap(
         abundance; title="Species Abundance at Timestep $t", c=:YlGnBu, yflip=true
     )
@@ -44,7 +38,7 @@ end
 plots the habitat suitability of a landscape for a given timestep t
 """
 function image_suitability(SD::Simulation_Data, t::Int)
-    suitability = SD.species[1].habitat[:, :, t]
+    suitability = SD.species[1].output.habitat[:, :, t]
     return heatmap(
         suitability; title="Habitat Suitability at Timestep $t", c=:YlOrBr, yflip=true
     )
@@ -86,11 +80,11 @@ end
 creates a gif for the abundance of a species in a landscape for all timesteps
 """
 function abundance_gif(SD::Simulation_Data, frames=2)
-    t = size(SD.species[1].abundances, 3)
-    max_ab = maximum(skipmissing(SD.species[1].abundances))
+    t = size(SD.species[1].output.abundances, 3)
+    max_ab = maximum(skipmissing(SD.species[1].output.abundances))
     anim = @animate for i in 1:t
         heatmap(
-            SD.species[1].abundances[:, :, i];
+            SD.species[1].output.abundances[:, :, i];
             title="Species Abundance at Timestep $i",
             c=:YlGnBu,
             clims=(0, max_ab),
@@ -106,10 +100,10 @@ end
 creates a gif for the habitat suitability of a landscape for all timesteps
 """
 function suitability_gif(SD::Simulation_Data, frames=2)
-    t = size(SD.species[1].habitat, 3)
+    t = size(SD.species[1].output.habitat, 3)
     anim = @animate for i in 1:t
         heatmap(
-            SD.species[1].habitat[:, :, i];
+            SD.species[1].output.habitat[:, :, i];
             title="Habitat Suitability at Timestep $i",
             c=:YlOrBr,
             clims=(0, 1),
@@ -117,4 +111,87 @@ function suitability_gif(SD::Simulation_Data, frames=2)
         )
     end
     return gif(anim, "Suitability.gif"; fps=frames)
+end
+
+"""
+    carry_gif(SD::Simulation_Data, frames=2)
+
+creates a gif for the carrying capacity of a landscape for all timesteps
+"""
+function carry_gif(SD::Simulation_Data, frames=2)
+    t = size(SD.species[1].output.carry, 3)
+    anim = @animate for i in 1:t
+        heatmap(
+            SD.species[1].output.carry[:, :, i];
+            title="Carrying Capacity at Timestep $i",
+            c=:YlOrBr,
+            clims=(0, maximum(SD.species[1].output.carry)),
+            yflip=true,
+        )
+    end
+    return gif(anim, "Carry.gif"; fps=frames)
+end
+
+"""
+    reproduction_gif(SD::Simulation_Data, frames=2)
+
+creates a gif for the reproduction rate of a species in landscape for all timesteps
+"""
+function reproduction_gif(SD::Simulation_Data, frames=2)
+    t = size(SD.species[1].output.growrate, 3)
+    anim = @animate for i in 1:t
+        heatmap(
+            SD.species[1].output.growrate[:, :, i];
+            title="Reproduction Rate at Timestep $i",
+            c=:YlOrBr,
+            clims=(0, maximum(SD.species[1].output.growrate)),
+            yflip=true,
+        )
+    end
+    return gif(anim, "Reproduction.gif"; fps=frames)
+end
+
+"""
+    mortality_gif(SD::Simulation_Data, frames=2)
+
+creates a gif for the mortality rate of a species in a landscape for all timesteps
+"""
+function mortality_gif(SD::Simulation_Data, frames=2)
+    t = size(SD.species[1].output.bevmort, 3)
+    anim = @animate for i in 1:t
+        heatmap(
+            SD.species[1].output.bevmort[:, :, i];
+            title="Mortality Rate at Timestep $i",
+            c=:YlOrBr,
+            clims=(0, maximum(SD.species[1].output.bevmort)),
+            yflip=true,
+        )
+    end
+    return gif(anim, "Mortality.gif"; fps=frames)
+end
+
+"""
+    save_all(SD::Simulation_Data)
+
+saves all output variables - reproduction, mortality rate, carrying capacity, habitat suitability, abundance - in a CSV file.
+The format is as follows: t, x, y, value, parameter
+"""
+function save_all(SD::Simulation_Data)
+    abundance = vec(SD.species[1].output.abundances)
+    habitat = vec(SD.species[1].output.habitat)
+    reproduction = vec(SD.species[1].output.growrate)
+    carry = vec(SD.species[1].output.carry)
+    bevmort = vec(SD.species[1].output.bevmort)
+    inds = vec(CartesianIndices(SD.species[1].output.abundances))
+    t = getindex.(inds, 3)
+    x = getindex.(inds,2)
+    y = getindex.(inds,1)
+    abundance_out = hcat(t, x, y, abundance, repeat(["abundance"], length(t)))
+    reproduction_out = hcat(t, x, y, reproduction, repeat(["reproduction"], length(t)))
+    habitat_out = hcat(t, x, y, habitat, repeat(["habitat"], length(t)))
+    carry_out = hcat(t, x, y, carry, repeat(["carry"], length(t)))
+    bevmort_out = hcat(t, x, y, bevmort, repeat(["bevmort"], length(t)))
+    out = vcat(abundance_out, habitat_out, reproduction_out, carry_out, bevmort_out)
+    make_out_dir(SD.parameters.output_dir)
+    writedlm(joinpath(SD.parameters.output_dir, "output.csv"), out, ',')
 end
