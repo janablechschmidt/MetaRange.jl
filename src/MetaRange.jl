@@ -6,7 +6,7 @@ using Dates
 using DelimitedFiles
 using Distributions
 using Random
-using Plots
+using CairoMakie
 
 #main module functions
 export read_input
@@ -22,6 +22,7 @@ export image_restrictions
 export suitability_gif
 export abundance_gif
 export plot_all
+export plot_all_cairo
 
 #main module struct
 export Simulation_Data
