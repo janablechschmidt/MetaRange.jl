@@ -29,9 +29,12 @@ plots the species abundance in the landscape for a given timestep t
 """
 function image_abundances(SD::Simulation_Data, t::Int)
     abundance = SD.species[1].abundances[:, :, t]
-    return heatmap(
-        abundance; title="Species Abundance at Timestep $t", c=:YlGnBu, yflip=true
+    f = Figure()
+    ax = Axis(f[1,1]; title="Abundance at Timestep $t", 
     )
+    hm = CairoMakie.heatmap!(ax, abundance, colormap = :YlGnBu, yflip=true)
+    Colorbar(f[1,2],hm)
+    return f
 end
 
 """
@@ -96,20 +99,43 @@ end
 
 creates a gif for the abundance of a species in a landscape for all timesteps
 """
-function abundance_gif(SD::Simulation_Data, frames=2)
-    t = size(SD.species[1].abundances, 3)
-    max_ab = maximum(skipmissing(SD.species[1].abundances))
+function abundance_gif(SD::Simulation_Data, frames=20)
+    timesteps = size(SD.species[1].abundances, 3)
     fig = Figure()
-    record(fig, "Abundances.gif",1:t, framerate = frames) do i 
-        ax = Axis(fig[1,1]; title="Abundances at Timestep $t")
-        hm = CairoMakie.heatmap(ax,
-            SD.species[1].abundances[:, :, i];
-            colormap=:YlGnBu,
-            clims=(0, max_ab),
-            yflip=true,
-        )
-        Colorbar(fig[1,2],hm)
+    record(fig, "Abundances.gif", 1:timesteps, framerate=frames) do i
+        fig = image_abundances(SD,i)
     end
+
+    # timesteps = size(SD.species[1].abundances, 3)
+    # #fig = Figure()
+    # for i in 1:timesteps
+    #     abund = SD.species[1].habitat[:, :, i]
+    #     fig = Figure()
+    #     ax = Axis(fig[1,1]; title="Abundances at Timestep $i")
+    #     hm = heatmap!(ax,abund;yflip=true,)
+    #     fig 
+    # end
+    #return fig
+    # t = Observable(1)
+    # timesteps = size(SD.species[1].abundances, 3)
+    # fig = Figure()
+    # ax = Axis(fig[1,1]; title="Abundances at Timestep $t")
+    # l1 = on(t) do val
+    #     hm = CairoMakie.heatmap!(ax,SD.species[1].abundances[:, :, val], colormap=:grays, yflip=true)
+    # end
+    # record(fig, "Abundances.gif", 1:timesteps, framerate=frames) do i
+    #     t[] = i
+    # end
+    # t = size(SD.species[1].abundances, 3)
+    # max_ab = maximum(skipmissing(SD.species[1].abundances))
+    # fig = Figure()
+    #ax = Axis(fig[1,1]; title="Abundances at Timestep $t")
+    #hm = heatmap(ax, SD.species[1].abundances[:, :, 1])
+    # record(fig, "Abundances.gif",1:t, framerate = frames) do i 
+      #   ax = Axis(fig[1,1]; title="Abundances at Timestep $i")
+         #hm = heatmap(SD.species[1].abundances[:, :, i])
+         #Colorbar(fig[1,2])
+    #end
 end
 
 """
@@ -118,17 +144,17 @@ end
 creates a gif for the habitat suitability of a landscape for all timesteps
 """
 function suitability_gif(SD::Simulation_Data, frames=2)
-    t = size(SD.species[1].habitat, 3)
-    anim = @animate for i in 1:t
-        heatmap(
-            SD.species[1].habitat[:, :, i];
-            title="Habitat Suitability at Timestep $i",
-            c=:YlOrBr,
-            clims=(0, 1),
-            yflip=true,
-        )
-    end
-    return gif(anim, "Suitability.gif"; fps=frames)
+    # t = size(SD.species[1].habitat, 3)
+    # anim = @animate for i in 1:t
+    #     heatmap(
+    #         SD.species[1].habitat[:, :, i];
+    #         title="Habitat Suitability at Timestep $i",
+    #         c=:YlOrBr,
+    #         clims=(0, 1),
+    #         yflip=true,
+    #     )
+    # end
+    # return gif(anim, "Suitability.gif"; fps=frames)
 end
 
 function plot_all_cairo(SD::Simulation_Data, t::Int)
