@@ -19,6 +19,7 @@ makedocs(;
         "Functions" => "functions.md",
         "Parameters" => "parameters.md",
         "Usage" => "usage.md",
+        "Instructions for Newbies" => "newbies.md",
     ],
 )
 

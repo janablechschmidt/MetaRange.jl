@@ -12,6 +12,9 @@ using CairoMakie
 export read_input
 export run_simulation!
 
+#output functions
+export save_csv
+
 #visualization functions
 export plot_abundances
 export image_suitability
@@ -21,8 +24,12 @@ export image_precipitation
 export image_restrictions
 export suitability_gif
 export abundance_gif
+export carry_gif
+export reproduction_gif
+export mortality_gif
 export plot_all
 export plot_all_cairo
+export save_all
 
 #main module struct
 export Simulation_Data

@@ -138,6 +138,13 @@ mutable struct Simulation_Variables
     offspring::Array{Float64,2}
 end
 
+struct Output
+    abundances::Array{Union{Int64,Missing},3} #amount of species individuals
+    habitat::Array{Float64,3} # habitat suitability in each timestep
+    carry::Array{Float64,3}
+    growrate::Array{Float64,3}
+    bevmort::Array{Float64,3}
+end
 ## Struct for saving all data related to a species
 """
     Species
@@ -156,8 +163,7 @@ each timestep
 struct Species
     species_name::String
     traits::Traits
-    abundances::Array{Union{Int64,Missing},3} #amount of species individuals
-    habitat::Array{Float64,3} # habitat suitability in each timestep
+    output::Output
     dispersal_kernel::Matrix{Float64}
     vars::Simulation_Variables
 end
@@ -192,6 +198,7 @@ Struct for saving simulation parameters.
 # Fields
 - `experiment_name::String`: name of the experiment
 - `config_dir::String`: path to the folder containing the config_file
+- `config_file::String`: path to the config_file
 - `output_dir::String`: path to the folder where the output should be saved
 - `species_dir::String`: path to the folder containing the species definitions
 - `environment_dir::String`: path to the folder or file containing the environment tables
@@ -212,7 +219,8 @@ Struct for saving simulation parameters.
 """
 struct Simulation_Parameters
     experiment_name::String # Simulation Parameter
-    config_dir::String # Location of the config_file
+    config_dir::String # folder containing the config file
+    config_file::String # Simulation Parameter
     output_dir::String # Simulation Parameter, filepath of save location
     species_dir::String # directory of species definitions used in the simulation
     environment_dir::String # directory of environment definitions
