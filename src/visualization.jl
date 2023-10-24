@@ -103,7 +103,7 @@ function abundance_gif(SD::Simulation_Data, frames=20)
     timesteps = size(SD.species[1].abundances, 3)
     fig = Figure()
     record(fig, "Abundances.gif", 1:timesteps, framerate=frames) do i
-        fig = image_abundances(SD,i)
+        image_abundances(SD,i)
     end
 
     # timesteps = size(SD.species[1].abundances, 3)
@@ -158,14 +158,14 @@ function suitability_gif(SD::Simulation_Data, frames=2)
 end
 
 function plot_all_cairo(SD::Simulation_Data, t::Int)
-    temp = SD.landscape.environment["temperature"][:, :, t]
+    temp = reverse(SD.landscape.environment["temperature"][:, :, t]')
     prec = SD.landscape.environment["precipitation"][:, :, t]
     suitability = SD.species[1].habitat[:, :, t]
     abundance = SD.species[1].abundances[:, :, t]
-    start_prec = minimum(prec)
-    stop_prec = maximum(prec)
-    start_temp = minimum(temp)
-    stop_temp = maximum(temp)
+    start_prec = minimum(filter(!isnan,prec))
+    stop_prec = maximum(filter(!isnan,prec))
+    start_temp = minimum(filter(!isnan,temp))
+    stop_temp = maximum(filter(!isnan,temp))
     x_prec = collect(range(start_prec; stop=stop_prec, length=1000)) #TODO find better start-stop
     y_prec = get_habitat_suit(
         SD.species[1].traits.env_preferences["precipitation"].upper_limit,
@@ -240,24 +240,24 @@ function plot_all_cairo(SD::Simulation_Data, t::Int)
         f_left[(2 + plot_size):(1 + plot_size * 2), 2:(1 + plot_size)]; 
         title="Temperature at t = $t"
     )
-    hm3 = CairoMakie.heatmap!(ax3, temp, colormap=:plasma, yflip=true)
+    hm3 = CairoMakie.heatmap!(ax3, temp, colormap=:plasma)
     Colorbar(f_left[(2 + plot_size):(1 + plot_size * 2), 2 + plot_size], hm3)
-    
+    ax3.xreversed = true
     ax4 = Axis(
         f_left[(2 + plot_size):(1 + plot_size * 2), (3 + plot_size):(2 + plot_size * 2)];
-        title="Precipitation at t = $t",
+        title="Precipitation at t = $t", yreversed = true, xreversed = true
     )
-    hm4 = CairoMakie.heatmap!(ax4, prec, colormap=:viridis, yflip=true)
+    hm4 = CairoMakie.heatmap!(ax4, prec, colormap=:viridis)
     Colorbar(f_left[(2 + plot_size):(1 + plot_size * 2), 3 + plot_size*2], hm4)
 
-    ax5 = Axis(f_right[2:(1 + plot_size), 2:(1 + plot_size)]; title="Habitat Suitability at t = $t")
-    hm5 = CairoMakie.heatmap!(ax5, suitability, colormap=:YlOrBr, yflip=true)
+    ax5 = Axis(f_right[2:(1 + plot_size), 2:(1 + plot_size)]; title="Habitat Suitability at t = $t", yreversed = true)
+    hm5 = CairoMakie.heatmap!(ax5, suitability, colormap=:YlOrBr)
     Colorbar(f_right[2:(1 + plot_size),  (box_size_r-1)], hm5)
 
     ax6 = Axis(
-        f_right[(2 + plot_size):(1 + plot_size * 2), 2:(1 + plot_size)]; title="Abundance at t = $t"
+        f_right[(2 + plot_size):(1 + plot_size * 2), 2:(1 + plot_size)]; title="Abundance at t = $t", xreversed = true
     )
-    hm6 = CairoMakie.heatmap!(ax6, abundance, colormap=:YlGnBu, yflip=true)
+    hm6 = CairoMakie.heatmap!(ax6, abundance, colormap=:YlGnBu)
     Colorbar(f_right[(2 + plot_size):(1 + plot_size * 2),  (box_size_r-1)], hm6)
     return f
 end
