@@ -4,7 +4,7 @@
 plots the total abundances of a species over time
 """
 function plot_abundances(SD::Simulation_Data)
-    total_abundance = vec(sum(sum(SD.species[1].abundances; dims=1); dims=2))
+    total_abundance = vec(sum(sum(SD.species[1].output.abundances; dims=1); dims=2))
     x = 1:length(total_abundance)
     carry = fill(
         sum(SD.species[1].vars.carry .* SD.species[1].vars.habitat), length(total_abundance)
@@ -43,7 +43,7 @@ end
 plots the habitat suitability of a landscape for a given timestep t
 """
 function image_suitability(SD::Simulation_Data, t::Int)
-    suitability = SD.species[1].habitat[:, :, t]
+    suitability = SD.species[1].output.habitat[:, :, t]
     f = Figure()
     ax = Axis(f[1,1]; title="Habitat Suitability at Timestep $t", 
     )
@@ -100,7 +100,7 @@ end
 creates a gif for the abundance of a species in a landscape for all timesteps
 """
 function abundance_gif(SD::Simulation_Data, frames=20)
-    timesteps = size(SD.species[1].abundances, 3)
+    timesteps = size(SD.species[1].output.abundances, 3)
     fig = Figure()
     record(fig, "Abundances.gif", 1:timesteps, framerate=frames) do i
         image_abundances(SD,i)
@@ -109,7 +109,7 @@ function abundance_gif(SD::Simulation_Data, frames=20)
     # timesteps = size(SD.species[1].abundances, 3)
     # #fig = Figure()
     # for i in 1:timesteps
-    #     abund = SD.species[1].habitat[:, :, i]
+    #     abund = SD.species[1].output.habitat[:, :, i]
     #     fig = Figure()
     #     ax = Axis(fig[1,1]; title="Abundances at Timestep $i")
     #     hm = heatmap!(ax,abund;yflip=true,)
@@ -117,7 +117,7 @@ function abundance_gif(SD::Simulation_Data, frames=20)
     # end
     #return fig
     # t = Observable(1)
-    # timesteps = size(SD.species[1].abundances, 3)
+    # timesteps = size(SD.species[1].output.abundances, 3)
     # fig = Figure()
     # ax = Axis(fig[1,1]; title="Abundances at Timestep $t")
     # l1 = on(t) do val
@@ -126,14 +126,14 @@ function abundance_gif(SD::Simulation_Data, frames=20)
     # record(fig, "Abundances.gif", 1:timesteps, framerate=frames) do i
     #     t[] = i
     # end
-    # t = size(SD.species[1].abundances, 3)
+    # t = size(SD.species[1].output.abundances, 3)
     # max_ab = maximum(skipmissing(SD.species[1].abundances))
     # fig = Figure()
     #ax = Axis(fig[1,1]; title="Abundances at Timestep $t")
-    #hm = heatmap(ax, SD.species[1].abundances[:, :, 1])
+    #hm = heatmap(ax, SD.species[1].output.abundances[:, :, 1])
     # record(fig, "Abundances.gif",1:t, framerate = frames) do i 
       #   ax = Axis(fig[1,1]; title="Abundances at Timestep $i")
-         #hm = heatmap(SD.species[1].abundances[:, :, i])
+         #hm = heatmap(SD.species[1].output.abundances[:, :, i])
          #Colorbar(fig[1,2])
     #end
 end
@@ -147,7 +147,7 @@ function suitability_gif(SD::Simulation_Data, frames=2)
     # t = size(SD.species[1].habitat, 3)
     # anim = @animate for i in 1:t
     #     heatmap(
-    #         SD.species[1].habitat[:, :, i];
+    #         SD.species[1].output.habitat[:, :, i];
     #         title="Habitat Suitability at Timestep $i",
     #         c=:YlOrBr,
     #         clims=(0, 1),
@@ -187,8 +187,8 @@ end
 function plot_all(SD::Simulation_Data, t::Int)
     temp = reverse(SD.landscape.environment["temperature"][:, :, t]')
     prec = reverse(SD.landscape.environment["precipitation"][:, :, t]')
-    suitability = reverse(SD.species[1].habitat[:, :, t]')
-    abundance = reverse(SD.species[1].abundances[:, :, t]')
+    suitability = reverse(SD.species[1].output.habitat[:, :, t]')
+    abundance = reverse(SD.species[1].output.abundances[:, :, t]')
     start_prec = minimum(filter(!isnan,prec))
     stop_prec = maximum(filter(!isnan,prec))
     start_temp = minimum(filter(!isnan,temp))
@@ -210,7 +210,7 @@ function plot_all(SD::Simulation_Data, t::Int)
 
     f = Figure(; resolution=(1200,800), figure_padding=1)
 
-    ratio = size(SD.species[1].abundances,1)/size(SD.species[1].abundances,2)
+    ratio = size(SD.species[1].output.abundances,1)/size(SD.species[1].output.abundances,2)
 
     box_size_l = 12
 
