@@ -184,7 +184,7 @@ function mortality_gif(SD::Simulation_Data, frames=2)
 
 end
 
-function plot_all_cairo(SD::Simulation_Data, t::Int)
+function plot_all(SD::Simulation_Data, t::Int)
     temp = reverse(SD.landscape.environment["temperature"][:, :, t]')
     prec = reverse(SD.landscape.environment["precipitation"][:, :, t]')
     suitability = reverse(SD.species[1].habitat[:, :, t]')

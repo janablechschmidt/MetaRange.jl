@@ -28,7 +28,7 @@ export carry_gif
 export reproduction_gif
 export mortality_gif
 export plot_all
-export plot_all_cairo
+export plot_all
 export save_all
 
 #main module struct
