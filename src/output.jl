@@ -157,6 +157,33 @@ function suitability_gif(SD::Simulation_Data, frames=2)
     # return gif(anim, "Suitability.gif"; fps=frames)
 end
 
+"""
+    carry_gif(SD::Simulation_Data, frames=2)
+
+creates a gif for the carrying capacity of a landscape for all timesteps
+"""
+function carry_gif(SD::Simulation_Data, frames=2)
+
+end
+
+"""
+    reproduction_gif(SD::Simulation_Data, frames=2)
+
+creates a gif for the reproduction rate of a species in a landscape for all timesteps
+"""
+function reproduction_gif(SD::Simulation_Data, frames=2)
+
+end
+
+"""
+    mortality_gif(SD::Simulation_Data, frames=2)
+
+creates a gif for the mortality rate of a species in a landscape for all timesteps
+"""
+function mortality_gif(SD::Simulation_Data, frames=2)
+
+end
+
 function plot_all_cairo(SD::Simulation_Data, t::Int)
     temp = reverse(SD.landscape.environment["temperature"][:, :, t]')
     prec = reverse(SD.landscape.environment["precipitation"][:, :, t]')
