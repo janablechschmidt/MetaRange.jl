@@ -159,21 +159,21 @@ end
 
 function plot_all_cairo(SD::Simulation_Data, t::Int)
     temp = reverse(SD.landscape.environment["temperature"][:, :, t]')
-    prec = SD.landscape.environment["precipitation"][:, :, t]
-    suitability = SD.species[1].habitat[:, :, t]
-    abundance = SD.species[1].abundances[:, :, t]
+    prec = reverse(SD.landscape.environment["precipitation"][:, :, t]')
+    suitability = reverse(SD.species[1].habitat[:, :, t]')
+    abundance = reverse(SD.species[1].abundances[:, :, t]')
     start_prec = minimum(filter(!isnan,prec))
     stop_prec = maximum(filter(!isnan,prec))
     start_temp = minimum(filter(!isnan,temp))
     stop_temp = maximum(filter(!isnan,temp))
-    x_prec = collect(range(start_prec; stop=stop_prec, length=1000)) #TODO find better start-stop
+    x_prec = collect(range(0; stop=(stop_prec*2), length=1000)) #TODO find better start-stop
     y_prec = get_habitat_suit(
         SD.species[1].traits.env_preferences["precipitation"].upper_limit,
         SD.species[1].traits.env_preferences["precipitation"].optimum,
         SD.species[1].traits.env_preferences["precipitation"].lower_limit,
         x_prec,
     )
-    x_temp = collect(range(start_temp; stop=stop_temp, length=1000)) #TODO find better start-stop
+    x_temp = collect(range((start_temp-start_temp/10); stop=(stop_temp+(stop_temp/10)), length=1000)) #TODO find better start-stop
     y_temp = get_habitat_suit(
         SD.species[1].traits.env_preferences["temperature"].upper_limit,
         SD.species[1].traits.env_preferences["temperature"].optimum,
@@ -182,6 +182,8 @@ function plot_all_cairo(SD::Simulation_Data, t::Int)
     )
 
     f = Figure(; resolution=(1200,800), figure_padding=1)
+
+    ratio = size(SD.species[1].abundances,1)/size(SD.species[1].abundances,2)
 
     box_size_l = 12
 
@@ -238,26 +240,29 @@ function plot_all_cairo(SD::Simulation_Data, t::Int)
 
     ax3 = Axis(
         f_left[(2 + plot_size):(1 + plot_size * 2), 2:(1 + plot_size)]; 
-        title="Temperature at t = $t"
+        title="Temperature at t = $t", aspect = ratio
     )
     hm3 = CairoMakie.heatmap!(ax3, temp, colormap=:plasma)
     Colorbar(f_left[(2 + plot_size):(1 + plot_size * 2), 2 + plot_size], hm3)
     ax3.xreversed = true
     ax4 = Axis(
         f_left[(2 + plot_size):(1 + plot_size * 2), (3 + plot_size):(2 + plot_size * 2)];
-        title="Precipitation at t = $t", yreversed = true, xreversed = true
+        title="Precipitation at t = $t", aspect = ratio
     )
     hm4 = CairoMakie.heatmap!(ax4, prec, colormap=:viridis)
     Colorbar(f_left[(2 + plot_size):(1 + plot_size * 2), 3 + plot_size*2], hm4)
-
-    ax5 = Axis(f_right[2:(1 + plot_size), 2:(1 + plot_size)]; title="Habitat Suitability at t = $t", yreversed = true)
+    ax4.xreversed = true
+    ax5 = Axis(f_right[2:(1 + plot_size), 2:(1 + plot_size)]; 
+    title="Habitat Suitability at t = $t", aspect = ratio)
     hm5 = CairoMakie.heatmap!(ax5, suitability, colormap=:YlOrBr)
     Colorbar(f_right[2:(1 + plot_size),  (box_size_r-1)], hm5)
-
+    ax5.xreversed = true
     ax6 = Axis(
-        f_right[(2 + plot_size):(1 + plot_size * 2), 2:(1 + plot_size)]; title="Abundance at t = $t", xreversed = true
+        f_right[(2 + plot_size):(1 + plot_size * 2), 2:(1 + plot_size)]; 
+        title="Abundance at t = $t", aspect = ratio
     )
     hm6 = CairoMakie.heatmap!(ax6, abundance, colormap=:YlGnBu)
     Colorbar(f_right[(2 + plot_size):(1 + plot_size * 2),  (box_size_r-1)], hm6)
+    ax6.xreversed = true
     return f
 end
