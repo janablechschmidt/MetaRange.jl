@@ -92,7 +92,7 @@ function init_species_sim_vars!(
             timestep,
             E_growrate,
         )
-        sp.output.growrate[:,:,timestep] = sp.vars.growrate
+        sp.output.growrate[:, :, timestep] = sp.vars.growrate
         sp.vars.carry = get_pop_carry(
             sp.traits,
             LS,
@@ -102,7 +102,7 @@ function init_species_sim_vars!(
             timestep,
             E_carry,
         )
-        sp.output.carry[:,:,timestep] = sp.vars.carry
+        sp.output.carry[:, :, timestep] = sp.vars.carry
         sp.vars.allee = get_pop_var(
             sp.traits.carry,
             sp.traits.sd_carry,
@@ -124,7 +124,7 @@ function init_species_sim_vars!(
             timestep,
             E_bevmort,
         )
-        sp.output.bevmort[:,:,timestep] = sp.vars.bevmort
+        sp.output.bevmort[:, :, timestep] = sp.vars.bevmort
         sp.vars.occurrences = findall(
             (sp.output.abundances[:, :, timestep] .> 0) .& (sp.vars.is_habitat)
         )
@@ -419,7 +419,9 @@ function Survive!(species::Vector{Species}, DispersalSurvival, t::Int64)
     # good candidate for tests. What even is happening here?
     for sp in species
         occurrences = findall((
-            sp.vars.offspring[1:size(sp.output.abundances, 1), 1:size(sp.output.abundances, 2)] .> 0
+            sp.vars.offspring[
+                1:size(sp.output.abundances, 1), 1:size(sp.output.abundances, 2)
+            ] .> 0
         ))
         occurrences = hcat(getindex.(occurrences, 1), getindex.(occurrences, 2))
         sp.output.abundances[:, :, t + 1] = DispersalSurvival(
@@ -430,7 +432,11 @@ function Survive!(species::Vector{Species}, DispersalSurvival, t::Int64)
         )
         # Survival to the next timestep depending on habitat quality
         sp.output.abundances[:, :, t + 1] =
-            round.(HabitatMortality(sp.output.abundances[:, :, t + 1], sp.vars.future_is_habitat))
+            round.(
+                HabitatMortality(
+                    sp.output.abundances[:, :, t + 1], sp.vars.future_is_habitat
+                )
+            )
         pos = findall(isnan.(sp.output.habitat[:, :, 1]))
         #sp.output.abundances[pos,t] = NaN
         sp.output.abundances[pos, t + 1] .= missing

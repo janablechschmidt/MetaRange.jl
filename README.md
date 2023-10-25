@@ -33,7 +33,7 @@ julia> import Pkg; Pkg.add(url = "https://github.com/janablechschmidt/MetaRange.
 
 This will download all scripts, files, and dependencies that are necessary to run the model.
 
-MetaRange has been tested on Julia 1.6 and upwards on Windows and Linux.
+MetaRange is being developed and tested on the current 1.9 release on Windows and Linux.
 
 ## Usage
 
