@@ -28,7 +28,7 @@ end
 plots the species abundance in the landscape for a given timestep t
 """
 function image_abundances(SD::Simulation_Data, t::Int)
-    abundance = reverse(SD.species[1].abundances[:, :, t]')
+    abundance = reverse(SD.species[1].output.abundances[:, :, t]')
     ratio = size(SD.species[1].output.abundances,1)/size(SD.species[1].output.abundances,2)
     f = Figure()
     ax = Axis(f[1,1]; title="Abundance at Timestep $t", aspect = ratio
