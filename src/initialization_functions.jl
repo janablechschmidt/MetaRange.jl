@@ -76,6 +76,18 @@ function initialize_abundances(
     return abundances
 end
 
+function initialize_output(
+    SP::Simulation_Parameters,
+    LS::Landscape,
+    abundances::Array{Int64,3},
+    habitat::Array{Float64,3},
+)
+    carry_out = zeros(Float64, LS.xlength, LS.ylength, SP.timesteps)
+    growrate_out = zeros(Float64, LS.xlength, LS.ylength, SP.timesteps)
+    bevmort_out = zeros(Float64, LS.xlength, LS.ylength, SP.timesteps)
+    return Output(abundances, habitat, carry_out, growrate_out, bevmort_out)
+end
+
 """
     randomize!(value,sd)
 
