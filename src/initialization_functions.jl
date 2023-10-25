@@ -76,6 +76,17 @@ function initialize_abundances(
     return abundances
 end
 
+"""
+    initialize_output(
+    SP::Simulation_Parameters,
+    LS::Landscape,
+    abundances::Array{Int64,3},
+    habitat::Array{Float64,3},
+)
+
+Initializes the output struct. Calculation of the first timesteps is done outside the
+function.
+"""
 function initialize_output(
     SP::Simulation_Parameters,
     LS::Landscape,
