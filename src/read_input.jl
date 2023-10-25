@@ -124,6 +124,8 @@ function read_species_dir(species_dir::String, LS::Landscape, SP::Simulation_Par
         # parameter is not 0 in the randomize!() function bevmort can only be in range [0,1]
         # Build Traits struct
         traits = get_Traits(species)
+
+        # initializing the output functions
         # calculate habitat
         habitat = zeros(Float64, LS.ylength, LS.xlength, SP.timesteps) # x y z
         habitat[:, :, 1] = get_habitat(traits.env_preferences, LS, SP.env_attribute_mode, 1)
@@ -132,10 +134,7 @@ function read_species_dir(species_dir::String, LS::Landscape, SP::Simulation_Par
         dispersal_kernel = DispersalNegExpKernel(
             traits.max_dispersal_dist, traits.mean_dispersal_dist
         )
-        carry_out = zeros(Float64, LS.ylength, LS.xlength, SP.timesteps)
-        growrate_out = zeros(Float64, LS.ylength, LS.xlength, SP.timesteps)
-        bevmort_out = zeros(Float64, LS.ylength, LS.xlength, SP.timesteps)
-        output = Output(abundances, habitat, carry_out, growrate_out, bevmort_out)
+        output = initialize_output(SP, LS, abundances, habitat)
         #total_abundance = Vector{Union{Nothing,Int64}}(undef,SP.timesteps)
         push!(
             species_vec,
