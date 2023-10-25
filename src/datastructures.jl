@@ -138,6 +138,18 @@ mutable struct Simulation_Variables
     offspring::Array{Float64,2}
 end
 
+"""
+    Output
+
+represents the output of a simulation run for a species.
+
+# Fields
+- `abundances`: amount of individuals for each species in each timestep
+- `habitat`: habitat suitability for each species in each timestep
+- `carry`: carrying capacity for each species in each timestep
+- `growrate`: growth rate for each species in each timestep
+- `bevmort`: background mortality rate for each species in each timestep
+"""
 struct Output
     abundances::Array{Union{Int64,Missing},3} #amount of species individuals
     habitat::Array{Float64,3} # habitat suitability in each timestep
