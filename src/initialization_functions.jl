@@ -42,14 +42,14 @@ function get_habitat_suit(vmax, vopt, vmin, venv)
 end
 
 """
-    InitializeAbundances(
+    initialize_abundances(
         SP::Simulation_Parameters,
         habitat::Array{Float64, 2},
         carry::Float64)
 
 Initialization of Abundances.
 """
-function InitializeAbundances(
+function initialize_abundances(
     SP::Simulation_Parameters, habitat::Array{Float64,2}, carry::Float64
 )
     abundances = zeros(Int, size(habitat)[1], size(habitat)[2], SP.timesteps) # x y z

@@ -128,7 +128,7 @@ function read_species_dir(species_dir::String, LS::Landscape, SP::Simulation_Par
         habitat = zeros(Float64, LS.ylength, LS.xlength, SP.timesteps) # x y z
         habitat[:, :, 1] = get_habitat(traits.env_preferences, LS, SP.env_attribute_mode, 1)
         # initialize abundances
-        abundances = InitializeAbundances(SP, habitat[:, :, 1], traits.carry)
+        abundances = initialize_abundances(SP, habitat[:, :, 1], traits.carry)
         dispersal_kernel = DispersalNegExpKernel(
             traits.max_dispersal_dist, traits.mean_dispersal_dist
         )
