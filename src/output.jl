@@ -28,11 +28,13 @@ end
 plots the species abundance in the landscape for a given timestep t
 """
 function image_abundances(SD::Simulation_Data, t::Int)
-    abundance = SD.species[1].abundances[:, :, t]
+    abundance = reverse(SD.species[1].abundances[:, :, t]')
+    ratio = size(SD.species[1].output.abundances,1)/size(SD.species[1].output.abundances,2)
     f = Figure()
-    ax = Axis(f[1,1]; title="Abundance at Timestep $t", 
+    ax = Axis(f[1,1]; title="Abundance at Timestep $t", aspect = ratio
     )
-    hm = CairoMakie.heatmap!(ax, abundance, colormap = :YlGnBu, yflip=true)
+    ax.xreversed = true
+    hm = CairoMakie.heatmap!(ax, abundance, colormap = :YlGnBu)
     Colorbar(f[1,2],hm)
     return f
 end
@@ -43,11 +45,13 @@ end
 plots the habitat suitability of a landscape for a given timestep t
 """
 function image_suitability(SD::Simulation_Data, t::Int)
-    suitability = SD.species[1].output.habitat[:, :, t]
+    suitability = reverse(SD.species[1].output.habitat[:, :, t]')
+    ratio = size(SD.species[1].output.suitability,1)/size(SD.species[1].output.suitability,2)
     f = Figure()
-    ax = Axis(f[1,1]; title="Habitat Suitability at Timestep $t", 
+    ax = Axis(f[1,1]; title="Habitat Suitability at Timestep $t", aspect = ratio
     )
-    hm = CairoMakie.heatmap!(ax, suitability, colormap = :YlOrBr, yflip=true)
+    ax.xreversed = true
+    hm = CairoMakie.heatmap!(ax, suitability, colormap = :YlOrBr)
     Colorbar(f[1,2],hm)
     return f
 end
@@ -58,10 +62,12 @@ end
 plots the temperature of a landscape for a given timestep t
 """
 function image_temperature(SD::Simulation_Data, t::Int)
-    temp = SD.landscape.environment["temperature"][:, :, t]
+    temp = reverse(SD.landscape.environment["temperature"][:, :, t]')
+    ratio = size(SD.landscape.environment["temperature"],1)/size(SD.landscape.environment["temperature"],2)
     f = Figure()
-    ax = Axis(f[1,1]; title="Temperature at Timestep $t")
-    hm = CairoMakie.heatmap!(ax, temp, colormap=:plasma, yflip=true)
+    ax = Axis(f[1,1]; title="Temperature at Timestep $t", aspect = ratio)
+    ax.xreversed = true
+    hm = CairoMakie.heatmap!(ax, temp, colormap=:plasma)
     Colorbar(f[1,2],hm)
     return f
 end
@@ -72,10 +78,12 @@ end
 plots the precipitation of a landscape for a given timestep t
 """
 function image_precipitation(SD::Simulation_Data, t::Int)
-    prec = SD.landscape.environment["precipitation"][:, :, t]
+    prec = reverse(SD.landscape.environment["precipitation"][:, :, t]')
+    ratio = size(SD.landscape.environment["precipitation"],1)/size(SD.landscape.environment["precipitation"],2)
     f = Figure()
-    ax = Axis(f[1,1]; title="Precipitation at Timestep $t")
-    hm = CairoMakie.heatmap!(ax, prec, colormap=:viridis, yflip=true)
+    ax = Axis(f[1,1]; title="Precipitation at Timestep $t", aspect = ratio)
+    ax.xreversed = true
+    hm = CairoMakie.heatmap!(ax, prec, colormap=:viridis)
     Colorbar(f[1,2],hm)
     return f
 end
@@ -86,10 +94,12 @@ end
 plots the restrictions of a landscape for a given timestep t
 """
 function image_restrictions(SD::Simulation_Data, t::Int)
-    restr = SD.landscape.restrictions[:, :, t]
+    restr = reverse(SD.landscape.restrictions[:, :, t]')
+    ratio = size(SD.landscape.restrictions,1)/size(SD.landscape.restrictions,2)
     f = Figure()
-    ax = Axis(f[1,1]; title="Restrictions at Timestep $t")
-    hm = CairoMakie.heatmap!(ax, restr, colormap=:grays, yflip=true)
+    ax = Axis(f[1,1]; title="Restrictions at Timestep $t", aspect = ratio)
+    ax.xreversed = true
+    hm = CairoMakie.heatmap!(ax, restr, colormap=:grays)
     Colorbar(f[1,2],hm)
     return f
 end
