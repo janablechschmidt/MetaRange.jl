@@ -48,9 +48,7 @@ plots the habitat suitability of a landscape for a given timestep t
 """
 function image_suitability(SD::Simulation_Data, t::Int)
     suitability = reverse(SD.species[1].output.habitat[:, :, t]')
-    ratio =
-        size(SD.species[1].output.habitat, 1) /
-        size(SD.species[1].output.habitat, 2)
+    ratio = size(SD.species[1].output.habitat, 1) / size(SD.species[1].output.habitat, 2)
     f = Figure()
     ax = Axis(f[1, 1]; title="Habitat Suitability at Timestep $t", aspect=ratio)
     ax.xreversed = true
@@ -119,19 +117,18 @@ creates a gif for the abundance of a species in a landscape for all timesteps
 function abundance_gif(SD::Simulation_Data, frames=20)
     t = Observable(1)
     timesteps = SD.parameters.timesteps
-    abund = @lift(reverse(SD.species[1].output.abundances[:,:,$t]'))
+    abund = @lift(reverse(SD.species[1].output.abundances[:, :, $t]'))
     ratio =
-        size(SD.species[1].output.abundances, 1) /
-        size(SD.species[1].output.abundances, 2)
+        size(SD.species[1].output.abundances, 1) / size(SD.species[1].output.abundances, 2)
     f = Figure()
     title = Observable("Abundance at timestep $(t)")
-    ax = Axis(f[1, 1]; title=title, aspect=ratio, xreversed = true)
+    ax = Axis(f[1, 1]; title=title, aspect=ratio, xreversed=true)
     hm = CairoMakie.heatmap!(ax, abund; colormap=:YlOrBr)
     Colorbar(f[1, 2], hm)
-    record(f, "Abundance.gif", 1:timesteps, framerate=frames) do i
+    record(f, "Abundance.gif", 1:timesteps; framerate=frames) do i
         t[] = i
         title[] = "Abundance at timestep $(i)"
-     end
+    end
 end
 
 """
@@ -142,19 +139,17 @@ creates a gif for the habitat suitability of a landscape for all timesteps
 function suitability_gif(SD::Simulation_Data, frames=2)
     t = Observable(1)
     timesteps = SD.parameters.timesteps
-    suitability = @lift(reverse(SD.species[1].output.habitat[:,:,$t]'))
-    ratio =
-        size(SD.species[1].output.habitat, 1) /
-        size(SD.species[1].output.habitat, 2)
+    suitability = @lift(reverse(SD.species[1].output.habitat[:, :, $t]'))
+    ratio = size(SD.species[1].output.habitat, 1) / size(SD.species[1].output.habitat, 2)
     f = Figure()
     title = Observable("Habitat suitability at timestep $(t)")
-    ax = Axis(f[1, 1]; title=title, aspect=ratio, xreversed = true)
+    ax = Axis(f[1, 1]; title=title, aspect=ratio, xreversed=true)
     hm = CairoMakie.heatmap!(ax, suitability; colormap=:YlOrBr)
     Colorbar(f[1, 2], hm)
-    record(f, "Suitability.gif", 1:timesteps, framerate=frames) do i
+    record(f, "Suitability.gif", 1:timesteps; framerate=frames) do i
         t[] = i
         title[] = "Habitat suitability at timestep $(i)"
-     end
+    end
 end
 
 """
@@ -165,19 +160,17 @@ creates a gif for the carrying capacity of a landscape for all timesteps
 function carry_gif(SD::Simulation_Data, frames=2)
     t = Observable(1)
     timesteps = SD.parameters.timesteps
-    carry = @lift(reverse(SD.species[1].output.carry[:,:,$t]'))
-    ratio =
-        size(SD.species[1].output.carry, 1) /
-        size(SD.species[1].output.carry, 2)
+    carry = @lift(reverse(SD.species[1].output.carry[:, :, $t]'))
+    ratio = size(SD.species[1].output.carry, 1) / size(SD.species[1].output.carry, 2)
     f = Figure()
     title = Observable("Carrying Capacity at timestep $(t)")
-    ax = Axis(f[1, 1]; title=title, aspect=ratio, xreversed = true)
+    ax = Axis(f[1, 1]; title=title, aspect=ratio, xreversed=true)
     hm = CairoMakie.heatmap!(ax, carry; colormap=:YlOrBr)
     Colorbar(f[1, 2], hm)
-    record(f, "CarryingCapacity.gif", 1:timesteps, framerate=frames) do i
+    record(f, "CarryingCapacity.gif", 1:timesteps; framerate=frames) do i
         t[] = i
         title[] = "Carrying Capacity at timestep $(i)"
-     end
+    end
 end
 
 """
@@ -188,16 +181,14 @@ creates a gif for the reproduction rate of a species in a landscape for all time
 function reproduction_gif(SD::Simulation_Data, frames=2)
     t = Observable(1)
     timesteps = SD.parameters.timesteps
-    r = @lift(reverse(SD.species[1].output.growrate[:,:,$t]'))
-    ratio =
-        size(SD.species[1].output.growrate, 1) /
-        size(SD.species[1].output.growrate, 2)
+    r = @lift(reverse(SD.species[1].output.growrate[:, :, $t]'))
+    ratio = size(SD.species[1].output.growrate, 1) / size(SD.species[1].output.growrate, 2)
     f = Figure()
     title = Observable("Reproduction rate at timestep $(t)")
-    ax = Axis(f[1, 1]; title=title, aspect=ratio, xreversed = true)
+    ax = Axis(f[1, 1]; title=title, aspect=ratio, xreversed=true)
     hm = CairoMakie.heatmap!(ax, r; colormap=:YlOrBr)
     Colorbar(f[1, 2], hm)
-    record(f, "Reproduction.gif", 1:timesteps, framerate=frames) do i
+    record(f, "Reproduction.gif", 1:timesteps; framerate=frames) do i
         t[] = i
         title[] = "Reproduction rate at timestep $(i)"
     end
@@ -211,16 +202,14 @@ creates a gif for the mortality rate of a species in a landscape for all timeste
 function mortality_gif(SD::Simulation_Data, frames=2)
     t = Observable(1)
     timesteps = SD.parameters.timesteps
-    m = @lift(reverse(SD.species[1].output.bevmort[:,:,$t]'))
-    ratio =
-        size(SD.species[1].output.bevmort, 1) /
-        size(SD.species[1].output.bevmort, 2)
+    m = @lift(reverse(SD.species[1].output.bevmort[:, :, $t]'))
+    ratio = size(SD.species[1].output.bevmort, 1) / size(SD.species[1].output.bevmort, 2)
     f = Figure()
     title = Observable("Mortality rate at timestep $(t)")
-    ax = Axis(f[1, 1]; title=title, aspect=ratio, xreversed = true)
+    ax = Axis(f[1, 1]; title=title, aspect=ratio, xreversed=true)
     hm = CairoMakie.heatmap!(ax, m; colormap=:YlOrBr)
     Colorbar(f[1, 2], hm)
-    record(f, "Mortality.gif", 1:timesteps, framerate=frames) do i
+    record(f, "Mortality.gif", 1:timesteps; framerate=frames) do i
         t[] = i
         title[] = "Mortality rate at timestep $(i)"
     end
