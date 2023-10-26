@@ -211,7 +211,10 @@ function get_default_species(LS::Landscape, SP::Simulation_Parameters)
     )
     habitat[:, :, 1] = habitat_init
     # initialize abundances
-    abundances = InitializeAbundances(SP, habitat[:, :, 1], traits.carry)
+    abundances = initialize_abundances(SP, habitat[:, :, 1], traits.carry)
+    # initializing output struct
+    output = initialize_output(SP, LS, abundances, habitat)
+    # get dispersal_kernel
     dispersal_kernel = DispersalNegExpKernel(
         traits.max_dispersal_dist, traits.mean_dispersal_dist
     )
@@ -221,8 +224,7 @@ function get_default_species(LS::Landscape, SP::Simulation_Parameters)
         Species(
             species["species_name"],
             traits,
-            abundances,
-            habitat,
+            output,
             dispersal_kernel,
             get_Simulation_Variables(),
         ),

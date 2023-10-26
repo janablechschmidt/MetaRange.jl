@@ -42,14 +42,14 @@ function get_habitat_suit(vmax, vopt, vmin, venv)
 end
 
 """
-    InitializeAbundances(
+    initialize_abundances(
         SP::Simulation_Parameters,
         habitat::Array{Float64, 2},
         carry::Float64)
 
 Initialization of Abundances.
 """
-function InitializeAbundances(
+function initialize_abundances(
     SP::Simulation_Parameters, habitat::Array{Float64,2}, carry::Float64
 )
     abundances = zeros(Int, size(habitat)[1], size(habitat)[2], SP.timesteps) # x y z
@@ -74,6 +74,29 @@ function InitializeAbundances(
         #findall(abundances[:,:,1].==0)
     end
     return abundances
+end
+
+"""
+    initialize_output(
+    SP::Simulation_Parameters,
+    LS::Landscape,
+    abundances::Array{Int64,3},
+    habitat::Array{Float64,3},
+)
+
+Initializes the output struct. Calculation of the first timesteps is done outside the
+function.
+"""
+function initialize_output(
+    SP::Simulation_Parameters,
+    LS::Landscape,
+    abundances::Array{Int64,3},
+    habitat::Array{Float64,3},
+)
+    carry_out = zeros(Float64, LS.xlength, LS.ylength, SP.timesteps)
+    growrate_out = zeros(Float64, LS.xlength, LS.ylength, SP.timesteps)
+    bevmort_out = zeros(Float64, LS.xlength, LS.ylength, SP.timesteps)
+    return Output(abundances, habitat, carry_out, growrate_out, bevmort_out)
 end
 
 """
