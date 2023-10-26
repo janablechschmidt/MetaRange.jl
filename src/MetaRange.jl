@@ -6,6 +6,7 @@ using Dates
 using DelimitedFiles
 using Distributions
 using Random
+#using GLMakie
 using CairoMakie
 
 #main module functions
@@ -22,11 +23,11 @@ export image_abundances
 export image_temperature
 export image_precipitation
 export image_restrictions
-#export suitability_gif
-#export abundance_gif
-#export carry_gif
-#export reproduction_gif
-#export mortality_gif
+export suitability_gif
+export abundance_gif
+export carry_gif
+export reproduction_gif
+export mortality_gif
 export plot_all
 export save_all
 
