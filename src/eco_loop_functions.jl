@@ -390,7 +390,7 @@ end
 #  # get total living biomass at each cell
 #  total_sp_mass_arr = Array{Float64}(undef, LS.ylength, LS.xlength, length(species))
 #  for i in 1:length(species)
-#    total_sp_mass_arr[:,:,i] = species[i].vars.biomass .* @view(species[i].abundances[:,:,t+1])
+#    total_sp_mass_arr[:,:,i] = species[i].vars.biomass .* @view(species[i].output.abundances[:,:,t+1])
 #  end
 #  total_biomass = dropdims(sum(total_sp_mass_arr, dims=3), dims=3)
 #  # get list of overpopulated cells

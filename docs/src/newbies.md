@@ -125,7 +125,7 @@ SD.parameters.output_dir
 Or if you want to investigate the abundances of your species 1 at timestep 10, type
 
 ```julia
-SD.species[1].abundances[:,:,10]
+SD.species[1].output.abundances[:,:,10]
 ```
 
 You can also use one of the plotting functions to have a look at your results, for example
@@ -136,7 +136,7 @@ image_abundances(SD, 10)
 A function to save your output is curently being built. In the meantime, you can save your chosen outputs using the following code:
 ```julia
 for i in 1:dim(SD.species[1].abundances,3)
-    writedlm("Abundances_$i.csv", SD.species[1].abundances[:,:,i], ',')
+    writedlm("Abundances_$i.csv", SD.species[1].output.abundances[:,:,i], ',')
 end
 ```
 This code will write a CSV file for each timestep of your abundances and save them as "Abundances1.csv", "Abundances2.csv",... If you want to save other parameters, change the second argument in the `writedlm()` function and rename the file in the first argument. If you want to use anything other than in comma as your seperator in the CSV file, simply change the symbol in the third argument.
