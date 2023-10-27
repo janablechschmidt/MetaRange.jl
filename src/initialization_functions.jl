@@ -93,9 +93,9 @@ function initialize_output(
     abundances::Array{Int64,3},
     habitat::Array{Float64,3},
 )
-    carry_out = zeros(Float64, LS.xlength, LS.ylength, SP.timesteps)
-    growrate_out = zeros(Float64, LS.xlength, LS.ylength, SP.timesteps)
-    bevmort_out = zeros(Float64, LS.xlength, LS.ylength, SP.timesteps)
+    carry_out = zeros(Float64, LS.ylength, LS.xlength, SP.timesteps)
+    growrate_out = zeros(Float64, LS.ylength, LS.xlength, SP.timesteps)
+    bevmort_out = zeros(Float64, LS.ylength, LS.xlength, SP.timesteps)
     return Output(abundances, habitat, carry_out, growrate_out, bevmort_out)
 end
 
