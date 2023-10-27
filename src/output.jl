@@ -4,11 +4,22 @@
 plots the total abundances of a species over time
 """
 function plot_abundances(SD::Simulation_Data)
-    total_abundance = vec(sum(sum(SD.species[1].output.abundances; dims=1); dims=2))
-    x = 1:length(total_abundance)
-    carry = fill(
-        sum(SD.species[1].vars.carry .* SD.species[1].vars.habitat), length(total_abundance)
-    )
+    #abundance over time
+    abundances = SD.species[1].output.abundances
+    max_time = SD.parameters.timesteps
+    total_abundance = [sum(skipmissing(abundances[:, :, t])) for t in 1:max_time]
+
+    # calculate carrying capacity
+    carrying_capacity = SD.species[1].vars.carry
+    habitat_suitability = SD.species[1].vars.habitat
+    carry = [
+        sum(filter(!isnan, carrying_capacity .* habitat_suitability[:, :, t])) for
+        t in 1:max_time
+    ]
+
+    #create figure
+    x = collect(1:max_time)
+    #y = total_abundance
     f = Figure(; fontsize=24)
     ax = Axis(
         f[1, 1];
