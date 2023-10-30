@@ -14,7 +14,7 @@ Plot the total abundances of a species over time.
 julia> f = plot_abundances(SD)
 julia> f
 ```
-#![Abundance plot](img/Flowchart_MetaRange.png)
+![Abundance plot](img/plot_abundances.png)
 """
 function plot_abundances(SD::Simulation_Data)
     total_abundance = vec(sum(sum(SD.species[1].output.abundances; dims=1); dims=2))
@@ -51,10 +51,10 @@ Plot the species abundance in the landscape for timestep t.
 
 # Examples
 ```julia-repl
-julia> f = image_abundances(SD, 1)
+julia> f = image_abundances(SD, 30)
 julia> f
 ```
-#![Abundance plot](img/Flowchart_MetaRange.png)
+![Image of abundances on the map](img/image_abundances.png)
 """
 function image_abundances(SD::Simulation_Data, t::Int)
     abundance = reverse(SD.species[1].output.abundances[:, :, t]')
@@ -82,10 +82,10 @@ Plot the habitat suitability of a landscape for timestep t.
 
 # Examples
 ```julia-repl
-julia> f = image_suitability(SD, 1)
+julia> f = image_suitability(SD, 30)
 julia> f
 ```
-#![Abundance plot](img/Flowchart_MetaRange.png)
+![Image of habitat suitability on the map](img/image_suitability.png)
 """
 function image_suitability(SD::Simulation_Data, t::Int)
     suitability = reverse(SD.species[1].output.habitat[:, :, t]')
@@ -112,10 +112,10 @@ Plot the temperature of a landscape for timestep t.
 
 # Examples
 ```julia-repl
-julia> f = image_temperature(SD, 1)
+julia> f = image_temperature(SD, 30)
 julia> f
 ```
-#![Abundance plot](img/Flowchart_MetaRange.png)
+![Image of temperatures on the map](img/image_temperature.png)
 """
 function image_temperature(SD::Simulation_Data, t::Int)
     temp = reverse(SD.landscape.environment["temperature"][:, :, t]')
@@ -144,10 +144,10 @@ Plot the precipitation of a landscape for timestep t.
 
 # Examples
 ```julia-repl
-julia> f = image_precipitation(SD, 1)
+julia> f = image_precipitation(SD, 30)
 julia> f
 ```
-#![Abundance plot](img/Flowchart_MetaRange.png)
+![Image of precipitation levels on the map](img/image_precipitation.png)
 """
 function image_precipitation(SD::Simulation_Data, t::Int)
     prec = reverse(SD.landscape.environment["precipitation"][:, :, t]')
@@ -176,10 +176,9 @@ Plot the restrictions of a landscape for timestep t.
 
 # Examples
 ```julia-repl
-julia> f = image_restrictions(SD, 1)
+julia> f = image_restrictions(SD, 30)
 julia> f
 ```
-#![Abundance plot](img/Flowchart_MetaRange.png)
 """
 function image_restrictions(SD::Simulation_Data, t::Int)
     restr = reverse(SD.landscape.restrictions[:, :, t]')
@@ -243,7 +242,6 @@ Create a gif of habitat suitability in a landscape for all timesteps
 ```julia-repl
 julia> suitability_gif(SD)
 ```
-#![.gif of suitability](img/static_abundances.gif)
 """
 function suitability_gif(SD::Simulation_Data; frames=2)
     t = Observable(1)
@@ -277,7 +275,6 @@ Create a gif of the carrying capacity in a landscape for all timesteps.
 ```julia-repl
 julia> carry_gif(SD)
 ```
-#![.gif of carrying capacity](img/static_abundances.gif)
 """
 function carry_gif(SD::Simulation_Data, frames=2)
     t = Observable(1)
@@ -311,7 +308,6 @@ Create a gif for the reproduction rate of a species in a landscape for all times
 ```julia-repl
 julia> reproduction_gif(SD)
 ```
-#![.gif of reproduction](img/static_abundances.gif)
 """
 function reproduction_gif(SD::Simulation_Data, frames=2)
     t = Observable(1)
@@ -345,7 +341,6 @@ Create a gif of the mortality rate of a species in a landscape for all timesteps
 ```julia-repl
 julia> mortality_gif(SD)
 ```
-#![.gif of mortality](img/static_abundances.gif)
 """
 function mortality_gif(SD::Simulation_Data, frames=2)
     t = Observable(1)
@@ -377,7 +372,7 @@ Plot all input and output variables for a given timestep.
 
 # Examples
 ```julia-repl
-julia> f = plot_all(SD, 1)
+julia> f = plot_all(SD, 19)
 julia> f
 ```
 ![All plots](img/plot_all.png)
