@@ -31,9 +31,6 @@ export mortality_gif
 export plot_all
 export save_all
 
-#main module struct
-export Simulation_Data
-
 #examples and defaults
 export default_run_data
 
