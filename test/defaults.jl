@@ -8,6 +8,6 @@
     end
     @testset "default_run_data" begin
         SD = default_run_data()
-        @test typeof(SD) == Simulation_Data
+        @test typeof(SD) == MetaRange.Simulation_Data
     end
 end
