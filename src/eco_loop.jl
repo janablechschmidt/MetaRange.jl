@@ -21,7 +21,7 @@ timesteps.
 julia> run_simulation!(SD)
 ```
 
-See also [`read_input()`](@ref)
+See also [`read_input()`](@ref), [`Simulation_Data`](@ref MetaRange.Simulation_Data)
 """
 function run_simulation!(SD::Simulation_Data)
     simulation_start_time = now()

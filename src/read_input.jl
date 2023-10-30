@@ -2,7 +2,7 @@
     read_input(path::String)
 
 Read in the configuration and associated files in the folder and return a
-[Simulation_Data](@ref) struct.
+[Simulation_Data](@ref MetaRange.Simulation_Data) struct.
 
 # Arguments
 - `path::String`: Path to the configuration file.
@@ -14,9 +14,13 @@ Read in the configuration and associated files in the folder and return a
 # Examples
 ```julia-repl
 julia> SD = read_input("path/to/config.csv")
+precipitation
+temperature
+...
 ```
 
-See also [Simulation_Data](@ref)
+See also [run_simulation!()](@ref MetaRange.run_simulation!),
+    [Simulation_Data](@ref MetaRange.Simulation_Data)
 """
 function read_input(config_path::String)
     check_constants()
