@@ -20,10 +20,4 @@ suitability_gif
 image_temperature
 image_precipitation
 image_restrictions
-```  
-
-### Internal Functions
-
-```@autodocs
-Modules = [MetaRange]
-```  
+```
