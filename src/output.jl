@@ -260,7 +260,7 @@ function suitability_gif(SD::Simulation_Data; frames=2)
 end
 
 """
-    carry_gif(SD::Simulation_Data, frames=2)
+    carry_gif(SD::Simulation_Data; frames=2)
 
 Create a gif of the carrying capacity in a landscape for all timesteps.
 
@@ -276,7 +276,7 @@ Create a gif of the carrying capacity in a landscape for all timesteps.
 julia> carry_gif(SD)
 ```
 """
-function carry_gif(SD::Simulation_Data, frames=2)
+function carry_gif(SD::Simulation_Data; frames=2)
     t = Observable(1)
     timesteps = SD.parameters.timesteps
     carry = @lift(reverse(SD.species[1].output.carry[:, :, $t]'))
@@ -293,7 +293,7 @@ function carry_gif(SD::Simulation_Data, frames=2)
 end
 
 """
-    reproduction_gif(SD::Simulation_Data, frames=2)
+    reproduction_gif(SD::Simulation_Data; frames=2)
 
 Create a gif for the reproduction rate of a species in a landscape for all timesteps.
 
@@ -309,7 +309,7 @@ Create a gif for the reproduction rate of a species in a landscape for all times
 julia> reproduction_gif(SD)
 ```
 """
-function reproduction_gif(SD::Simulation_Data, frames=2)
+function reproduction_gif(SD::Simulation_Data; frames=2)
     t = Observable(1)
     timesteps = SD.parameters.timesteps
     r = @lift(reverse(SD.species[1].output.growrate[:, :, $t]'))
@@ -326,7 +326,7 @@ function reproduction_gif(SD::Simulation_Data, frames=2)
 end
 
 """
-    mortality_gif(SD::Simulation_Data, frames=2)
+    mortality_gif(SD::Simulation_Data; frames=2)
 
 Create a gif of the mortality rate of a species in a landscape for all timesteps.
 
@@ -342,7 +342,7 @@ Create a gif of the mortality rate of a species in a landscape for all timesteps
 julia> mortality_gif(SD)
 ```
 """
-function mortality_gif(SD::Simulation_Data, frames=2)
+function mortality_gif(SD::Simulation_Data; frames=2)
     t = Observable(1)
     timesteps = SD.parameters.timesteps
     m = @lift(reverse(SD.species[1].output.bevmort[:, :, $t]'))
