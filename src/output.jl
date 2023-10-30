@@ -1,7 +1,20 @@
 """
     plot_abundances(SD::Simulation_Data)
 
-plots the total abundances of a species over time
+Plot the total abundances of a species over time.
+
+# Arguments
+- `SD::Simulation_Data`: Simulation_Data object
+
+# Returns
+- `f::Figure`: Figure object
+
+# Examples
+```julia-repl
+julia> f = plot_abundances(SD)
+julia> f
+```
+#![Abundance plot](img/Flowchart_MetaRange.png)
 """
 function plot_abundances(SD::Simulation_Data)
     total_abundance = vec(sum(sum(SD.species[1].output.abundances; dims=1); dims=2))
@@ -27,7 +40,21 @@ end
 """
     image_abundances(SD::Simulation_Data, t::Int)
 
-plots the species abundance in the landscape for a given timestep t
+Plot the species abundance in the landscape for timestep t.
+
+# Arguments
+- `SD::Simulation_Data`: Simulation_Data object
+- `t::Int`: timestep
+
+# Returns
+- `f::Figure`: Figure object
+
+# Examples
+```julia-repl
+julia> f = image_abundances(SD, 1)
+julia> f
+```
+#![Abundance plot](img/Flowchart_MetaRange.png)
 """
 function image_abundances(SD::Simulation_Data, t::Int)
     abundance = reverse(SD.species[1].output.abundances[:, :, t]')
@@ -44,7 +71,21 @@ end
 """
     image_suitability(SD::Simulation_Data, t::Int)
 
-plots the habitat suitability of a landscape for a given timestep t
+Plot the habitat suitability of a landscape for timestep t.
+
+# Arguments
+- `SD::Simulation_Data`: Simulation_Data object
+- `t::Int`: timestep
+
+# Returns
+- `f::Figure`: Figure object
+
+# Examples
+```julia-repl
+julia> f = image_suitability(SD, 1)
+julia> f
+```
+#![Abundance plot](img/Flowchart_MetaRange.png)
 """
 function image_suitability(SD::Simulation_Data, t::Int)
     suitability = reverse(SD.species[1].output.habitat[:, :, t]')
@@ -60,7 +101,21 @@ end
 """
     image_temperature(SD::Simulation_Data, t::Int)
 
-plots the temperature of a landscape for a given timestep t
+Plot the temperature of a landscape for timestep t.
+
+# Arguments
+- `SD::Simulation_Data`: Simulation_Data object
+- `t::Int`: timestep
+
+# Returns
+- `f::Figure`: Figure object
+
+# Examples
+```julia-repl
+julia> f = image_temperature(SD, 1)
+julia> f
+```
+#![Abundance plot](img/Flowchart_MetaRange.png)
 """
 function image_temperature(SD::Simulation_Data, t::Int)
     temp = reverse(SD.landscape.environment["temperature"][:, :, t]')
@@ -78,7 +133,21 @@ end
 """
     image_precipitation(SD::Simulation_Data, t::Int)
 
-plots the precipitation of a landscape for a given timestep t
+Plot the precipitation of a landscape for timestep t.
+
+# Arguments
+- `SD::Simulation_Data`: Simulation_Data object
+- `t::Int`: timestep
+
+# Returns
+- `f::Figure`: Figure object
+
+# Examples
+```julia-repl
+julia> f = image_precipitation(SD, 1)
+julia> f
+```
+#![Abundance plot](img/Flowchart_MetaRange.png)
 """
 function image_precipitation(SD::Simulation_Data, t::Int)
     prec = reverse(SD.landscape.environment["precipitation"][:, :, t]')
@@ -96,7 +165,21 @@ end
 """
     image_restrictions(SD::Simulation_Data, t::Int)
 
-plots the restrictions of a landscape for a given timestep t
+Plot the restrictions of a landscape for timestep t.
+
+# Arguments
+- `SD::Simulation_Data`: Simulation_Data object
+- `t::Int`: timestep
+
+# Returns
+- `f::Figure`: Figure object
+
+# Examples
+```julia-repl
+julia> f = image_restrictions(SD, 1)
+julia> f
+```
+#![Abundance plot](img/Flowchart_MetaRange.png)
 """
 function image_restrictions(SD::Simulation_Data, t::Int)
     restr = reverse(SD.landscape.restrictions[:, :, t]')
@@ -110,11 +193,24 @@ function image_restrictions(SD::Simulation_Data, t::Int)
 end
 
 """
-    abundance_gif(SD::Simulation_Data, frames=2)
+    abundance_gif(SD::Simulation_Data; frames=2)
 
-creates a gif for the abundance of a species in a landscape for all timesteps
+Create a gif of the species abundance in a landscape over time.
+
+# Arguments
+- `SD::Simulation_Data`: Simulation_Data object
+- `frames::Int`: number of frames per second
+
+# Returns
+- The gif is saved under the name "Abundance.gif" in the output directory.
+
+# Examples
+```julia-repl
+julia> abundance_gif(SD)
+```
+#![.gif of abundance](img/static_abundances.gif)
 """
-function abundance_gif(SD::Simulation_Data, frames=20)
+function abundance_gif(SD::Simulation_Data; frames=2)
     t = Observable(1)
     timesteps = SD.parameters.timesteps
     abund = @lift(reverse(SD.species[1].output.abundances[:, :, $t]'))
@@ -132,11 +228,24 @@ function abundance_gif(SD::Simulation_Data, frames=20)
 end
 
 """
-    suitability_gif(SD::Simulation_Data, frames=2)
+    suitability_gif(SD::Simulation_Data; frames=2)
 
-creates a gif for the habitat suitability of a landscape for all timesteps
+Create a gif of habitat suitability in a landscape for all timesteps
+
+# Arguments
+- `SD::Simulation_Data`: Simulation_Data object
+- `frames::Int`: number of frames per second
+
+# Returns
+- The gif is saved under the name "Suitability.gif" in the output directory.
+
+# Examples
+```julia-repl
+julia> suitability_gif(SD)
+```
+#![.gif of suitability](img/static_abundances.gif)
 """
-function suitability_gif(SD::Simulation_Data, frames=2)
+function suitability_gif(SD::Simulation_Data; frames=2)
     t = Observable(1)
     timesteps = SD.parameters.timesteps
     suitability = @lift(reverse(SD.species[1].output.habitat[:, :, $t]'))
@@ -155,7 +264,20 @@ end
 """
     carry_gif(SD::Simulation_Data, frames=2)
 
-creates a gif for the carrying capacity of a landscape for all timesteps
+Create a gif of the carrying capacity in a landscape for all timesteps.
+
+# Arguments
+- `SD::Simulation_Data`: Simulation_Data object
+- `frames::Int`: number of frames per second
+
+# Returns
+- The gif is saved under the name "CarryingCapacity.gif" in the output directory.
+
+# Examples
+```julia-repl
+julia> carry_gif(SD)
+```
+#![.gif of carrying capacity](img/static_abundances.gif)
 """
 function carry_gif(SD::Simulation_Data, frames=2)
     t = Observable(1)
@@ -176,7 +298,20 @@ end
 """
     reproduction_gif(SD::Simulation_Data, frames=2)
 
-creates a gif for the reproduction rate of a species in a landscape for all timesteps
+Create a gif for the reproduction rate of a species in a landscape for all timesteps.
+
+# Arguments
+- `SD::Simulation_Data`: Simulation_Data object
+- `frames::Int`: number of frames per second
+
+# Returns
+- The gif is saved under the name "Reproduction.gif" in the output directory.
+
+# Examples
+```julia-repl
+julia> reproduction_gif(SD)
+```
+#![.gif of reproduction](img/static_abundances.gif)
 """
 function reproduction_gif(SD::Simulation_Data, frames=2)
     t = Observable(1)
@@ -197,7 +332,20 @@ end
 """
     mortality_gif(SD::Simulation_Data, frames=2)
 
-creates a gif for the mortality rate of a species in a landscape for all timesteps
+Create a gif of the mortality rate of a species in a landscape for all timesteps.
+
+# Arguments
+- `SD::Simulation_Data`: Simulation_Data object
+- `frames::Int`: number of frames per second
+
+# Returns
+- The gif is saved under the name "Mortality.gif" in the output directory.
+
+# Examples
+```julia-repl
+julia> mortality_gif(SD)
+```
+#![.gif of mortality](img/static_abundances.gif)
 """
 function mortality_gif(SD::Simulation_Data, frames=2)
     t = Observable(1)
@@ -215,6 +363,25 @@ function mortality_gif(SD::Simulation_Data, frames=2)
     end
 end
 
+"""
+    plot_all(SD::Simulation_Data, t::Int)
+
+Plot all input and output variables for a given timestep.
+
+# Arguments
+- `SD::Simulation_Data`: Simulation_Data object
+- `t::Int`: timestep
+
+# Returns
+- `f::Figure`: Figure object
+
+# Examples
+```julia-repl
+julia> f = plot_all(SD, 1)
+julia> f
+```
+![All plots](img/plot_all.png)
+"""
 function plot_all(SD::Simulation_Data, t::Int)
     temp = reverse(SD.landscape.environment["temperature"][:, :, t]')
     prec = reverse(SD.landscape.environment["precipitation"][:, :, t]')
@@ -342,8 +509,21 @@ end
 """
     save_all(SD::Simulation_Data)
 
-saves all output variables - reproduction, mortality rate, carrying capacity, habitat suitability, abundance - in a CSV file.
-The format is as follows: t, x, y, value, parameter
+Save all output variables in a .csv file.
+
+This function writes all output variables - reproduction, mortality rate, carrying capacity, habitat suitability,
+    abundance - into a .csv file.
+
+# Arguments
+- `SD::Simulation_Data`: Simulation_Data object
+
+# Returns
+- The .csv file is saved under the name "output.csv" in the output directory.
+
+# Examples
+```julia-repl
+julia> save_all(SD)
+```
 """
 function save_all(SD::Simulation_Data)
     abundance = vec(SD.species[1].output.abundances)
