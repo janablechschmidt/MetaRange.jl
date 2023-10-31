@@ -2,7 +2,7 @@
 
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://janablechschmidt.github.io/MetaRange.jl/stable/)
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://janablechschmidt.github.io/MetaRange.jl/dev/)
-[![Build Status](https://github.com/janablechschmidt/MetaRange.jl/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/janablechschmidt/MetaRange.jl/actions/workflows/run-tests.yml?query=branch%3Amain)
+[![Build Status](https://github.com/janablechschmidt/MetaRange.jl/actions/workflows/run_tests.yml/badge.svg?branch=main)](https://github.com/janablechschmidt/MetaRange.jl/actions/workflows/run_tests.yml?query=branch%3Amain)
 [![Code Style: Blue](https://img.shields.io/badge/code%20style-blue-4495d1.svg)](https://github.com/invenia/BlueStyle)
 
 MetaRange is a process-based mechanistic species distribution model, that explicitly includes stochastic
