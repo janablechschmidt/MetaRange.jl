@@ -214,21 +214,21 @@ function abundance_gif(SD::Simulation_Data, frames=2)
     t = Observable(1)
     timesteps = SD.parameters.timesteps
 
-	#find colorbar limits
-	min = minimum(skipmissing(SD.species[1].output.abundances))
-	max = maximum(skipmissing(SD.species[1].output.abundances))
+    #find colorbar limits
+    min = minimum(skipmissing(SD.species[1].output.abundances))
+    max = maximum(skipmissing(SD.species[1].output.abundances))
 
-	#set Makie Observables
+    #set Makie Observables
     abund = @lift(SD.species[1].output.abundances[:, :, $t]')
 
-	#create Makie Figure
+    #create Makie Figure
     f = Figure()
     title = Observable("Abundance at timestep $(t)")
     ax = Axis(f[1, 1]; title=title, aspect=DataAspect(), yreversed=true)
-    hm = CairoMakie.heatmap!(ax, abund; colorrange = (min, max), colormap=:YlOrBr)
+    hm = CairoMakie.heatmap!(ax, abund; colormap=:YlOrBr, colorrange=(min, max))
     Colorbar(f[1, 2], hm)
 
-	#record GIF
+    #record GIF
     record(f, "Abundance.gif", 1:timesteps; framerate=frames) do i
         t[] = i
         title[] = "Abundance at timestep $(i)"
@@ -268,7 +268,7 @@ function suitability_gif(SD::Simulation_Data; frames=2)
     f = Figure()
     title = Observable("Habitat suitability at timestep $(t)")
     ax = Axis(f[1, 1]; title=title, aspect=DataAspect(), yreversed=true)
-    hm = CairoMakie.heatmap!(ax, suitability; colormap=:YlOrBr, colorrange = (min, max))
+    hm = CairoMakie.heatmap!(ax, suitability; colormap=:YlOrBr, colorrange=(min, max))
     Colorbar(f[1, 2], hm)
 
     #record GIF
@@ -311,7 +311,7 @@ function carry_gif(SD::Simulation_Data; frames=2)
     f = Figure()
     title = Observable("Carrying Capacity at timestep $(t)")
     ax = Axis(f[1, 1]; title=title, aspect=DataAspect(), yreversed=true)
-    hm = CairoMakie.heatmap!(ax, carry; colormap=:YlOrBr, colorrange = (min, max))
+    hm = CairoMakie.heatmap!(ax, carry; colormap=:YlOrBr, colorrange=(min, max))
     Colorbar(f[1, 2], hm)
 
     #record GIF
@@ -354,7 +354,7 @@ function reproduction_gif(SD::Simulation_Data; frames=2)
     f = Figure()
     title = Observable("Reproduction rate at timestep $(t)")
     ax = Axis(f[1, 1]; title=title, aspect=DataAspect(), yreversed=true)
-    hm = CairoMakie.heatmap!(ax, r; colormap=:YlOrBr, colorrange = (min, max))
+    hm = CairoMakie.heatmap!(ax, r; colormap=:YlOrBr, colorrange=(min, max))
     Colorbar(f[1, 2], hm)
 
     #record GIF
@@ -397,7 +397,7 @@ function mortality_gif(SD::Simulation_Data; frames=2)
     f = Figure()
     title = Observable("Mortality rate at timestep $(t)")
     ax = Axis(f[1, 1]; title=title, aspect=DataAspect(), yreversed=true)
-    hm = CairoMakie.heatmap!(ax, m; colormap=:YlOrBr, colorrange = (min, max))
+    hm = CairoMakie.heatmap!(ax, m; colormap=:YlOrBr, colorrange=(min, max))
     Colorbar(f[1, 2], hm)
 
     #record GIF
