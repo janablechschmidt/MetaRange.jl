@@ -253,15 +253,25 @@ julia> suitability_gif(SD)
 ```
 """
 function suitability_gif(SD::Simulation_Data; frames=2)
+    #get timesteps
     t = Observable(1)
     timesteps = SD.parameters.timesteps
-    suitability = @lift(reverse(SD.species[1].output.habitat[:, :, $t]'))
-    ratio = size(SD.species[1].output.habitat, 1) / size(SD.species[1].output.habitat, 2)
+
+    #find colorbar limits
+    min = minimum(skipmissing(SD.species[1].output.habitat))
+    max = maximum(skipmissing(SD.species[1].output.habitat))
+
+    #set Makie Observables
+    suitability = @lift(SD.species[1].output.habitat[:, :, $t]')
+
+    #create Makie Figure
     f = Figure()
     title = Observable("Habitat suitability at timestep $(t)")
-    ax = Axis(f[1, 1]; title=title, aspect=ratio, xreversed=true)
-    hm = CairoMakie.heatmap!(ax, suitability; colormap=:YlOrBr)
+    ax = Axis(f[1, 1]; title=title, aspect=DataAspect(), yreversed=true)
+    hm = CairoMakie.heatmap!(ax, suitability; colormap=:YlOrBr, colorrange = (min, max))
     Colorbar(f[1, 2], hm)
+
+    #record GIF
     record(f, "Suitability.gif", 1:timesteps; framerate=frames) do i
         t[] = i
         title[] = "Habitat suitability at timestep $(i)"
@@ -286,15 +296,25 @@ julia> carry_gif(SD)
 ```
 """
 function carry_gif(SD::Simulation_Data; frames=2)
+    #get timesteps
     t = Observable(1)
     timesteps = SD.parameters.timesteps
-    carry = @lift(reverse(SD.species[1].output.carry[:, :, $t]'))
-    ratio = size(SD.species[1].output.carry, 1) / size(SD.species[1].output.carry, 2)
+
+    #find colorbar limits
+    min = minimum(skipmissing(SD.species[1].output.carry))
+    max = maximum(skipmissing(SD.species[1].output.carry))
+
+    #set Makie Observables
+    carry = @lift(SD.species[1].output.carry[:, :, $t]')
+
+    #create Makie Figure
     f = Figure()
     title = Observable("Carrying Capacity at timestep $(t)")
-    ax = Axis(f[1, 1]; title=title, aspect=ratio, xreversed=true)
-    hm = CairoMakie.heatmap!(ax, carry; colormap=:YlOrBr)
+    ax = Axis(f[1, 1]; title=title, aspect=DataAspect(), yreversed=true)
+    hm = CairoMakie.heatmap!(ax, carry; colormap=:YlOrBr, colorrange = (min, max))
     Colorbar(f[1, 2], hm)
+
+    #record GIF
     record(f, "CarryingCapacity.gif", 1:timesteps; framerate=frames) do i
         t[] = i
         title[] = "Carrying Capacity at timestep $(i)"
@@ -319,15 +339,25 @@ julia> reproduction_gif(SD)
 ```
 """
 function reproduction_gif(SD::Simulation_Data; frames=2)
+    #get timesteps
     t = Observable(1)
     timesteps = SD.parameters.timesteps
-    r = @lift(reverse(SD.species[1].output.growrate[:, :, $t]'))
-    ratio = size(SD.species[1].output.growrate, 1) / size(SD.species[1].output.growrate, 2)
+
+    #find colorbar limits
+    min = minimum(skipmissing(SD.species[1].output.growrate))
+    max = maximum(skipmissing(SD.species[1].output.growrate))
+
+    #set Makie Observables
+    r = @lift(SD.species[1].output.growrate[:, :, $t]')
+
+    #create Makie Figure
     f = Figure()
     title = Observable("Reproduction rate at timestep $(t)")
-    ax = Axis(f[1, 1]; title=title, aspect=ratio, xreversed=true)
-    hm = CairoMakie.heatmap!(ax, r; colormap=:YlOrBr)
+    ax = Axis(f[1, 1]; title=title, aspect=DataAspect(), yreversed=true)
+    hm = CairoMakie.heatmap!(ax, r; colormap=:YlOrBr, colorrange = (min, max))
     Colorbar(f[1, 2], hm)
+
+    #record GIF
     record(f, "Reproduction.gif", 1:timesteps; framerate=frames) do i
         t[] = i
         title[] = "Reproduction rate at timestep $(i)"
@@ -352,15 +382,25 @@ julia> mortality_gif(SD)
 ```
 """
 function mortality_gif(SD::Simulation_Data; frames=2)
+    #get timesteps
     t = Observable(1)
     timesteps = SD.parameters.timesteps
-    m = @lift(reverse(SD.species[1].output.bevmort[:, :, $t]'))
-    ratio = size(SD.species[1].output.bevmort, 1) / size(SD.species[1].output.bevmort, 2)
+
+    #find colorbar limits
+    min = minimum(skipmissing(SD.species[1].output.bevmort))
+    max = maximum(skipmissing(SD.species[1].output.bevmort))
+
+    #set Makie Observables
+    m = @lift(SD.species[1].output.bevmort[:, :, $t]')
+
+    #create Makie Figure
     f = Figure()
     title = Observable("Mortality rate at timestep $(t)")
-    ax = Axis(f[1, 1]; title=title, aspect=ratio, xreversed=true)
-    hm = CairoMakie.heatmap!(ax, m; colormap=:YlOrBr)
+    ax = Axis(f[1, 1]; title=title, aspect=DataAspect(), yreversed=true)
+    hm = CairoMakie.heatmap!(ax, m; colormap=:YlOrBr, colorrange = (min, max))
     Colorbar(f[1, 2], hm)
+
+    #record GIF
     record(f, "Mortality.gif", 1:timesteps; framerate=frames) do i
         t[] = i
         title[] = "Mortality rate at timestep $(i)"
