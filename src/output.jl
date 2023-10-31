@@ -209,17 +209,26 @@ julia> abundance_gif(SD)
 ```
 #![.gif of abundance](img/static_abundances.gif)
 """
-function abundance_gif(SD::Simulation_Data; frames=2)
+function abundance_gif(SD::Simulation_Data, frames=2)
+    #get timesteps
     t = Observable(1)
     timesteps = SD.parameters.timesteps
-    abund = @lift(reverse(SD.species[1].output.abundances[:, :, $t]'))
-    ratio =
-        size(SD.species[1].output.abundances, 1) / size(SD.species[1].output.abundances, 2)
+
+	#find colorbar limits
+	min = minimum(skipmissing(SD.species[1].output.abundances))
+	max = maximum(skipmissing(SD.species[1].output.abundances))
+
+	#set Makie Observables
+    abund = @lift(SD.species[1].output.abundances[:, :, $t]')
+
+	#create Makie Figure
     f = Figure()
     title = Observable("Abundance at timestep $(t)")
-    ax = Axis(f[1, 1]; title=title, aspect=ratio, xreversed=true)
-    hm = CairoMakie.heatmap!(ax, abund; colormap=:YlOrBr)
+    ax = Axis(f[1, 1]; title=title, aspect=DataAspect(), yreversed=true)
+    hm = CairoMakie.heatmap!(ax, abund; colorrange = (min, max), colormap=:YlOrBr)
     Colorbar(f[1, 2], hm)
+
+	#record GIF
     record(f, "Abundance.gif", 1:timesteps; framerate=frames) do i
         t[] = i
         title[] = "Abundance at timestep $(i)"
