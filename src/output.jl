@@ -275,9 +275,10 @@ function suitability_gif(SD::Simulation_Data; frames=2)
     suitability = @lift(SD.species[1].output.habitat[:, :, $t]')
 
     #create Makie Figure
+    ratio = size(SD.species[1].output.habitat, 1) / size(SD.species[1].output.habitat, 2)
     f = Figure()
     title = Observable("Habitat suitability at timestep $(t)")
-    ax = Axis(f[1, 1]; title=title, aspect=DataAspect(), yreversed=true)
+    ax = Axis(f[1, 1]; title=title, aspect=ratio, yreversed=true)
     hm = CairoMakie.heatmap!(ax, suitability; colormap=:YlOrBr, colorrange=(min, max))
     Colorbar(f[1, 2], hm)
 
@@ -318,9 +319,10 @@ function carry_gif(SD::Simulation_Data; frames=2)
     carry = @lift(SD.species[1].output.carry[:, :, $t]')
 
     #create Makie Figure
+    ratio = size(SD.species[1].output.carry, 1) / size(SD.species[1].output.carry, 2)
     f = Figure()
     title = Observable("Carrying Capacity at timestep $(t)")
-    ax = Axis(f[1, 1]; title=title, aspect=DataAspect(), yreversed=true)
+    ax = Axis(f[1, 1]; title=title, aspect=ratio, yreversed=true)
     hm = CairoMakie.heatmap!(ax, carry; colormap=:YlOrBr, colorrange=(min, max))
     Colorbar(f[1, 2], hm)
 
@@ -361,9 +363,10 @@ function reproduction_gif(SD::Simulation_Data; frames=2)
     r = @lift(SD.species[1].output.growrate[:, :, $t]')
 
     #create Makie Figure
+    ratio = size(SD.species[1].output.growrate, 1) / size(SD.species[1].output.growrate, 2)
     f = Figure()
     title = Observable("Reproduction rate at timestep $(t)")
-    ax = Axis(f[1, 1]; title=title, aspect=DataAspect(), yreversed=true)
+    ax = Axis(f[1, 1]; title=title, aspect=ratio, yreversed=true)
     hm = CairoMakie.heatmap!(ax, r; colormap=:YlOrBr, colorrange=(min, max))
     Colorbar(f[1, 2], hm)
 
@@ -404,9 +407,10 @@ function mortality_gif(SD::Simulation_Data; frames=2)
     m = @lift(SD.species[1].output.bevmort[:, :, $t]')
 
     #create Makie Figure
+    ratio = size(SD.species[1].output.bevmort, 1) / size(SD.species[1].output.bevmort, 2)
     f = Figure()
     title = Observable("Mortality rate at timestep $(t)")
-    ax = Axis(f[1, 1]; title=title, aspect=DataAspect(), yreversed=true)
+    ax = Axis(f[1, 1]; title=title, aspect=ratio, yreversed=true)
     hm = CairoMakie.heatmap!(ax, m; colormap=:YlOrBr, colorrange=(min, max))
     Colorbar(f[1, 2], hm)
 
