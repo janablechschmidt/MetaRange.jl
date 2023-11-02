@@ -23,10 +23,10 @@ function plot_abundances(SD::Simulation_Data)
     total_abundance = [sum(skipmissing(abundances[:, :, t])) for t in 1:max_time]
 
     # calculate carrying capacity
-    carrying_capacity = SD.species[1].vars.carry
-    habitat_suitability = SD.species[1].vars.habitat
+    carrying_capacity = SD.species[1].output.carry
+    habitat_suitability = SD.species[1].output.habitat
     carry = [
-        sum(filter(!isnan, carrying_capacity .* habitat_suitability[:, :, t])) for
+        sum(filter(!isnan, carrying_capacity[:, :, t] .* habitat_suitability[:, :, t])) for
         t in 1:max_time
     ]
 
@@ -230,9 +230,11 @@ function abundance_gif(SD::Simulation_Data, frames=2)
     abund = @lift(SD.species[1].output.abundances[:, :, $t]')
 
     #create Makie Figure
+    ratio =
+        size(SD.species[1].output.abundances, 1) / size(SD.species[1].output.abundances, 2)
     f = Figure()
     title = Observable("Abundance at timestep $(t)")
-    ax = Axis(f[1, 1]; title=title, aspect=DataAspect(), yreversed=true)
+    ax = Axis(f[1, 1]; title=title, aspect=ratio, yreversed=true)
     hm = CairoMakie.heatmap!(ax, abund; colormap=:YlOrBr, colorrange=(min, max))
     Colorbar(f[1, 2], hm)
 
