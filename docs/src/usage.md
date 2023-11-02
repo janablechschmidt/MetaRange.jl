@@ -87,8 +87,8 @@ habitat_cutoff_suitability 0.01
 
 ## Running the simulation
 
-To run the simulation first load in your files as a [`Simulation_Data`](@ref) struct by using the [`read_input`](@ref)
-function. Then run the simulation by using the [`run_simulation!()`](@ref) function on the `Simulation_Data` object.  
+To run the simulation first load in your files by using [`read_input`](@ref).
+Then run the simulation by using [`run_simulation!()`](@ref) on the object.  
 
 ```julia
 SD = read_input("./examples/static/configuration.csv")
@@ -108,6 +108,9 @@ The function [`abundance_gif`](@ref) creates a gif of the abundance heatmap over
 Other visualization functions are [`image_suitability`](@ref), [`suitability_gif`](@ref), [`image_temperature`](@ref), [`image_precipitation`](@ref) and [`image_restrictions`](@ref).
 
 ### Simulation Data Object
+
+!!! note
+    This is only relevant for developers. One of the next steps is adding a function that outputs to CSV
 
 To directly check the results and to do more detailed analyses directly inspect the `Simulation_Data` object. In julia this is done by looking at the fields with the period character `.`. So to see the final population size of the first species you would use:
 

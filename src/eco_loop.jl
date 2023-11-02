@@ -3,17 +3,25 @@
 """
     run_simulation!(SD::Simulation_Data)
 
-Ecological Simulation
+Run an ecological simulation.
 
-Main simulation function. Load, initialize and execute all data & processes that are needed.
+Take the initialized simulation data SD and run the simulation for the specified number of
+timesteps.
 
 # Arguments
-- `SD::MetaRange.Simulation_Data`: MetaRange simulation data struct. Most likely produced by
-    [`read_input()`](@ref)
+- `SD::MetaRange.Simulation_Data`: MetaRange simulation data struct produced by
+[`read_input()`](@ref)
 
 # Returns
 - `SD::MetaRange.Simulation_Data`: Returns the struct with later timesteps after
     initialisation simulated.
+
+# Examples
+```julia-repl
+julia> run_simulation!(SD)
+```
+
+See also [`read_input()`](@ref), [`Simulation_Data`](@ref MetaRange.Simulation_Data)
 """
 function run_simulation!(SD::Simulation_Data)
     simulation_start_time = now()

@@ -1,8 +1,26 @@
 """
     read_input(path::String)
 
-Reads in the configuration and associated files in the folder and returns a Simulation_Data
-struct.
+Read in the configuration and associated files in the folder and return a
+[Simulation_Data](@ref MetaRange.Simulation_Data) struct.
+
+# Arguments
+- `path::String`: Path to the configuration file.
+
+# Returns
+- `SD::Simulation_Data`: Returns the initialised simulation data struct with the first
+    timestep.
+
+# Examples
+```julia-repl
+julia> SD = read_input("path/to/config.csv")
+precipitation
+temperature
+...
+```
+
+See also [run_simulation!()](@ref MetaRange.run_simulation!),
+    [Simulation_Data](@ref MetaRange.Simulation_Data)
 """
 function read_input(config_path::String)
     check_constants()

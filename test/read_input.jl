@@ -1,7 +1,7 @@
 @testset "read_input.jl" begin
     @testset "read input" begin
         SD = read_input("testfiles/testconfig/configuration.csv")
-        @test typeof(SD) == Simulation_Data
+        @test typeof(SD) == MetaRange.Simulation_Data
     end
     @testset "Get directories" begin
         @testset "get_species_dir" begin
