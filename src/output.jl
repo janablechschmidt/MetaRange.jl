@@ -215,7 +215,7 @@ Create a gif of the species abundance in a landscape over time.
 ```julia-repl
 julia> abundance_gif(SD)
 ```
-#![.gif of abundance](img/static_abundances.gif)
+![.gif of abundance](img/static_abundances.gif)
 """
 function abundance_gif(SD::Simulation_Data, frames=2)
     #get timesteps
@@ -261,6 +261,7 @@ Create a gif of habitat suitability in a landscape for all timesteps
 ```julia-repl
 julia> suitability_gif(SD)
 ```
+![.gif of suitability](img/static_suitability.gif)
 """
 function suitability_gif(SD::Simulation_Data; frames=2)
     #get timesteps
@@ -305,6 +306,7 @@ Create a gif of the carrying capacity in a landscape for all timesteps.
 ```julia-repl
 julia> carry_gif(SD)
 ```
+![.gif of carrying capacity](img/static_carryingcapacity.gif)
 """
 function carry_gif(SD::Simulation_Data; frames=2)
     #get timesteps
@@ -349,6 +351,7 @@ Create a gif for the reproduction rate of a species in a landscape for all times
 ```julia-repl
 julia> reproduction_gif(SD)
 ```
+![.gif of reproduction rate](img/static_reproduction.gif)
 """
 function reproduction_gif(SD::Simulation_Data; frames=2)
     #get timesteps
@@ -393,6 +396,7 @@ Create a gif of the mortality rate of a species in a landscape for all timesteps
 ```julia-repl
 julia> mortality_gif(SD)
 ```
+![.gif of mortality rate](img/static_mortality.gif)
 """
 function mortality_gif(SD::Simulation_Data; frames=2)
     #get timesteps
