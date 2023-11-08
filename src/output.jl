@@ -684,13 +684,17 @@ function all_gif(SD::Simulation_Data; frames=2)
         ylabel="fitness",
     )
     tol_p = CairoMakie.lines!(ax2, x_prec, y_prec)
-    min_t = minimum(skipmissing(isnan(x) ? missing : x for x in SD.landscape.environment["temperature"]))
-    max_t = maximum(skipmissing(isnan(x) ? missing : x for x in SD.landscape.environment["temperature"]))
+    min_t = minimum(
+        skipmissing(isnan(x) ? missing : x for x in SD.landscape.environment["temperature"])
+    )
+    max_t = maximum(
+        skipmissing(isnan(x) ? missing : x for x in SD.landscape.environment["temperature"])
+    )
     ax3 = Axis(
         f_left[(2 + plot_size):(1 + plot_size * 2), 2:(1 + plot_size)];
         title="Temperature",
         aspect=ratio,
-        yreversed = true,
+        yreversed=true,
     )
     hm3 = CairoMakie.heatmap!(ax3, temp; colormap=:plasma, colorrange=(min_t, max_t))
     Colorbar(f_left[(2 + plot_size):(1 + plot_size * 2), 2 + plot_size], hm3)
@@ -698,33 +702,47 @@ function all_gif(SD::Simulation_Data; frames=2)
         f_left[(2 + plot_size):(1 + plot_size * 2), (3 + plot_size):(2 + plot_size * 2)];
         title="Precipitation",
         aspect=ratio,
-        yreversed = true,
+        yreversed=true,
     )
-    min_p = minimum(skipmissing(isnan(x) ? missing : x for x in SD.landscape.environment["precipitation"]))
-    max_p = maximum(skipmissing(isnan(x) ? missing : x for x in SD.landscape.environment["precipitation"]))
+    min_p = minimum(
+        skipmissing(
+            isnan(x) ? missing : x for x in SD.landscape.environment["precipitation"]
+        ),
+    )
+    max_p = maximum(
+        skipmissing(
+            isnan(x) ? missing : x for x in SD.landscape.environment["precipitation"]
+        ),
+    )
     hm4 = CairoMakie.heatmap!(ax4, prec; colormap=:viridis, colorrange=(min_p, max_p))
     Colorbar(f_left[(2 + plot_size):(1 + plot_size * 2), 3 + plot_size * 2], hm4)
     ax5 = Axis(
         f_right[2:(1 + plot_size), 2:(1 + plot_size)];
         title="Habitat Suitability",
         aspect=ratio,
-        yreversed = true,
+        yreversed=true,
     )
-    min_suit = minimum(skipmissing(isnan(x) ? missing : x for x in SD.species[1].output.habitat))
-    max_suit = maximum(skipmissing(isnan(x) ? missing : x for x in SD.species[1].output.habitat))
-    hm5 = CairoMakie.heatmap!(ax5, suitability; colormap=:YlOrBr, colorrange=(min_suit, max_suit))
+    min_suit = minimum(
+        skipmissing(isnan(x) ? missing : x for x in SD.species[1].output.habitat)
+    )
+    max_suit = maximum(
+        skipmissing(isnan(x) ? missing : x for x in SD.species[1].output.habitat)
+    )
+    hm5 = CairoMakie.heatmap!(
+        ax5, suitability; colormap=:YlOrBr, colorrange=(min_suit, max_suit)
+    )
     Colorbar(f_right[2:(1 + plot_size), (box_size_r - 1)], hm5)
     ax6 = Axis(
         f_right[(2 + plot_size):(1 + plot_size * 2), 2:(1 + plot_size)];
         title="Abundance",
         aspect=ratio,
-        yreversed = true,
+        yreversed=true,
     )
     min_ab = minimum(skipmissing(SD.species[1].output.abundances))
     max_ab = maximum(skipmissing(SD.species[1].output.abundances))
     hm6 = CairoMakie.heatmap!(ax6, abundance; colormap=:YlGnBu, colorrange=(min_ab, max_ab))
     Colorbar(f_right[(2 + plot_size):(1 + plot_size * 2), (box_size_r - 1)], hm6)
-        #record GIF
+    #record GIF
     record(f, "all.gif", 1:timesteps; framerate=frames) do i
         t[] = i
         tt[] = "timestep $(i)"
