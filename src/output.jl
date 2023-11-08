@@ -356,8 +356,12 @@ function reproduction_gif(SD::Simulation_Data; frames=2)
     timesteps = SD.parameters.timesteps
 
     #find colorbar limits
-    min = minimum(skipmissing(isnan(x) ? missing : x for x in SD.species[1].output.growrate))
-    max = maximum(skipmissing(isnan(x) ? missing : x for x in SD.species[1].output.growrate))
+    min = minimum(
+        skipmissing(isnan(x) ? missing : x for x in SD.species[1].output.growrate)
+    )
+    max = maximum(
+        skipmissing(isnan(x) ? missing : x for x in SD.species[1].output.growrate)
+    )
 
     #set Makie Observables
     r = @lift(SD.species[1].output.growrate[:, :, $t]')
