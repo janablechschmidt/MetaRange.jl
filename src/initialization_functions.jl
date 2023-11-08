@@ -537,6 +537,33 @@ function read_ts_config(env_dir::String, ls_timeseries_config::String)
     return ts_config
 end
 """
+    backup_config(SD::Simulation_Data, backup_path::String)
+
+Record the settings actually used for a simulation run and creates a config file that can be
+used for future replicate runs.
+"""
+function backup_config(SP::Simulation_Parameters, backup_path::String)
+    config_path = joinpath(backup_path, "configuration.csv")
+    open(config_path, "w") do f
+        println(f, "Argument Value")
+        for k in fieldnames(typeof(SP)) #get the names of the SP object
+            val = getfield(SP, k)
+            if isa(val, Dict) #if the value is a dictionary
+                for key in keys(val)
+                    println(f, key, " ", val[key]) #print name and value
+                end
+            elseif occursin((r"(config|output)"), string(k))
+                nothing #do not print the config_dir, config_file and output_dir
+                #TODO: Maybe set output dir for the backup to the same directory as the initial simulation config? - R
+            elseif occursin("dir", string(k))
+                println(f, k, " ", joinpath(backup_path, splitpath(val)[end])) #print name and value
+            else
+                println(f, k, " ", val) #print name and value
+            end
+        end
+    end
+end
+"""
     get_out_dir(SP::Simulation_Parameters)
 
 Names a new output directory for the simulation used in `init_out_dir()`[@ref]. This
@@ -574,8 +601,10 @@ function init_out_dir(SP::Simulation_Parameters)
         make_out_dir(SP.output_dir) #create output directory
         backup_dir = mkpath(joinpath(SP.output_dir, "input")) #create input backup directory
 
+        #copy configuration file and set paths to species and environment folders
+        backup_config(SP, backup_config)
+
         # set paths for backups
-        backup_config = normpath(joinpath(backup_dir, "configuration.csv"))
         backup_species = normpath(joinpath(backup_dir, "species"))
         backup_environment = normpath(joinpath(backup_dir, "environment"))
 
@@ -583,16 +612,15 @@ function init_out_dir(SP::Simulation_Parameters)
         ispath(SP.species_dir) && cp(SP.species_dir, backup_species) #species
         ispath(SP.species_dir) && cp(SP.environment_dir, backup_environment) #environment
 
-        #copy configuration file and set paths to species and environment folders
-        if ispath(SP.config_file)
-            cp(SP.config_file, backup_config)
-            df = DataFrame(CSV.File(backup_config))
-            rename!(df, Symbol.(["Argument", "Value"]))
-            config = Dict{String,Any}(CSV.File(backup_config))
-            config["species_dir"] = backup_species
-            config["environment_dir"] = backup_environment
-            df.Value = map(akey -> config[akey], df.Argument)
-            CSV.write(backup_config, df; delim=" ")
-        end
+        #if ispath(SP.config_file)
+        #    cp(SP.config_file, backup_config)
+        #    df = DataFrame(CSV.File(backup_config))
+        #    rename!(df, Symbol.(["Argument", "Value"]))
+        #    config = Dict{String,Any}(CSV.File(backup_config))
+        #    config["species_dir"] = backup_species
+        #    config["environment_dir"] = backup_environment
+        #    df.Value = map(akey -> config[akey], df.Argument)
+        #    CSV.write(backup_config, df; delim=" ")
+        #end
     end
 end
