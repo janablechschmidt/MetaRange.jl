@@ -569,23 +569,21 @@ function plot_all(SD::Simulation_Data, t::Int)
 end
 
 """
-    plot_all(SD::Simulation_Data, t::Int)
+    all_gif(SD::Simulation_Data; frames = 2)
 
-Plot all input and output variables for a given timestep.
+Plot all input and output variables and create a GIF.
 
 # Arguments
 - `SD::Simulation_Data`: Simulation_Data object
-- `t::Int`: timestep
+- `frames::Int`: framerate
 
 # Returns
-- `f::Figure`: Figure object
+- The gif is saved under the name "all.gif" in the output directory.
 
 # Examples
 ```julia-repl
-julia> f = plot_all(SD, 19)
-julia> f
+julia> all_gif(SD)
 ```
-![All plots](img/plot_all.png)
 """
 function all_gif(SD::Simulation_Data; frames=2)
     t = Observable(1)
