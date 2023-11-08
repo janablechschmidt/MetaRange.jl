@@ -29,6 +29,7 @@ export carry_gif
 export reproduction_gif
 export mortality_gif
 export plot_all
+export all_gif
 export save_all
 
 #examples and defaults
