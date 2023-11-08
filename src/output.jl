@@ -215,7 +215,7 @@ Create a gif of the species abundance in a landscape over time.
 ```julia-repl
 julia> abundance_gif(SD)
 ```
-#![.gif of abundance](img/static_abundances.gif)
+![.gif of abundance](img/static_abundances.gif)
 """
 function abundance_gif(SD::Simulation_Data, frames=2)
     #get timesteps
@@ -261,6 +261,7 @@ Create a gif of habitat suitability in a landscape for all timesteps
 ```julia-repl
 julia> suitability_gif(SD)
 ```
+![.gif of suitability](img/static_suitability.gif)
 """
 function suitability_gif(SD::Simulation_Data; frames=2)
     #get timesteps
@@ -305,6 +306,7 @@ Create a gif of the carrying capacity in a landscape for all timesteps.
 ```julia-repl
 julia> carry_gif(SD)
 ```
+![.gif of carrying capacity](img/static_carryingcapacity.gif)
 """
 function carry_gif(SD::Simulation_Data; frames=2)
     #get timesteps
@@ -349,6 +351,7 @@ Create a gif for the reproduction rate of a species in a landscape for all times
 ```julia-repl
 julia> reproduction_gif(SD)
 ```
+![.gif of reproduction rate](img/static_reproduction.gif)
 """
 function reproduction_gif(SD::Simulation_Data; frames=2)
     #get timesteps
@@ -393,6 +396,7 @@ Create a gif of the mortality rate of a species in a landscape for all timesteps
 ```julia-repl
 julia> mortality_gif(SD)
 ```
+![.gif of mortality rate](img/static_mortality.gif)
 """
 function mortality_gif(SD::Simulation_Data; frames=2)
     #get timesteps
@@ -441,10 +445,10 @@ julia> f
 ![All plots](img/plot_all.png)
 """
 function plot_all(SD::Simulation_Data, t::Int)
-    temp = reverse(SD.landscape.environment["temperature"][:, :, t]')
-    prec = reverse(SD.landscape.environment["precipitation"][:, :, t]')
-    suitability = reverse(SD.species[1].output.habitat[:, :, t]')
-    abundance = reverse(SD.species[1].output.abundances[:, :, t]')
+    temp = SD.landscape.environment["temperature"][:, :, t]'
+    prec = SD.landscape.environment["precipitation"][:, :, t]'
+    suitability = SD.species[1].output.habitat[:, :, t]'
+    abundance = SD.species[1].output.abundances[:, :, t]'
     start_prec = minimum(filter(!isnan, prec))
     stop_prec = maximum(filter(!isnan, prec))
     start_temp = minimum(filter(!isnan, temp))
@@ -536,7 +540,7 @@ function plot_all(SD::Simulation_Data, t::Int)
     )
     hm3 = CairoMakie.heatmap!(ax3, temp; colormap=:plasma)
     Colorbar(f_left[(2 + plot_size):(1 + plot_size * 2), 2 + plot_size], hm3)
-    ax3.xreversed = true
+    ax3.yreversed = true
     ax4 = Axis(
         f_left[(2 + plot_size):(1 + plot_size * 2), (3 + plot_size):(2 + plot_size * 2)];
         title="Precipitation at t = $t",
@@ -544,7 +548,7 @@ function plot_all(SD::Simulation_Data, t::Int)
     )
     hm4 = CairoMakie.heatmap!(ax4, prec; colormap=:viridis)
     Colorbar(f_left[(2 + plot_size):(1 + plot_size * 2), 3 + plot_size * 2], hm4)
-    ax4.xreversed = true
+    ax4.yreversed = true
     ax5 = Axis(
         f_right[2:(1 + plot_size), 2:(1 + plot_size)];
         title="Habitat Suitability at t = $t",
@@ -552,7 +556,7 @@ function plot_all(SD::Simulation_Data, t::Int)
     )
     hm5 = CairoMakie.heatmap!(ax5, suitability; colormap=:YlOrBr)
     Colorbar(f_right[2:(1 + plot_size), (box_size_r - 1)], hm5)
-    ax5.xreversed = true
+    ax5.yreversed = true
     ax6 = Axis(
         f_right[(2 + plot_size):(1 + plot_size * 2), 2:(1 + plot_size)];
         title="Abundance at t = $t",
@@ -560,7 +564,7 @@ function plot_all(SD::Simulation_Data, t::Int)
     )
     hm6 = CairoMakie.heatmap!(ax6, abundance; colormap=:YlGnBu)
     Colorbar(f_right[(2 + plot_size):(1 + plot_size * 2), (box_size_r - 1)], hm6)
-    ax6.xreversed = true
+    ax6.yreversed = true
     return f
 end
 
