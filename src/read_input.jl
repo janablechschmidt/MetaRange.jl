@@ -29,7 +29,7 @@ function read_input(config_path::String)
         SP.environment_dir, SP.env_attribute_files, SP.env_restriction_files, SP.timesteps
     )
     SV = read_species_dir(SP.species_dir, LS, SP)
-    init_out_dir(SP)
+    backup_input(SP)
     SD = Simulation_Data(SP, LS, SV, Duration(now(), now()))
     return SD
 end

@@ -554,9 +554,9 @@ function backup_config(SP::Simulation_Parameters, backup_path::String)
                 end
             elseif occursin((r"(config|output)"), string(k))
                 nothing #do not print the config_dir, config_file and output_dir
-                #TODO: Maybe set output dir for the backup to the same directory as the initial simulation config? - R
+            #TODO: Maybe set output dir for the backup to the same directory as the initial simulation config? - R
             elseif occursin("dir", string(k))
-                println(f, k, " ", joinpath(backup_path, splitpath(val)[end])) #print name and value
+                println(f, k, " ", splitpath(val)[end]) #print name and value
             else
                 println(f, k, " ", val) #print name and value
             end
@@ -566,7 +566,7 @@ end
 """
     get_out_dir(SP::Simulation_Parameters)
 
-Names a new output directory for the simulation used in `init_out_dir()`[@ref]. This
+Names a new output directory for the simulation used in `backup_input()`[@ref]. This
 directory will only be created if backup is true or the user later saves an output into the
 default paths
 """
@@ -591,18 +591,18 @@ function make_out_dir(out_dir::String)
 end
 
 """
-    init_out_dir(SP::Simulation_Parameters)
+    backup_input(SP::Simulation_Parameters)
 
 Initializes the output directory. This is called when input_backup in the configuration file
 is set to `true` and creates a backup of the input files in the output directory.
 """
-function init_out_dir(SP::Simulation_Parameters)
+function backup_input(SP::Simulation_Parameters)
     if SP.input_backup
         make_out_dir(SP.output_dir) #create output directory
         backup_dir = mkpath(joinpath(SP.output_dir, "input")) #create input backup directory
 
         #copy configuration file and set paths to species and environment folders
-        backup_config(SP, backup_config)
+        backup_config(SP, backup_dir)
 
         # set paths for backups
         backup_species = normpath(joinpath(backup_dir, "species"))
