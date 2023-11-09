@@ -605,8 +605,10 @@ function backup_input(SP::Simulation_Parameters)
         backup_config(SP, backup_dir)
 
         # set paths for backups
-        backup_species = normpath(joinpath(backup_dir, "species"))
-        backup_environment = normpath(joinpath(backup_dir, "environment"))
+        backup_species = normpath(joinpath(backup_dir, splitpath(SP.species_dir)[end]))
+        backup_environment = normpath(
+            joinpath(backup_dir, splitpath(SP.environment_dir)[end])
+        )
 
         #copy species and environment folders
         ispath(SP.species_dir) && cp(SP.species_dir, backup_species) #species
