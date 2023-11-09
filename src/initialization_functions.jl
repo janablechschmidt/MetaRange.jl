@@ -613,16 +613,5 @@ function backup_input(SP::Simulation_Parameters)
         #copy species and environment folders
         ispath(SP.species_dir) && cp(SP.species_dir, backup_species) #species
         ispath(SP.species_dir) && cp(SP.environment_dir, backup_environment) #environment
-
-        #if ispath(SP.config_file)
-        #    cp(SP.config_file, backup_config)
-        #    df = DataFrame(CSV.File(backup_config))
-        #    rename!(df, Symbol.(["Argument", "Value"]))
-        #    config = Dict{String,Any}(CSV.File(backup_config))
-        #    config["species_dir"] = backup_species
-        #    config["environment_dir"] = backup_environment
-        #    df.Value = map(akey -> config[akey], df.Argument)
-        #    CSV.write(backup_config, df; delim=" ")
-        #end
     end
 end
