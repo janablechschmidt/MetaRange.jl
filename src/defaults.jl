@@ -78,7 +78,7 @@ function get_testrun_simulation_parameters()
         CSV.write(joinpath(A["config_file"]), A; delim=" ")
     end
     #return A
-    init_out_dir(get_Simulation_Parameters(A))
+    backup_input(get_Simulation_Parameters(A))
     return get_Simulation_Parameters(A)
 end
 

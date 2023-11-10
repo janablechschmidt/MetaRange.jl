@@ -29,7 +29,7 @@ function read_input(config_path::String)
         SP.environment_dir, SP.env_attribute_files, SP.env_restriction_files, SP.timesteps
     )
     SV = read_species_dir(SP.species_dir, LS, SP)
-    init_out_dir(SP)
+    backup_input(SP)
     SD = Simulation_Data(SP, LS, SV, Duration(now(), now()))
     return SD
 end
@@ -235,33 +235,5 @@ function check_species_dir(config::Dict{String,Any})
             "\" or a custom path to a directory with species data through a ",
             "\"species_dir\" argument in your configuration file!",
         )
-    end
-end
-
-"""
-    write_config(SD::Simulation_Data, backup_path::String)
-
-Record the settings actually used for a simulation run and creates a config file that can be
-used for future replicate runs.
-"""
-function write_config(SD::Simulation_Data, backup_path::String)
-    SP = SD.parameters
-    config_path = joinpath(backup_path, "configuration.csv")
-    open(config_path, "w") do f
-        println(f, "Argument Value")
-        for k in fieldnames(typeof(SP)) #get the names of the SP object
-            val = getfield(SP, k)
-            if isa(val, Dict) #if the value is a dictionary
-                for key in keys(val)
-                    println(f, key, " ", val[key]) #print name and value
-                end
-            elseif occursin((r"(config|output)"), string(k))
-                nothing #do not print the config_dir, config_file and output_dir
-            elseif occursin("dir", string(k))
-                println(f, k, " ", joinpath(backup_path, splitpath(val)[end])) #print name and value
-            else
-                println(f, k, " ", val) #print name and value
-            end
-        end
     end
 end
