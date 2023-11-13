@@ -588,6 +588,7 @@ Plot all input and output variables and create a GIF.
 ```julia-repl
 julia> all_gif(SD)
 ```
+![Gif of input and output plots](img/dynamic_all.gif)
 """
 function all_gif(SD::Simulation_Data; frames=2)
     t = Observable(1)
