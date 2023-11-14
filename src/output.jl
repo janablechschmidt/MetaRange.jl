@@ -239,7 +239,9 @@ function abundance_gif(SD::Simulation_Data, frames=2)
     Colorbar(f[1, 2], hm)
 
     #record GIF
-    record(f, "Abundance.gif", 1:timesteps; framerate=frames) do i
+    make_out_dir(SD.parameters.output_dir)
+    gif_path = joinpath(SD.parameters.output_dir, "abundance.gif")
+    record(f, gif_path, 1:timesteps; framerate=frames) do i
         t[] = i
         title[] = "Abundance at timestep $(i)"
     end
@@ -284,7 +286,9 @@ function suitability_gif(SD::Simulation_Data; frames=2)
     Colorbar(f[1, 2], hm)
 
     #record GIF
-    record(f, "Suitability.gif", 1:timesteps; framerate=frames) do i
+    make_out_dir(SD.parameters.output_dir)
+    gif_path = joinpath(SD.parameters.output_dir, "suitability.gif")
+    record(f, gif_path, 1:timesteps; framerate=frames) do i
         t[] = i
         title[] = "Habitat suitability at timestep $(i)"
     end
@@ -329,7 +333,9 @@ function carry_gif(SD::Simulation_Data; frames=2)
     Colorbar(f[1, 2], hm)
 
     #record GIF
-    record(f, "CarryingCapacity.gif", 1:timesteps; framerate=frames) do i
+    make_out_dir(SD.parameters.output_dir)
+    gif_path = joinpath(SD.parameters.output_dir, "carrying_capacity.gif")
+    record(f, gif_path, 1:timesteps; framerate=frames) do i
         t[] = i
         title[] = "Carrying Capacity at timestep $(i)"
     end
@@ -378,7 +384,9 @@ function reproduction_gif(SD::Simulation_Data; frames=2)
     Colorbar(f[1, 2], hm)
 
     #record GIF
-    record(f, "Reproduction.gif", 1:timesteps; framerate=frames) do i
+    make_out_dir(SD.parameters.output_dir)
+    gif_path = joinpath(SD.parameters.output_dir, "reproduction.gif")
+    record(f, gif_path, 1:timesteps; framerate=frames) do i
         t[] = i
         title[] = "Reproduction rate at timestep $(i)"
     end
@@ -423,7 +431,9 @@ function mortality_gif(SD::Simulation_Data; frames=2)
     Colorbar(f[1, 2], hm)
 
     #record GIF
-    record(f, "Mortality.gif", 1:timesteps; framerate=frames) do i
+    make_out_dir(SD.parameters.output_dir)
+    gif_path = joinpath(SD.parameters.output_dir, "mortality.gif")
+    record(f, gif_path, 1:timesteps; framerate=frames) do i
         t[] = i
         title[] = "Mortality rate at timestep $(i)"
     end
@@ -746,7 +756,9 @@ function all_gif(SD::Simulation_Data; frames=2)
     hm6 = CairoMakie.heatmap!(ax6, abundance; colormap=:YlGnBu, colorrange=(min_ab, max_ab))
     Colorbar(f_right[(2 + plot_size):(1 + plot_size * 2), (box_size_r - 1)], hm6)
     #record GIF
-    record(f, "all.gif", 1:timesteps; framerate=frames) do i
+    make_out_dir(SD.parameters.output_dir)
+    gif_path = joinpath(SD.parameters.output_dir, "all.gif")
+    record(f, gif_path, 1:timesteps; framerate=frames) do i
         t[] = i
         tt[] = "timestep $(i)"
     end
