@@ -246,3 +246,13 @@ end
 
 # what do you need for simulation data struct?
 # SD hat landscape, parameters, species, duration
+
+function copy_examples(path)
+    if !isdir(path)
+        error("Directory $path does not exist!")
+    end
+    @info "Copying examples to $path/examples"
+
+    # copy examples to path
+    return cp(joinpath(@__DIR__, "../examples"), joinpath(path, "examples"))
+end

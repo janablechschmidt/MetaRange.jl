@@ -34,6 +34,7 @@ export save_all
 
 #examples and defaults
 export default_run_data
+export copy_examples
 
 include("datastructures.jl")
 include("datastructure_constructors.jl")
