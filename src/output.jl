@@ -790,9 +790,7 @@ function save_all(SD::Simulation_Data)
     carry = vec(SD.species[1].output.carry)
     bevmort = vec(SD.species[1].output.bevmort)
     inds = vec(CartesianIndices(SD.species[1].output.abundances))
-    t = getindex.(inds, 3)
-    x = getindex.(inds, 2)
-    y = getindex.(inds, 1)
+    t, x, y = getindex.(inds, 3), getindex.(inds, 2), getindex.(inds, 1)
     abundance_out = hcat(t, x, y, abundance, repeat(["abundance"], length(t)))
     reproduction_out = hcat(t, x, y, reproduction, repeat(["reproduction"], length(t)))
     habitat_out = hcat(t, x, y, habitat, repeat(["habitat"], length(t)))
@@ -801,4 +799,17 @@ function save_all(SD::Simulation_Data)
     out = vcat(abundance_out, habitat_out, reproduction_out, carry_out, bevmort_out)
     make_out_dir(SD.parameters.output_dir)
     return writedlm(joinpath(SD.parameters.output_dir, "output.csv"), out, ',')
+end
+
+function output_data(SD::Simulation_Data)
+    return DataFrame(;
+        t=[x[3] for x in inds],
+        x=[x[2] for x in inds],
+        y=[x[1] for x in inds],
+        abundance=vec(SD.species[1].output.abundances),
+        reproduction=vec(SD.species[1].output.growrate),
+        habitat=vec(SD.species[1].output.habitat),
+        carry=vec(SD.species[1].output.carry),
+        bevmort=vec(SD.species[1].output.bevmort),
+    )
 end
