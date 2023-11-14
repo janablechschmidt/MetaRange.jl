@@ -801,7 +801,7 @@ function save_all(SD::Simulation_Data)
     return writedlm(joinpath(SD.parameters.output_dir, "output.csv"), out, ',')
 end
 
-function output_data(SD::Simulation_Data)
+function df_output(SD::Simulation_Data)
     return DataFrame(;
         t=[x[3] for x in inds],
         x=[x[2] for x in inds],
