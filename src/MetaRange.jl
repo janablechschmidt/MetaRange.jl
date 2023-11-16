@@ -14,7 +14,8 @@ export read_input
 export run_simulation!
 
 #output functions
-export save_csv
+export df_output
+export save_output
 
 #visualization functions
 export plot_abundances

@@ -765,51 +765,77 @@ function all_gif(SD::Simulation_Data; frames=2)
 end
 
 """
-    save_all(SD::Simulation_Data)
+    df_output(SD::Simulation_Data)
 
-Save all output variables in a .csv file.
-
-This function writes all output variables - reproduction, mortality rate, carrying capacity, habitat suitability,
-    abundance - into a .csv file.
+Create a dataframe from the output of a simulation.
 
 # Arguments
-- `SD::Simulation_Data`: Simulation_Data object
+- `SD::Simulation_Data`: A `Simulation_Data` object containing the output data.
 
 # Returns
-- The .csv file is saved under the name "output.csv" in the output directory.
+- A `DataFrame` object with the following columns:
+    - `t`: time
+    - `x`: x-coordinate of the patch
+    - `y`: y-coordinate of the patch
+    - `abundance`: abundance of the species in the patch
+    - `reproduction`: growth rate of the species in the patch
+    - `habitat`: habitat suitability of the patch
+    - `carry`: carrying capacity of the patch
+    - `bevmort`: background mortality rate of the species in the patch
 
 # Examples
 ```julia-repl
-julia> save_all(SD)
+julia> df = df_output(SD)
 ```
 """
-function save_all(SD::Simulation_Data)
-    abundance = vec(SD.species[1].output.abundances)
-    habitat = vec(SD.species[1].output.habitat)
-    reproduction = vec(SD.species[1].output.growrate)
-    carry = vec(SD.species[1].output.carry)
-    bevmort = vec(SD.species[1].output.bevmort)
-    inds = vec(CartesianIndices(SD.species[1].output.abundances))
-    t, x, y = getindex.(inds, 3), getindex.(inds, 2), getindex.(inds, 1)
-    abundance_out = hcat(t, x, y, abundance, repeat(["abundance"], length(t)))
-    reproduction_out = hcat(t, x, y, reproduction, repeat(["reproduction"], length(t)))
-    habitat_out = hcat(t, x, y, habitat, repeat(["habitat"], length(t)))
-    carry_out = hcat(t, x, y, carry, repeat(["carry"], length(t)))
-    bevmort_out = hcat(t, x, y, bevmort, repeat(["bevmort"], length(t)))
-    out = vcat(abundance_out, habitat_out, reproduction_out, carry_out, bevmort_out)
-    make_out_dir(SD.parameters.output_dir)
-    return writedlm(joinpath(SD.parameters.output_dir, "output.csv"), out, ',')
-end
-
 function df_output(SD::Simulation_Data)
+    #get indexes of all patches as a vector
+    observation = vec(CartesianIndices(SD.species[1].output.abundances))
+    #create dataframe
     return DataFrame(;
-        t=[x[3] for x in inds],
-        x=[x[2] for x in inds],
-        y=[x[1] for x in inds],
+        t=[x[3] for x in observation],
+        x=[x[2] for x in observation],
+        y=[x[1] for x in observation],
         abundance=vec(SD.species[1].output.abundances),
         reproduction=vec(SD.species[1].output.growrate),
         habitat=vec(SD.species[1].output.habitat),
         carry=vec(SD.species[1].output.carry),
         bevmort=vec(SD.species[1].output.bevmort),
+    )
+end
+
+"""
+    save_output(SD::Simulation_Data)
+
+Save all output variables in a .tsv file.
+
+This function writes all output variables abundance - into a .tsv file.
+
+# Arguments
+- `SD::Simulation_Data`: Simulation_Data object
+
+# Returns
+- A `.tsv` file with the following columns in the `output` directory`:
+    - `t`: time
+    - `x`: x-coordinate of the patch
+    - `y`: y-coordinate of the patch
+    - `abundance`: abundance of the species in the patch
+    - `reproduction`: growth rate of the species in the patch
+    - `habitat`: habitat suitability of the patch
+    - `carry`: carrying capacity of the patch
+    - `bevmort`: background mortality rate of the species in the patch
+
+# Examples
+```julia-repl
+julia> save_output(SD)
+```
+"""
+function save_output(SD::Simulation_Data)
+    make_out_dir(SD.parameters.output_dir)
+    return CSV.write(
+        joinpath(SD.parameters.output_dir, "output.tsv"),
+        df_output(SD);
+        delim="\t",
+        append=false,
     )
 end
