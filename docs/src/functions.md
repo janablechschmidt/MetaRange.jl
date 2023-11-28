@@ -18,7 +18,8 @@ run_simulation!
 ### Data Functions
 
 ```@docs
-save_all
+df_output
+save_output
 ```
 
 ### Visualization Functions

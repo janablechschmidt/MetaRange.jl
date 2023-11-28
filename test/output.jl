@@ -1,1 +1,1 @@
-@testset "Visualization" begin end
+@testset "Output" begin end
