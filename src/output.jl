@@ -486,7 +486,7 @@ function plot_all(SD::Simulation_Data, t::Int)
         x_temp,
     )
 
-    f = Figure(; resolution=(1200, 800), figure_padding=1)
+    f = Figure(; size=(1200, 800), figure_padding=1)
 
     ratio =
         size(SD.species[1].output.abundances, 1) / size(SD.species[1].output.abundances, 2)
@@ -630,7 +630,7 @@ function all_gif(SD::Simulation_Data; frames=2)
         x_temp,
     )
 
-    f = Figure(; resolution=(1200, 800), figure_padding=1)
+    f = Figure(; size=(1200, 800), figure_padding=1)
 
     ratio =
         size(SD.species[1].output.abundances, 1) / size(SD.species[1].output.abundances, 2)
