@@ -196,8 +196,8 @@ addressable by name
 struct Landscape
     xlength::Int64 # equivalent to size[2] of any Array in this struct
     ylength::Int64 # equivalent to size[1] of any Array in this struct
-    environment::Dict{String,Array{Float64,3}} # contains all environment attributes, addressable by name
-    restrictions::Array{Float64,3}
+    environment::Dict{String,Array{Union{Float64,Missing},3}} # contains all environment attributes, addressable by name
+    restrictions::Array{Union{Float64,Missing},3}
     #biomass_capacity::Matrix{Float64} # contains biomass_capacity of current timestep in simulation
 end
 

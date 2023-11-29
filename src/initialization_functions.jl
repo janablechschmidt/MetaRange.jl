@@ -31,13 +31,28 @@ function MetabolicRate(
     return modified_parameter
 end
 
+"""
+    get_habitat_suit(vmax, vopt, vmin, venv)
+
+Calculate the habitat suitability index based on the given environmental variables.
+
+# Arguments
+- `vmax`: The maximum value of the environmental variable.
+- `vopt`: The optimal value of the environmental variable.
+- `vmin`: The minimum value of the environmental variable.
+- `venv`: An array of the environmental Variables.
+
+# Returns
+- `res`: The habitat suitability index.
+"""
 function get_habitat_suit(vmax, vopt, vmin, venv)
+    venv_no_miss = skipmissing(venv)
     left = ((vmax .- venv) ./ (vmax - vopt))
     right = ((venv .- vmin) / (vopt - vmin))
-    right[right .< 0] .= 0
+    right[findall(x -> isless(x, 0), skipmissing(right))] .= 0
     ex = ((vopt - vmin) / (vmax - vopt))
     res = left .* right .^ ex
-    res[res .< 0] .= 0
+    res[findall(x -> isless(x, 0), skipmissing(res))] .= 0
     return res
 end
 
@@ -395,7 +410,7 @@ function read_ls(
     env_restr::Dict{String,String},
     timesteps::Int,
 )
-    environment = Dict{String,Array{Float64,3}}()
+    environment = Dict{String,Array{Union{Float64,Missing},3}}()
     # read environment attributes
     for key in keys(env_attib)
         attribute = Nothing
@@ -414,11 +429,13 @@ function read_ls(
             )
             error(msg)
         end
+
+        #replace NaN with missing
         # sanity checks
         #check_for_nan(attribute)
         check_attribute_values!(attribute, key)
 
-        environment[key] = attribute
+        environment[key] = replace(attribute, NaN => missing) #replace NaNs in environment with missing
     end
     # read environment restrictions
     restrictions = Dict{String,Array{Float64,3}}()

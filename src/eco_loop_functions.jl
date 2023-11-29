@@ -151,7 +151,7 @@ function get_habitat(
 )
     env_keys = collect(keys(LS.environment))
     habitability_arr = Array{Float64}(undef, LS.ylength, LS.xlength, length(env_keys))
-    for i in 1:length(env_keys)
+    for i in eachindex(env_keys)
         conditions = @view(LS.environment[env_keys[i]][:, :, t])
         habitability_arr[:, :, i] = get_habitat_suit(
             env_pref[env_keys[i]].upper_limit,
