@@ -101,9 +101,7 @@ function image_suitability(SD::Simulation_Data, t::Int)
     suitability = SD.species[1].output.habitat[:, :, t]
     ratio = size(SD.species[1].output.habitat, 1) / size(SD.species[1].output.habitat, 2)
     f = Figure()
-    ax = Axis(
-        f[1, 1]; title="Habitat Suitability at Timestep $t", aspect=ratio
-    )
+    ax = Axis(f[1, 1]; title="Habitat Suitability at Timestep $t", aspect=ratio)
     hm = CairoMakie.heatmap!(ax, suitability; colormap=:YlOrBr)
     Colorbar(f[1, 2], hm)
     return f
