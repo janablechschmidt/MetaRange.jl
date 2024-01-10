@@ -68,11 +68,11 @@ julia> f
 ![Image of abundances on the map](img/image_abundances.png)
 """
 function image_abundances(SD::Simulation_Data, t::Int)
-    abundance = SD.species[1].output.abundances[:, :, t]'
+    abundance = SD.species[1].output.abundances[:, :, t]
     ratio =
         size(SD.species[1].output.abundances, 1) / size(SD.species[1].output.abundances, 2)
     f = Figure()
-    ax = Axis(f[1, 1]; title="Abundance at Timestep $t", aspect=ratio, yreversed=true)
+    ax = Axis(f[1, 1]; title="Abundance at Timestep $t", aspect=ratio)
     hm = CairoMakie.heatmap!(ax, abundance; colormap=:YlGnBu)
     Colorbar(f[1, 2], hm)
     return f
@@ -98,12 +98,10 @@ julia> f
 ![Image of habitat suitability on the map](img/image_suitability.png)
 """
 function image_suitability(SD::Simulation_Data, t::Int)
-    suitability = SD.species[1].output.habitat[:, :, t]'
+    suitability = SD.species[1].output.habitat[:, :, t]
     ratio = size(SD.species[1].output.habitat, 1) / size(SD.species[1].output.habitat, 2)
     f = Figure()
-    ax = Axis(
-        f[1, 1]; title="Habitat Suitability at Timestep $t", aspect=ratio, yreversed=true
-    )
+    ax = Axis(f[1, 1]; title="Habitat Suitability at Timestep $t", aspect=ratio)
     hm = CairoMakie.heatmap!(ax, suitability; colormap=:YlOrBr)
     Colorbar(f[1, 2], hm)
     return f
@@ -129,12 +127,12 @@ julia> f
 ![Image of temperatures on the map](img/image_temperature.png)
 """
 function image_temperature(SD::Simulation_Data, t::Int)
-    temp = SD.landscape.environment["temperature"][:, :, t]'
+    temp = SD.landscape.environment["temperature"][:, :, t]
     ratio =
         size(SD.landscape.environment["temperature"], 1) /
         size(SD.landscape.environment["temperature"], 2)
     f = Figure()
-    ax = Axis(f[1, 1]; title="Temperature at Timestep $t", aspect=ratio, yreversed=true)
+    ax = Axis(f[1, 1]; title="Temperature at Timestep $t", aspect=ratio)
     hm = CairoMakie.heatmap!(ax, temp; colormap=:plasma)
     Colorbar(f[1, 2], hm)
     return f
@@ -160,12 +158,12 @@ julia> f
 ![Image of precipitation levels on the map](img/image_precipitation.png)
 """
 function image_precipitation(SD::Simulation_Data, t::Int)
-    prec = SD.landscape.environment["precipitation"][:, :, t]'
+    prec = SD.landscape.environment["precipitation"][:, :, t]
     ratio =
         size(SD.landscape.environment["precipitation"], 1) /
         size(SD.landscape.environment["precipitation"], 2)
     f = Figure()
-    ax = Axis(f[1, 1]; title="Precipitation at Timestep $t", aspect=ratio, yreversed=true)
+    ax = Axis(f[1, 1]; title="Precipitation at Timestep $t", aspect=ratio)
     hm = CairoMakie.heatmap!(ax, prec; colormap=:viridis)
     Colorbar(f[1, 2], hm)
     return f
@@ -190,10 +188,10 @@ julia> f
 ```
 """
 function image_restrictions(SD::Simulation_Data, t::Int)
-    restr = SD.landscape.restrictions[:, :, t]'
+    restr = SD.landscape.restrictions[:, :, t]
     ratio = size(SD.landscape.restrictions, 1) / size(SD.landscape.restrictions, 2)
     f = Figure()
-    ax = Axis(f[1, 1]; title="Restrictions at Timestep $t", aspect=ratio, yreversed=true)
+    ax = Axis(f[1, 1]; title="Restrictions at Timestep $t", aspect=ratio)
     hm = CairoMakie.heatmap!(ax, restr; colormap=:grays)
     Colorbar(f[1, 2], hm)
     return f
@@ -227,14 +225,14 @@ function abundance_gif(SD::Simulation_Data, frames=2)
     max = maximum(skipmissing(SD.species[1].output.abundances))
 
     #set Makie Observables
-    abund = @lift(SD.species[1].output.abundances[:, :, $t]')
+    abund = @lift(SD.species[1].output.abundances[:, :, $t])
 
     #create Makie Figure
     ratio =
         size(SD.species[1].output.abundances, 1) / size(SD.species[1].output.abundances, 2)
     f = Figure()
     title = Observable("Abundance at timestep $(t)")
-    ax = Axis(f[1, 1]; title=title, aspect=ratio, yreversed=true)
+    ax = Axis(f[1, 1]; title=title, aspect=ratio)
     hm = CairoMakie.heatmap!(ax, abund; colormap=:YlOrBr, colorrange=(min, max))
     Colorbar(f[1, 2], hm)
 
@@ -275,13 +273,13 @@ function suitability_gif(SD::Simulation_Data; frames=2)
     max = maximum(skipmissing(SD.species[1].output.habitat))
 
     #set Makie Observables
-    suitability = @lift(SD.species[1].output.habitat[:, :, $t]')
+    suitability = @lift(SD.species[1].output.habitat[:, :, $t])
 
     #create Makie Figure
     ratio = size(SD.species[1].output.habitat, 1) / size(SD.species[1].output.habitat, 2)
     f = Figure()
     title = Observable("Habitat suitability at timestep $(t)")
-    ax = Axis(f[1, 1]; title=title, aspect=ratio, yreversed=true)
+    ax = Axis(f[1, 1]; title=title, aspect=ratio)
     hm = CairoMakie.heatmap!(ax, suitability; colormap=:YlOrBr, colorrange=(min, max))
     Colorbar(f[1, 2], hm)
 
@@ -322,13 +320,13 @@ function carry_gif(SD::Simulation_Data; frames=2)
     max = maximum(skipmissing(SD.species[1].output.carry))
 
     #set Makie Observables
-    carry = @lift(SD.species[1].output.carry[:, :, $t]')
+    carry = @lift(SD.species[1].output.carry[:, :, $t])
 
     #create Makie Figure
     ratio = size(SD.species[1].output.carry, 1) / size(SD.species[1].output.carry, 2)
     f = Figure()
     title = Observable("Carrying Capacity at timestep $(t)")
-    ax = Axis(f[1, 1]; title=title, aspect=ratio, yreversed=true)
+    ax = Axis(f[1, 1]; title=title, aspect=ratio)
     hm = CairoMakie.heatmap!(ax, carry; colormap=:YlOrBr, colorrange=(min, max))
     Colorbar(f[1, 2], hm)
 
@@ -373,13 +371,13 @@ function reproduction_gif(SD::Simulation_Data; frames=2)
     )
 
     #set Makie Observables
-    r = @lift(SD.species[1].output.growrate[:, :, $t]')
+    r = @lift(SD.species[1].output.growrate[:, :, $t])
 
     #create Makie Figure
     ratio = size(SD.species[1].output.growrate, 1) / size(SD.species[1].output.growrate, 2)
     f = Figure()
     title = Observable("Reproduction rate at timestep $(t)")
-    ax = Axis(f[1, 1]; title=title, aspect=ratio, yreversed=true)
+    ax = Axis(f[1, 1]; title=title, aspect=ratio)
     hm = CairoMakie.heatmap!(ax, r; colormap=:YlOrBr, colorrange=(min, max))
     Colorbar(f[1, 2], hm)
 
@@ -420,13 +418,13 @@ function mortality_gif(SD::Simulation_Data; frames=2)
     max = maximum(skipmissing(isnan(x) ? missing : x for x in SD.species[1].output.bevmort))
 
     #set Makie Observables
-    m = @lift(SD.species[1].output.bevmort[:, :, $t]')
+    m = @lift(SD.species[1].output.bevmort[:, :, $t])
 
     #create Makie Figure
     ratio = size(SD.species[1].output.bevmort, 1) / size(SD.species[1].output.bevmort, 2)
     f = Figure()
     title = Observable("Mortality rate at timestep $(t)")
-    ax = Axis(f[1, 1]; title=title, aspect=ratio, yreversed=true)
+    ax = Axis(f[1, 1]; title=title, aspect=ratio)
     hm = CairoMakie.heatmap!(ax, m; colormap=:YlOrBr, colorrange=(min, max))
     Colorbar(f[1, 2], hm)
 
@@ -459,10 +457,10 @@ julia> f
 ![All plots](img/plot_all.png)
 """
 function plot_all(SD::Simulation_Data, t::Int)
-    temp = SD.landscape.environment["temperature"][:, :, t]'
-    prec = SD.landscape.environment["precipitation"][:, :, t]'
-    suitability = SD.species[1].output.habitat[:, :, t]'
-    abundance = SD.species[1].output.abundances[:, :, t]'
+    temp = reverse(SD.landscape.environment["temperature"][:, :, t])
+    prec = reverse(SD.landscape.environment["precipitation"][:, :, t])
+    suitability = reverse(SD.species[1].output.habitat[:, :, t])
+    abundance = reverse(SD.species[1].output.abundances[:, :, t])
     start_prec = minimum(filter(!isnan, prec))
     stop_prec = maximum(filter(!isnan, prec))
     start_temp = minimum(filter(!isnan, temp))
@@ -554,7 +552,6 @@ function plot_all(SD::Simulation_Data, t::Int)
     )
     hm3 = CairoMakie.heatmap!(ax3, temp; colormap=:plasma)
     Colorbar(f_left[(2 + plot_size):(1 + plot_size * 2), 2 + plot_size], hm3)
-    ax3.yreversed = true
     ax4 = Axis(
         f_left[(2 + plot_size):(1 + plot_size * 2), (3 + plot_size):(2 + plot_size * 2)];
         title="Precipitation at t = $t",
@@ -562,7 +559,6 @@ function plot_all(SD::Simulation_Data, t::Int)
     )
     hm4 = CairoMakie.heatmap!(ax4, prec; colormap=:viridis)
     Colorbar(f_left[(2 + plot_size):(1 + plot_size * 2), 3 + plot_size * 2], hm4)
-    ax4.yreversed = true
     ax5 = Axis(
         f_right[2:(1 + plot_size), 2:(1 + plot_size)];
         title="Habitat Suitability at t = $t",
@@ -570,7 +566,6 @@ function plot_all(SD::Simulation_Data, t::Int)
     )
     hm5 = CairoMakie.heatmap!(ax5, suitability; colormap=:YlOrBr)
     Colorbar(f_right[2:(1 + plot_size), (box_size_r - 1)], hm5)
-    ax5.yreversed = true
     ax6 = Axis(
         f_right[(2 + plot_size):(1 + plot_size * 2), 2:(1 + plot_size)];
         title="Abundance at t = $t",
@@ -578,7 +573,6 @@ function plot_all(SD::Simulation_Data, t::Int)
     )
     hm6 = CairoMakie.heatmap!(ax6, abundance; colormap=:YlGnBu)
     Colorbar(f_right[(2 + plot_size):(1 + plot_size * 2), (box_size_r - 1)], hm6)
-    ax6.yreversed = true
     return f
 end
 
@@ -603,10 +597,10 @@ julia> all_gif(SD)
 function all_gif(SD::Simulation_Data; frames=2)
     t = Observable(1)
     timesteps = SD.parameters.timesteps
-    temp = @lift(SD.landscape.environment["temperature"][:, :, $t]')
-    prec = @lift(SD.landscape.environment["precipitation"][:, :, $t]')
-    suitability = @lift(SD.species[1].output.habitat[:, :, $t]')
-    abundance = @lift(SD.species[1].output.abundances[:, :, $t]')
+    temp = @lift(SD.landscape.environment["temperature"][:, :, $t])
+    prec = @lift(SD.landscape.environment["precipitation"][:, :, $t])
+    suitability = @lift(SD.species[1].output.habitat[:, :, $t])
+    abundance = @lift(SD.species[1].output.abundances[:, :, $t])
     start_prec = minimum(filter(!isnan, SD.landscape.environment["precipitation"]))
     stop_prec = maximum(filter(!isnan, SD.landscape.environment["precipitation"]))
     start_temp = minimum(filter(!isnan, SD.landscape.environment["temperature"]))
@@ -707,7 +701,6 @@ function all_gif(SD::Simulation_Data; frames=2)
         f_left[(2 + plot_size):(1 + plot_size * 2), 2:(1 + plot_size)];
         title="Temperature",
         aspect=ratio,
-        yreversed=true,
     )
     hm3 = CairoMakie.heatmap!(ax3, temp; colormap=:plasma, colorrange=(min_t, max_t))
     Colorbar(f_left[(2 + plot_size):(1 + plot_size * 2), 2 + plot_size], hm3)
@@ -715,7 +708,6 @@ function all_gif(SD::Simulation_Data; frames=2)
         f_left[(2 + plot_size):(1 + plot_size * 2), (3 + plot_size):(2 + plot_size * 2)];
         title="Precipitation",
         aspect=ratio,
-        yreversed=true,
     )
     min_p = minimum(
         skipmissing(
@@ -733,7 +725,6 @@ function all_gif(SD::Simulation_Data; frames=2)
         f_right[2:(1 + plot_size), 2:(1 + plot_size)];
         title="Habitat Suitability",
         aspect=ratio,
-        yreversed=true,
     )
     min_suit = minimum(
         skipmissing(isnan(x) ? missing : x for x in SD.species[1].output.habitat)
@@ -749,7 +740,6 @@ function all_gif(SD::Simulation_Data; frames=2)
         f_right[(2 + plot_size):(1 + plot_size * 2), 2:(1 + plot_size)];
         title="Abundance",
         aspect=ratio,
-        yreversed=true,
     )
     min_ab = minimum(skipmissing(SD.species[1].output.abundances))
     max_ab = maximum(skipmissing(SD.species[1].output.abundances))
