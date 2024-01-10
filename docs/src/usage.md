@@ -99,7 +99,15 @@ run_simulation!(SD)
 
 ### Visualization
 
-For a quick visualization there are a few functions implemented. These can be found in the [Visualization Functions](@ref) section. [`plot_abundances`](@ref) creates a line plot of the first species in the simulation over time. [`image_abundances`](@ref) creates a heatmap of the abundances at the specified time-step.
+For direct visualization there are some functions that plot the simulation results. These can be found in the [Visualization Functions](@ref) section.  
+
+[`plot_abundances`](@ref) creates a line plot of the first species in the simulation over time.  
+
+![Abundance over time in a static landscape](./img/plot_abundances.png)  
+
+[`image_abundances`](@ref) creates a heatmap of the abundances at the specified time-step.  
+
+![Abundance plot in a static landscape.](./img/image_abundances.png)  
 
 The function [`abundance_gif`](@ref) creates a gif of the abundance heatmap over time:  
 

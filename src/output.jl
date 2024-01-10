@@ -213,7 +213,7 @@ Create a gif of the species abundance in a landscape over time.
 ```julia-repl
 julia> abundance_gif(SD)
 ```
-#![.gif of abundance](img/static_abundances.gif)
+![.gif of abundance](img/static_abundances.gif)
 """
 function abundance_gif(SD::Simulation_Data, frames=2)
     #get timesteps
@@ -237,7 +237,9 @@ function abundance_gif(SD::Simulation_Data, frames=2)
     Colorbar(f[1, 2], hm)
 
     #record GIF
-    record(f, "Abundance.gif", 1:timesteps; framerate=frames) do i
+    make_out_dir(SD.parameters.output_dir)
+    gif_path = joinpath(SD.parameters.output_dir, "abundance.gif")
+    record(f, gif_path, 1:timesteps; framerate=frames) do i
         t[] = i
         title[] = "Abundance at timestep $(i)"
     end
@@ -259,6 +261,7 @@ Create a gif of habitat suitability in a landscape for all timesteps
 ```julia-repl
 julia> suitability_gif(SD)
 ```
+![.gif of suitability](img/static_suitability.gif)
 """
 function suitability_gif(SD::Simulation_Data; frames=2)
     #get timesteps
@@ -281,7 +284,9 @@ function suitability_gif(SD::Simulation_Data; frames=2)
     Colorbar(f[1, 2], hm)
 
     #record GIF
-    record(f, "Suitability.gif", 1:timesteps; framerate=frames) do i
+    make_out_dir(SD.parameters.output_dir)
+    gif_path = joinpath(SD.parameters.output_dir, "suitability.gif")
+    record(f, gif_path, 1:timesteps; framerate=frames) do i
         t[] = i
         title[] = "Habitat suitability at timestep $(i)"
     end
@@ -303,6 +308,7 @@ Create a gif of the carrying capacity in a landscape for all timesteps.
 ```julia-repl
 julia> carry_gif(SD)
 ```
+![.gif of carrying capacity](img/static_carryingcapacity.gif)
 """
 function carry_gif(SD::Simulation_Data; frames=2)
     #get timesteps
@@ -325,7 +331,9 @@ function carry_gif(SD::Simulation_Data; frames=2)
     Colorbar(f[1, 2], hm)
 
     #record GIF
-    record(f, "CarryingCapacity.gif", 1:timesteps; framerate=frames) do i
+    make_out_dir(SD.parameters.output_dir)
+    gif_path = joinpath(SD.parameters.output_dir, "carrying_capacity.gif")
+    record(f, gif_path, 1:timesteps; framerate=frames) do i
         t[] = i
         title[] = "Carrying Capacity at timestep $(i)"
     end
@@ -347,6 +355,7 @@ Create a gif for the reproduction rate of a species in a landscape for all times
 ```julia-repl
 julia> reproduction_gif(SD)
 ```
+![.gif of reproduction rate](img/static_reproduction.gif)
 """
 function reproduction_gif(SD::Simulation_Data; frames=2)
     #get timesteps
@@ -373,7 +382,9 @@ function reproduction_gif(SD::Simulation_Data; frames=2)
     Colorbar(f[1, 2], hm)
 
     #record GIF
-    record(f, "Reproduction.gif", 1:timesteps; framerate=frames) do i
+    make_out_dir(SD.parameters.output_dir)
+    gif_path = joinpath(SD.parameters.output_dir, "reproduction.gif")
+    record(f, gif_path, 1:timesteps; framerate=frames) do i
         t[] = i
         title[] = "Reproduction rate at timestep $(i)"
     end
@@ -395,6 +406,7 @@ Create a gif of the mortality rate of a species in a landscape for all timesteps
 ```julia-repl
 julia> mortality_gif(SD)
 ```
+![.gif of mortality rate](img/static_mortality.gif)
 """
 function mortality_gif(SD::Simulation_Data; frames=2)
     #get timesteps
@@ -417,7 +429,9 @@ function mortality_gif(SD::Simulation_Data; frames=2)
     Colorbar(f[1, 2], hm)
 
     #record GIF
-    record(f, "Mortality.gif", 1:timesteps; framerate=frames) do i
+    make_out_dir(SD.parameters.output_dir)
+    gif_path = joinpath(SD.parameters.output_dir, "mortality.gif")
+    record(f, gif_path, 1:timesteps; framerate=frames) do i
         t[] = i
         title[] = "Mortality rate at timestep $(i)"
     end
@@ -470,7 +484,7 @@ function plot_all(SD::Simulation_Data, t::Int)
         x_temp,
     )
 
-    f = Figure(; resolution=(1200, 800), figure_padding=1)
+    f = Figure(; size=(1200, 800), figure_padding=1)
 
     ratio =
         size(SD.species[1].output.abundances, 1) / size(SD.species[1].output.abundances, 2)
@@ -578,6 +592,7 @@ Plot all input and output variables and create a GIF.
 ```julia-repl
 julia> all_gif(SD)
 ```
+![Gif of input and output plots](img/dynamic_all.gif)
 """
 function all_gif(SD::Simulation_Data; frames=2)
     t = Observable(1)
@@ -609,7 +624,7 @@ function all_gif(SD::Simulation_Data; frames=2)
         x_temp,
     )
 
-    f = Figure(; resolution=(1200, 800), figure_padding=1)
+    f = Figure(; size=(1200, 800), figure_padding=1)
 
     ratio =
         size(SD.species[1].output.abundances, 1) / size(SD.species[1].output.abundances, 2)
@@ -731,47 +746,86 @@ function all_gif(SD::Simulation_Data; frames=2)
     hm6 = CairoMakie.heatmap!(ax6, abundance; colormap=:YlGnBu, colorrange=(min_ab, max_ab))
     Colorbar(f_right[(2 + plot_size):(1 + plot_size * 2), (box_size_r - 1)], hm6)
     #record GIF
-    record(f, "all.gif", 1:timesteps; framerate=frames) do i
+    make_out_dir(SD.parameters.output_dir)
+    gif_path = joinpath(SD.parameters.output_dir, "all.gif")
+    record(f, gif_path, 1:timesteps; framerate=frames) do i
         t[] = i
         tt[] = "timestep $(i)"
     end
 end
 
 """
-    save_all(SD::Simulation_Data)
+    df_output(SD::Simulation_Data)
 
-Save all output variables in a .csv file.
+Create a dataframe from the output of a simulation.
 
-This function writes all output variables - reproduction, mortality rate, carrying capacity, habitat suitability,
-    abundance - into a .csv file.
+# Arguments
+- `SD::Simulation_Data`: A `Simulation_Data` object containing the output data.
+
+# Returns
+- A `DataFrame` object with the following columns:
+    - `t`: time
+    - `x`: x-coordinate of the patch
+    - `y`: y-coordinate of the patch
+    - `abundance`: abundance of the species in the patch
+    - `reproduction`: growth rate of the species in the patch
+    - `habitat`: habitat suitability of the patch
+    - `carry`: carrying capacity of the patch
+    - `bevmort`: background mortality rate of the species in the patch
+
+# Examples
+```julia-repl
+julia> df = df_output(SD)
+```
+"""
+function df_output(SD::Simulation_Data)
+    #get indexes of all patches as a vector
+    observation = vec(CartesianIndices(SD.species[1].output.abundances))
+    #create dataframe
+    return DataFrame(;
+        t=[x[3] for x in observation],
+        x=[x[2] for x in observation],
+        y=[x[1] for x in observation],
+        abundance=vec(SD.species[1].output.abundances),
+        reproduction=vec(SD.species[1].output.growrate),
+        habitat=vec(SD.species[1].output.habitat),
+        carry=vec(SD.species[1].output.carry),
+        bevmort=vec(SD.species[1].output.bevmort),
+    )
+end
+
+"""
+    save_output(SD::Simulation_Data)
+
+Save all output variables in a .tsv file.
+
+This function writes all output variables abundance - into a .tsv file.
 
 # Arguments
 - `SD::Simulation_Data`: Simulation_Data object
 
 # Returns
-- The .csv file is saved under the name "output.csv" in the output directory.
+- A `.tsv` file with the following columns in the `output` directory`:
+    - `t`: time
+    - `x`: x-coordinate of the patch
+    - `y`: y-coordinate of the patch
+    - `abundance`: abundance of the species in the patch
+    - `reproduction`: growth rate of the species in the patch
+    - `habitat`: habitat suitability of the patch
+    - `carry`: carrying capacity of the patch
+    - `bevmort`: background mortality rate of the species in the patch
 
 # Examples
 ```julia-repl
-julia> save_all(SD)
+julia> save_output(SD)
 ```
 """
-function save_all(SD::Simulation_Data)
-    abundance = vec(SD.species[1].output.abundances)
-    habitat = vec(SD.species[1].output.habitat)
-    reproduction = vec(SD.species[1].output.growrate)
-    carry = vec(SD.species[1].output.carry)
-    bevmort = vec(SD.species[1].output.bevmort)
-    inds = vec(CartesianIndices(SD.species[1].output.abundances))
-    t = getindex.(inds, 3)
-    x = getindex.(inds, 2)
-    y = getindex.(inds, 1)
-    abundance_out = hcat(t, x, y, abundance, repeat(["abundance"], length(t)))
-    reproduction_out = hcat(t, x, y, reproduction, repeat(["reproduction"], length(t)))
-    habitat_out = hcat(t, x, y, habitat, repeat(["habitat"], length(t)))
-    carry_out = hcat(t, x, y, carry, repeat(["carry"], length(t)))
-    bevmort_out = hcat(t, x, y, bevmort, repeat(["bevmort"], length(t)))
-    out = vcat(abundance_out, habitat_out, reproduction_out, carry_out, bevmort_out)
+function save_output(SD::Simulation_Data)
     make_out_dir(SD.parameters.output_dir)
-    return writedlm(joinpath(SD.parameters.output_dir, "output.csv"), out, ',')
+    return CSV.write(
+        joinpath(SD.parameters.output_dir, "output.tsv"),
+        df_output(SD);
+        delim="\t",
+        append=false,
+    )
 end
