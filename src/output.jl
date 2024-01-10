@@ -238,9 +238,8 @@ function img(SD::Simulation_Data, t::Int, arg::String)
         col = :YlGnBu
     else error("$arg is not one of the possible outputs")
     end
-    ratio = size(SD.landscape.restrictions, 1) / size(SD.landscape.restrictions, 2)
     f = Figure()
-    ax = Axis(f[1, 1]; title="$arg at timestep $t", aspect=ratio)
+    ax = Axis(f[1, 1]; title="$arg at timestep $t")
     hm = CairoMakie.heatmap!(ax, x; colormap=col)
     Colorbar(f[1, 2], hm)
     return f
