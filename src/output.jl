@@ -486,6 +486,91 @@ function mortality_gif(SD::Simulation_Data; frames=2)
 end
 
 """
+    gif(SD::Simulation_Data, arg::String, frames::Int)
+
+Plots the specified output for timestep t.
+
+# Arguments
+- `SD::Simulation_Data`: Simulation_Data object
+- `arg::String`: argument on what shall be displayed. Must be one of restrictions, abundances, suitability, temperature, precipitation, carry, growrate, or mortality.
+- `frames::Int`: number of frames per second
+# Returns
+- The gif is saved under the name "arg.gif" in the output directory.
+
+"""
+
+function gif(SD::Simulation_Data, arg::String, frames=2)
+    #get timesteps
+    t = Observable(1)
+    timesteps = SD.parameters.timesteps
+    if arg == "abundances"
+        #find colorbar limits
+        min = minimum(skipmissing(SD.species[1].output.abundances))
+        max = maximum(skipmissing(SD.species[1].output.abundances))
+        #set Makie Observables
+        x = @lift(SD.species[1].output.abundances[:, :, $t])
+        col = :YlGnBu
+    elseif arg == "suitability"    
+        #find colorbar limits
+        min = minimum(skipmissing(SD.species[1].output.habitat))
+        max = maximum(skipmissing(SD.species[1].output.habitat))
+        #set Makie Observables
+        x = @lift(SD.species[1].output.habitat[:, :, $t])
+        col = :YlOrBr
+    elseif arg == "carry"
+        #find colorbar limits
+        min = minimum(skipmissing(SD.species[1].output.carry))
+        max = maximum(skipmissing(SD.species[1].output.carry))
+        #set Makie Observables
+        x = @lift(SD.species[1].output.carry[:, :, $t])
+        col = :YlGnBu
+    elseif arg == "growrate"
+        #find colorbar limits
+        min = minimum(skipmissing(SD.species[1].output.growrate))
+        max = maximum(skipmissing(SD.species[1].output.growrate))
+        #set Makie Observables
+        x = @lift(SD.species[1].output.growrate[:, :, $t])
+        col = :YlGnBu
+    elseif arg == "mortality"
+        #find colorbar limits
+        min = minimum(skipmissing(SD.species[1].output.bevmort))
+        max = maximum(skipmissing(SD.species[1].output.bevmort))
+        #set Makie Observables
+        x = @lift(SD.species[1].output.bevmort[:, :, $t])
+        col = :YlGnBu
+    elseif arg == "temperature"
+        #find colorbar limits
+        min = minimum(skipmissing(SD.landscape.environment["temperature"]))
+        max = maximum(skipmissing(SD.landscape.environment["temperature"]))
+        #set Makie Observables
+        x = @lift(SD.landscape.environment["temperature"][:, :, $t])
+        col = plasma
+    elseif arg == "precipitation"
+        #find colorbar limits
+        min = minimum(skipmissing(SD.landscape.environment["precipitation"]))
+        max = maximum(skipmissing(SD.landscape.environment["precipitation"]))
+        #set Makie Observables
+        x = @lift(SD.landscape.environment["precipitation"][:, :, $t])
+        col = :viridis
+    else error("$arg is not one of the possible outputs")
+    end
+    #create Makie Figure
+    f = Figure()
+    title = Observable("$arg at timestep $(t)")
+    ax = Axis(f[1, 1]; title=title)
+    hm = CairoMakie.heatmap!(ax, x; colormap=col, colorrange=(min, max))
+    Colorbar(f[1, 2], hm)
+
+    #record GIF
+    make_out_dir(SD.parameters.output_dir)
+    gif_path = joinpath(SD.parameters.output_dir, "$arg.gif")
+    record(f, gif_path, 1:timesteps; framerate=frames) do i
+        t[] = i
+        title[] = "$arg at timestep $(i)"
+    end
+end
+
+"""
     plot_all(SD::Simulation_Data, t::Int)
 
 Plot all input and output variables for a given timestep.
