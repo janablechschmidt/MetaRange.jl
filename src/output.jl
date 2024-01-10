@@ -198,6 +198,55 @@ function image_restrictions(SD::Simulation_Data, t::Int)
 end
 
 """
+    img(SD::Simulation_Data, t::Int, arg::String)
+
+Plots the specified output for timestep t.
+
+# Arguments
+- `SD::Simulation_Data`: Simulation_Data object
+- `t::Int`: timestep
+- `arg::String`: argument on what shall be displayed. Must be one of restrictions, abundances, suitability, temperature, precipitation, carry, growrate, or mortality.
+# Returns
+- `f::Figure`: Figure object
+
+"""
+
+function img(SD::Simulation_Data, t::Int, arg::String)
+    if arg == "restrictions"
+        x = SD.landscape.restrictions[:, :, t]
+        col = :grays
+    elseif arg == "abundances"
+        x = SD.species[1].output.abundances[:, :, t]
+        col = :YlGnBu
+    elseif arg == "suitability"
+        x = SD.species[1].output.habitat[:, :, t]
+        col = :YlOrBr
+    elseif arg == "temperature"
+        x = SD.landscape.environment["temperature"][:, :, t]
+        col = :plasma
+    elseif arg == "precipitation"
+        x = SD.landscape.environment["precipitation"][:, :, t]
+        col = :viridis
+    elseif arg == "carry"
+        x = SD.species[1].output.carry[:, :, t]
+        col = :YlGnBu
+    elseif arg == "growrate"
+        x = SD.species[1].output.growrate[:, :, t]
+        col = :YlGnBu
+    elseif arg == "mortality"
+        x = SD.species[1].output.bevmort[:, :, t]
+        col = :YlGnBu
+    else error("$arg is not one of the possible outputs")
+    end
+    ratio = size(SD.landscape.restrictions, 1) / size(SD.landscape.restrictions, 2)
+    f = Figure()
+    ax = Axis(f[1, 1]; title="$arg at timestep $t", aspect=ratio)
+    hm = CairoMakie.heatmap!(ax, x; colormap=col)
+    Colorbar(f[1, 2], hm)
+    return f
+end
+
+"""
     abundance_gif(SD::Simulation_Data; frames=2)
 
 Create a gif of the species abundance in a landscape over time.
