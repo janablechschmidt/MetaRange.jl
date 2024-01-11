@@ -153,7 +153,7 @@ represents the output of a simulation run for a species.
 struct Output
     abundances::Array{Union{Int64,Missing},3} #amount of species individuals
     habitat::Array{Float64,3} # habitat suitability in each timestep
-    carry::Array{Float64,3}
+    carry::Array{Union{Float64,Missing},3}
     growrate::Array{Float64,3}
     bevmort::Array{Float64,3}
 end
