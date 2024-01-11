@@ -19,18 +19,10 @@ export save_output
 
 #visualization functions
 export plot_abundances
-export image_suitability
-export image_abundances
-export image_temperature
-export image_precipitation
-export image_restrictions
-export suitability_gif
-export abundance_gif
-export carry_gif
-export reproduction_gif
-export mortality_gif
-export plot_all
-export all_gif
+export img
+export gif
+export img_complex
+export gif_complex
 export save_all
 
 #examples and defaults
