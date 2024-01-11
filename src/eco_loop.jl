@@ -72,7 +72,7 @@ function run_simulation!(SD::Simulation_Data)
         #end
 
     end
-
+    init_species_sim_vars!(SD.species, SD.landscape, SD.parameters, SD.parameters.timesteps)
     simulation_end_time = now()
     @info("elapsed time: ", simulation_end_time - simulation_start_time)
     SD.duration.start_time = simulation_start_time
