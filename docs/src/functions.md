@@ -26,14 +26,8 @@ save_output
 
 ```@docs
 plot_abundances
-image_abundances
-image_suitability
-image_temperature
-image_precipitation
-image_restrictions
-abundance_gif
-suitability_gif
-carry_gif
-reproduction_gif
-mortality_gif
+img
+gif
+img_complex
+gif_complex
 ```

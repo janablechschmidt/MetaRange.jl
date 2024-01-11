@@ -105,15 +105,15 @@ For direct visualization there are some functions that plot the simulation resul
 
 ![Abundance over time in a static landscape](./img/plot_abundances.png)  
 
-[`image_abundances`](@ref) creates a heatmap of the abundances at the specified time-step.  
+[`img`](@ref) creates a heatmap of a chosen output at the specified time-step.  
 
 ![Abundance plot in a static landscape.](./img/image_abundances.png)  
 
-The function [`abundance_gif`](@ref) creates a gif of the abundance heatmap over time:  
+The function [`gif`](@ref) creates a gif of the chosen output heatmap over time:  
 
 ![Abundance plot in a static landscape.](./img/static_abundances.gif)  
 
-Other visualization functions are [`image_suitability`](@ref), [`suitability_gif`](@ref), [`image_temperature`](@ref), [`image_precipitation`](@ref) and [`image_restrictions`](@ref).
+Other visualization functions are [`img_complex`](@ref) and [`gif_complex`](@ref).
 
 ### Simulation Data Object
 
