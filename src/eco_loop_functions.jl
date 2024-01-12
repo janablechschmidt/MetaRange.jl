@@ -71,12 +71,14 @@ function init_species_sim_vars!(
         sp.vars.is_habitat = get_is_habitat(
             sp.vars.habitat, sp.traits.habitat_cutoff_suitability
         )
-        sp.vars.future_habitat = get_habitat(
-            sp.traits.env_preferences, LS, parameters.env_attribute_mode, timestep + 1
-        )
-        sp.vars.future_is_habitat = get_is_habitat(
-            sp.vars.future_habitat, sp.traits.habitat_cutoff_suitability
-        )
+        if timestep < parameters.timesteps
+            sp.vars.future_habitat = get_habitat(
+                sp.traits.env_preferences, LS, parameters.env_attribute_mode, timestep + 1
+            )
+            sp.vars.future_is_habitat = get_is_habitat(
+                sp.vars.future_habitat, sp.traits.habitat_cutoff_suitability
+            )
+        end
         sp.vars.biomass = get_biomass(
             sp.traits.mass, sp.traits.sd_mass, LS.ylength, LS.xlength
         )
