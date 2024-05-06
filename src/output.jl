@@ -24,6 +24,7 @@ function plot_abundances(SD::Simulation_Data)
 
     # calculate carrying capacity
     carrying_capacity = SD.species[1].output.carry
+    replace!(carrying_capacity, missing => NaN)
     habitat_suitability = SD.species[1].output.habitat
     carry = [
         sum(filter(!isnan, carrying_capacity[:, :, t] .* habitat_suitability[:, :, t])) for
