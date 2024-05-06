@@ -62,7 +62,7 @@ struct Traits
     "Species Parameter"
     max_dispersal_buffer::Int64 # not sure if needed at all
     "Species Parameter"
-    mean_dispersal_dist::Union{Int64, Float64}  # Species Parameter
+    mean_dispersal_dist::Union{Int64,Float64}  # Species Parameter
 
     "Allee effect counteracting negative diversity loss in small populations"
     allee::Float64

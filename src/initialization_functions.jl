@@ -164,9 +164,7 @@ function parse_species_datatypes!(species::Dict)
             species[key] = parsed
         end
     end
-    for key in ("max_dispersal_dist")#, "mean_dispersal_dist")
-        species[key] = floor(Int, species[key])
-    end
+    return species["max_dispersal_dist"] = floor(Int, species["max_dispersal_dist"])
 end
 
 """
