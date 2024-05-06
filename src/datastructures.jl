@@ -31,7 +31,7 @@ Traits of a species.
 - `param_const_growrate::Union{Float64, Nothing}`:
 - `max_dispersal_dist::Int64`:
 - `max_dispersal_buffer::Int64`:
-- `mean_dispersal_dist::Int64`:
+- `mean_dispersal_dist::Union{Int64, Float64}`:
 - `allee::Float64`: Allee effect counteracting negative diversity loss in small populations
 - `sd_allee::Float64`: Allee effect standard deviation
 - `param_const_allee::Union{Float64, Nothing}`:
@@ -62,7 +62,7 @@ struct Traits
     "Species Parameter"
     max_dispersal_buffer::Int64 # not sure if needed at all
     "Species Parameter"
-    mean_dispersal_dist::Int64  # Species Parameter
+    mean_dispersal_dist::Union{Int64,Float64}  # Species Parameter
 
     "Allee effect counteracting negative diversity loss in small populations"
     allee::Float64
