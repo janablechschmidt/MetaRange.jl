@@ -202,10 +202,10 @@ julia> f
 ![All plots](img/plot_all.png)
 """
 function img_complex(SD::Simulation_Data, t::Int)
-    temp = reverse(SD.landscape.environment["temperature"][:, :, t])
-    prec = reverse(SD.landscape.environment["precipitation"][:, :, t])
-    suitability = reverse(SD.species[1].output.habitat[:, :, t])
-    abundance = reverse(SD.species[1].output.abundances[:, :, t])
+    temp = SD.landscape.environment["temperature"][:, :, t]
+    prec = SD.landscape.environment["precipitation"][:, :, t]
+    suitability = SD.species[1].output.habitat[:, :, t]
+    abundance = SD.species[1].output.abundances[:, :, t]
     start_prec = minimum(filter(!isnan, prec))
     stop_prec = maximum(filter(!isnan, prec))
     start_temp = minimum(filter(!isnan, temp))
