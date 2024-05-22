@@ -429,7 +429,9 @@ function gif_complex(SD::Simulation_Data; frames=2)
         xlabel="temperature [K]",
         ylabel="fitness",
     )
-    tol_t = CairoMakie.lines!(ax1, x_temp, y_temp)
+    CairoMakie.lines!(ax1, x_temp, y_temp)
+    max_fit_t = argmax(y_temp)
+    CairoMakie.vlines!(ax1, x_temp[max_fit_t], color = :red)
 
     ax2 = Axis(
         f_left[2:(1 + plot_size), (3 + plot_size):(2 + plot_size * 2)];
@@ -437,13 +439,16 @@ function gif_complex(SD::Simulation_Data; frames=2)
         xlabel="precipitation [mm]",
         ylabel="fitness",
     )
-    tol_p = CairoMakie.lines!(ax2, x_prec, y_prec)
+    CairoMakie.lines!(ax2, x_prec, y_prec)
+    max_fit_p = argmax(y_prec)
+    CairoMakie.vlines!(ax2, x_prec[max_fit_p], color = :red)
     min_t = minimum(
         skipmissing(isnan(x) ? missing : x for x in SD.landscape.environment["temperature"])
     )
     max_t = maximum(
         skipmissing(isnan(x) ? missing : x for x in SD.landscape.environment["temperature"])
     )
+    
     ax3 = Axis(
         f_left[(2 + plot_size):(1 + plot_size * 2), 2:(1 + plot_size)];
         title="Temperature",
