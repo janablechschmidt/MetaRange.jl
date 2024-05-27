@@ -42,7 +42,7 @@ Here is a minimum example on a random landscape, which will run a simulation of 
 
 ```julia
 using MetaRange
-SD = default_run_data()
+SD = demo_input()
 run_simulation!(SD)
 ```
 

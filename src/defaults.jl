@@ -231,11 +231,11 @@ function get_default_species(LS::Landscape, SP::Simulation_Parameters)
     )
 end
 """
-    default_run_data()
+    demo_input()
 
 Initializes a simple default run Simulation_Data struct.
 """
-function default_run_data()
+function demo_input()
     landscape = get_default_LS()
     # Why is this calling testrun and not default? - R
     parameters = get_testrun_simulation_parameters()

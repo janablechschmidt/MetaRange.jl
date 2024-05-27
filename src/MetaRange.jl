@@ -26,7 +26,7 @@ export gif_complex
 export save_all
 
 #examples and defaults
-export default_run_data
+export demo_input
 
 include("datastructures.jl")
 include("datastructure_constructors.jl")
