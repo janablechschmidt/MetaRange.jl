@@ -45,7 +45,6 @@ function ReproductionBeverton(
     return N * per_capa_R
 end
 
-#TODO: What does this function actually do?
 """
     MortalityBev(N::Int64, mortality::Float64)
 

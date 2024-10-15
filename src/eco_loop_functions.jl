@@ -418,7 +418,6 @@ end
 TBW
 """
 function Survive!(species::Vector{Species}, DispersalSurvival, t::Int64)
-    # good candidate for tests. What even is happening here?
     for sp in species
         occurrences = findall((
             sp.vars.offspring[
