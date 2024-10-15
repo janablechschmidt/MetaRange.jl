@@ -231,8 +231,8 @@ function img_complex(SD::Simulation_Data, t::Int)
 
     f = Figure(; size=(1200, 800), figure_padding=1)
 
-    ratio =
-        size(SD.species[1].output.abundances, 1) / size(SD.species[1].output.abundances, 2)
+    ratio = 1
+        #size(SD.species[1].output.abundances, 2) / size(SD.species[1].output.abundances, 1)
 
     box_size_l = 12
 
@@ -275,7 +275,7 @@ function img_complex(SD::Simulation_Data, t::Int)
     )
 
     ax1 = Axis(
-        f_left[2:(1 + plot_size), 2:(1 + plot_size)];
+        f_left[2:(1 + plot_size), 2:(2 + plot_size)];
         title="Temperature tolerance",
         xlabel="temperature [K]",
         ylabel="fitness",
@@ -283,8 +283,12 @@ function img_complex(SD::Simulation_Data, t::Int)
     CairoMakie.lines!(ax1, x_temp, y_temp)
     max_fit_t = argmax(y_temp)
     CairoMakie.vlines!(ax1, x_temp[max_fit_t]; color=:red)
+    #max_temp = SD.species[1].traits.env_preferences["temperature"].upper_limit
+    #min_temp = SD.species[1].traits.env_preferences["temperature"].lower_limit
+    #CairoMakie.vlines!(ax2, max_temp; color=:red, linestyle = :dot)
+    #CairoMakie.vlines!(ax2, min_temp; color=:red, linestyle = :dot)
     ax2 = Axis(
-        f_left[2:(1 + plot_size), (3 + plot_size):(2 + plot_size * 2)];
+        f_left[2:(1 + plot_size), (3 + plot_size):(3 + plot_size * 2)];
         title="Precipitation tolerance",
         xlabel="precipitation [mm]",
         ylabel="fitness",
@@ -292,6 +296,10 @@ function img_complex(SD::Simulation_Data, t::Int)
     CairoMakie.lines!(ax2, x_prec, y_prec)
     max_fit_p = argmax(y_prec)
     CairoMakie.vlines!(ax2, x_prec[max_fit_p]; color=:red)
+    #max_prec = SD.species[1].traits.env_preferences["precipitation"].upper_limit
+    #min_prec = SD.species[1].traits.env_preferences["precipitation"].lower_limit
+    #CairoMakie.vlines!(ax2, max_prec; color=:red, linestyle = :dot)
+    #CairoMakie.vlines!(ax2, min_prec; color=:red, linestyle = :dot)
     ax3 = Axis(
         f_left[(2 + plot_size):(1 + plot_size * 2), 2:(1 + plot_size)];
         title="Temperature at t = $t",
