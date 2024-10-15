@@ -22,8 +22,8 @@ function get_default_simulation_parameters()
         "randomseed" => 42,
         "reproduction_model" => "Beverton",
         "use_metabolic_theory" => true,
-        "use_stoch_allee" => false,
-        "use_stoch_carry" => false,
+        #"use_stoch_allee" => false,
+        #"use_stoch_carry" => false,
         "use_stoch_num" => false,
         "initialize_cells" => "habitat",
         #"ls_cell_biomass_cap" => 200.0
@@ -62,8 +62,8 @@ function get_testrun_simulation_parameters()
         "randomseed" => 42,
         "reproduction_model" => "Beverton",
         "use_metabolic_theory" => true,
-        "use_stoch_allee" => false,
-        "use_stoch_carry" => false,
+        #"use_stoch_allee" => false,
+        #"use_stoch_carry" => false,
         "use_stoch_num" => false,
         "initialize_cells" => "habitat",
         #"ls_cell_biomass_cap" => 200.0
@@ -237,12 +237,9 @@ Initializes a simple default run Simulation_Data struct.
 """
 function demo_input()
     landscape = get_default_LS()
-    # Why is this calling testrun and not default? - R
     parameters = get_testrun_simulation_parameters()
     #duration = Duration
     species = get_default_species(landscape, parameters)
     return Simulation_Data(parameters, landscape, species, Duration(now(), now()))
 end
 
-# what do you need for simulation data struct?
-# SD hat landscape, parameters, species, duration

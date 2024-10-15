@@ -23,8 +23,8 @@ function get_Simulation_Parameters(config::Dict)
         config["randomseed"],
         config["reproduction_model"],
         config["use_metabolic_theory"],
-        config["use_stoch_allee"],
-        config["use_stoch_carry"],
+        #config["use_stoch_allee"],
+        #config["use_stoch_carry"],
         config["use_stoch_num"],
         config["initialize_cells"],
         #config["ls_cell_biomass_cap"]

@@ -224,8 +224,8 @@ Struct for saving simulation parameters.
 - `randomseed::Int64`: seed for number generator used in the simulation
 - `reproduction_model::String`: #TODO
 - `use_metabolic_theory::Bool`: #TODO
-- `use_stoch_allee::Bool`: if true the allee effect will be stochastic
-- `use_stoch_carry::Bool`: if true the carrying capacity will be stochastic
+#- `use_stoch_allee::Bool`: if true the allee effect will be stochastic
+#- `use_stoch_carry::Bool`: if true the carrying capacity will be stochastic
 - `use_stoch_num::Bool`: #TODO Stochastic Survival see R code
 - `initialize_cells::String`: #TODO
 """
@@ -246,8 +246,8 @@ struct Simulation_Parameters
     randomseed::Int64
     reproduction_model::String # Simulation Parameter
     use_metabolic_theory::Bool # Simulation Parameter
-    use_stoch_allee::Bool # Simulation Parameter (Allee Effect: min size of sustainable population)
-    use_stoch_carry::Bool # Simulation Parameter (Max nubr of individuals pro cell )
+    #use_stoch_allee::Bool # Simulation Parameter (Allee Effect: min size of sustainable population)
+    #use_stoch_carry::Bool # Simulation Parameter (Max nubr of individuals pro cell )
     use_stoch_num::Bool # Simulation Parameter TODO: Stochastic Survival see R code
     initialize_cells::String # Simulation Parameter
     #ls_cell_biomass_cap::Float64 # saves maximum biomass capacity in a cell
