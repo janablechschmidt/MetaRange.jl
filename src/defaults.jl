@@ -242,4 +242,3 @@ function demo_input()
     species = get_default_species(landscape, parameters)
     return Simulation_Data(parameters, landscape, species, Duration(now(), now()))
 end
-

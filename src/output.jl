@@ -232,7 +232,7 @@ function img_complex(SD::Simulation_Data, t::Int)
     f = Figure(; size=(1200, 800), figure_padding=1)
 
     ratio = 1
-        #size(SD.species[1].output.abundances, 2) / size(SD.species[1].output.abundances, 1)
+    #size(SD.species[1].output.abundances, 2) / size(SD.species[1].output.abundances, 1)
 
     box_size_l = 12
 
